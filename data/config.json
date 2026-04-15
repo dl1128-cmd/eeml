@@ -1,0 +1,49 @@
+{
+  "lab": {
+    "name_en": "Energy & Environmental Materials Lab",
+    "name_ko": "에너지환경재료 연구실",
+    "short": "EEML",
+    "tagline_en": "Li metal anodes, solid-state batteries, and electrochemical devices for water-related applications.",
+    "tagline_ko": "Li 금속 음극 · 전고체 전지 · 수자원 기반 전기화학 디바이스 연구",
+    "affiliation_en": "School of Chemical, Biological & Battery Engineering, Gachon University",
+    "affiliation_ko": "가천대학교 화공생명배터리공학부",
+    "hero_image": ""
+  },
+  "pi": {
+    "name_en": "Dongsoo Lee",
+    "name_ko": "이동수",
+    "title_en": "Assistant Professor",
+    "title_ko": "조교수",
+    "email": "dslee9117@gachon.ac.kr",
+    "scholar": "https://scholar.google.com/citations?user=d8lQYgwAAAAJ"
+  },
+  "metrics": {
+    "citations_total": 1567,
+    "citations_recent5y": 1508,
+    "h_index": 22,
+    "i10_index": 46,
+    "as_of": "2026-04"
+  },
+  "contact": {
+    "email": "dslee9117@gachon.ac.kr",
+    "address_ko": "경기도 성남시 수정구 성남대로 1342, 가천대학교 글로벌캠퍼스",
+    "address_en": "1342 Seongnam-daero, Sujeong-gu, Seongnam-si, Gyeonggi-do 13120, Republic of Korea",
+    "address_detail_ko": "화공생명배터리공학부 · 공과대학2 515호",
+    "address_detail_en": "School of Chemical, Biological & Battery Engineering · Engineering Bldg. 2, Room 515",
+    "phone": "031-750-5804",
+    "maps_embed": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3170.6527!2d127.12847067626!3d37.4503!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357b584c2d8eb8b1%3A0xe3d26dc3bfaca22!2z6rCA7LKc64yA7ZWZ6rWQ!5e0!3m2!1sko!2skr!4v1700000000000"
+  },
+  "social": {
+    "scholar": "https://scholar.google.com/citations?user=d8lQYgwAAAAJ",
+    "researchgate": "",
+    "orcid": "",
+    "linkedin": "",
+    "github": ""
+  },
+  "recruiting": {
+    "active": true,
+    "message_en": "I'm looking for highly motivated graduate students and undergraduates passionate about battery science.",
+    "message_ko": "배터리 소재 연구에 열정이 있는 대학원생과 학부연구원을 상시 모집합니다."
+  },
+  "citations_history": []
+}

@@ -1,0 +1,119 @@
+{
+  "name_en": "Dongsoo Lee",
+  "name_ko": "이동수",
+  "title_en": "Ph.D., Assistant Professor",
+  "title_ko": "조교수",
+  "affiliation_en": "School of Chemical, Biological & Battery Engineering, Gachon University",
+  "affiliation_ko": "가천대학교 화공생명배터리공학부",
+  "email": "dslee9117@gachon.ac.kr",
+  "photo": "assets/images/members/pi-dongsoo-lee.png",
+  "cv": "",
+  "links": [
+    { "label": "Google Scholar", "url": "https://scholar.google.com/citations?user=d8lQYgwAAAAJ" },
+    { "label": "ResearchGate", "url": "https://www.researchgate.net/profile/Dongsoo-Lee-4" },
+    { "label": "ORCID", "url": "https://orcid.org/0000-0003-3777-6366" },
+    { "label": "Scopus", "url": "https://www.scopus.com/authid/detail.uri?authorId=57201799820" },
+    { "label": "LinkedIn", "url": "https://www.linkedin.com/in/dongsoo-lee-2837501b4/" },
+    { "label": "Gachon Profile", "url": "https://www.gachon.ac.kr/batteng/8903/subview.do" }
+  ],
+  "bio_short_ko": "Li 금속 음극 · 전고체 전지 · 수자원 기반 전기화학 디바이스 연구.",
+  "bio_short_en": "Li metal anodes, solid-state batteries, and electrochemical devices for water-related applications.",
+  "bio_ko": "이동수 교수는 가천대학교 화공생명배터리공학부 조교수입니다. 한양대학교에서 에너지공학으로 박사학위를 받았으며 (2022), 박사 연구는 Li 금속 전지의 전기화학 계면 현상과 Li 금속 안정화 핵심 기술에 집중되었습니다.\n\n이후 The University of Texas at Austin 박사후연구원(2022–2023)으로서 미국 Battery500 컨소시엄에 참여하여 신규 양극 활물질과 고체 전해질을 활용한 계면 안정화로 고에너지밀도 전고체 전지를 개발했습니다.\n\n주요 연구 분야는 Li 금속 음극, 전고체 전지, 그리고 수자원 기반 전기화학 디바이스입니다.",
+  "bio_en": "Dongsoo Lee is an Assistant Professor in the School of Chemical, Biological & Battery Engineering at Gachon University. He received his Ph.D. in Energy Engineering from Hanyang University, South Korea (2022). His doctoral research focused on the electrochemical interfaces in Li metal batteries and core technologies for Li metal stabilization.\n\nHe subsequently joined the University of Texas at Austin as a Postdoctoral Fellow (2022–2023), where he contributed to the Battery500 Consortium by developing high-energy-density solid-state batteries through interfacial stabilization using novel cathode active materials and solid electrolytes.\n\nHis research interests include Li metal anodes, solid-state batteries, and electrochemical devices for water-related applications.",
+  "interests_en": [
+    "Li Metal Anodes",
+    "Solid-state Batteries",
+    "Electrochemical Interfaces",
+    "Halide Solid Electrolytes",
+    "Energy Conversion (F-CapMix)"
+  ],
+  "interests_ko": [
+    "Li 금속 음극",
+    "전고체 전지",
+    "전기화학 계면",
+    "할라이드 고체 전해질",
+    "에너지 변환 (F-CapMix)"
+  ],
+  "education": [
+    {
+      "period": "2022",
+      "degree_ko": "박사",
+      "degree_en": "Ph.D.",
+      "field_ko": "에너지공학",
+      "field_en": "Energy Engineering",
+      "institution_ko": "한양대학교",
+      "institution_en": "Hanyang University, Korea"
+    },
+    {
+      "period": "2016",
+      "degree_ko": "학사",
+      "degree_en": "B.S.",
+      "field_ko": "에너지공학",
+      "field_en": "Energy Engineering",
+      "institution_ko": "한양대학교",
+      "institution_en": "Hanyang University, Korea"
+    }
+  ],
+  "experience": [
+    {
+      "period_ko": "2023.09 – 현재",
+      "period_en": "2023.09 – Present",
+      "role_ko": "조교수",
+      "role_en": "Assistant Professor",
+      "org_ko": "가천대학교",
+      "org_en": "Gachon University, Korea"
+    },
+    {
+      "period_ko": "2022 – 2023",
+      "period_en": "2022 – 2023",
+      "role_ko": "박사후연구원",
+      "role_en": "Postdoctoral Fellow",
+      "org_ko": "The University of Texas at Austin",
+      "org_en": "The University of Texas at Austin, USA"
+    },
+    {
+      "period_ko": "2020 – 2021",
+      "period_en": "2020 – 2021",
+      "role_ko": "국제연구협력자",
+      "role_en": "International Research Collaborator",
+      "org_ko": "오사카대학교",
+      "org_en": "Osaka University, Japan"
+    },
+    {
+      "period_ko": "2020 – 2021",
+      "period_en": "2020 – 2021",
+      "role_ko": "강사",
+      "role_en": "Lecturer",
+      "org_ko": "한양대학교",
+      "org_en": "Hanyang University, Korea"
+    }
+  ],
+  "awards": [
+    { "year": 2022, "title_ko": "BK21 사업 우수논문상 (한양대학교 에너지공학)", "title_en": "Best Paper Award, BK21 Program (Energy Engineering, Hanyang University)", "org_ko": "한양대학교", "org_en": "Hanyang University" },
+    { "year": 2020, "title_ko": "전액 장학금 (한양대학교 대학원, 2016–2020)", "title_en": "Full-tuition Scholarship, Graduate School, Hanyang University (2016–2020)", "org_ko": "한양대학교", "org_en": "Hanyang University" },
+    { "year": 2016, "title_ko": "전액 장학금 (한양대학교 학부, 2012–2016)", "title_en": "Full-tuition Scholarship, Undergraduate Program, Hanyang University (2012–2016)", "org_ko": "한양대학교", "org_en": "Hanyang University" }
+  ],
+  "grants": [],
+  "selected_publications": [
+    "Self-healing Si anodes with robust ionic and electronic conducting network by Ga-In-Sn liquid metal alloy in solid-state batteries — Energy Storage Materials (2025)",
+    "Interfacial Challenges of Halide-Based All-Solid-State Batteries — Advanced Energy Materials (2025)",
+    "Crack-Free Single-Crystalline LiNiO2 for High Energy Density All-Solid-State Batteries — Advanced Energy Materials (2024)",
+    "Interphase Stabilization of LiNi0.5Mn1.5O4 Cathode for 5 V-Class All-Solid-State Batteries — Small (2024)",
+    "Toward High Rate Performance Solid-State Batteries — Advanced Energy Materials (2022)",
+    "High-Performance Asymmetric Flow-Electrode Capacitive Mixing with MnO2-Coated Activated Carbon Flow-Electrode for Energy Harvesting from Salinity Gradient Power — ACS Materials Letters (2022)",
+    "Copper nitride nanowires printed Li with stable cycling for Li metal batteries in carbonate electrolytes — Advanced Materials (2020)"
+  ],
+  "office": {
+    "building_ko": "공과대학2",
+    "building_en": "Engineering Building 2",
+    "room": "515",
+    "phone": "031-750-5804"
+  },
+  "metrics": {
+    "citations_total": 1567,
+    "citations_recent5y": 1508,
+    "h_index": 22,
+    "i10_index": 46,
+    "as_of": "2026-04"
+  }
+}

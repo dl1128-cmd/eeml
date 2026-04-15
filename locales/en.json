@@ -1,0 +1,71 @@
+{
+  "nav": {
+    "home": "Home",
+    "pi": "PI",
+    "research": "Research",
+    "publications": "Publications",
+    "member": "Member",
+    "board": "News",
+    "contact": "Contact"
+  },
+  "home": {
+    "tagline": "Designing the next generation of lithium-ion and solid-state battery materials.",
+    "cta_research": "Explore Research",
+    "cta_join": "Join the Lab",
+    "what_we_do": "Research",
+    "highlights": "Recent Highlights",
+    "people": "People",
+    "view_all": "View All"
+  },
+  "member": {
+    "title": "Member",
+    "professor": "Principal Investigator",
+    "postdoc": "Postdoc",
+    "phd": "Ph.D. Students",
+    "ms": "M.S. Students",
+    "undergraduate": "Undergraduate",
+    "alumni": "Alumni"
+  },
+  "research": {
+    "title": "Research",
+    "overview": "Overview",
+    "topics": "Research Topics",
+    "facilities": "Facilities",
+    "representative_papers": "Representative Papers"
+  },
+  "publications": {
+    "title": "Publications",
+    "top_picks": "Selected",
+    "journal": "Journal",
+    "conference": "Conference",
+    "book_patent": "Book / Patent",
+    "all_years": "All",
+    "citations": "Cites"
+  },
+  "board": {
+    "title": "News",
+    "news": "News",
+    "notice": "Notice",
+    "seminar": "Seminar"
+  },
+  "contact": {
+    "title": "Contact",
+    "email": "Email",
+    "address": "Address",
+    "office": "Office",
+    "phone": "Phone",
+    "location": "Location",
+    "inquiry": "Inquiry",
+    "join_us_title": "Join the Lab",
+    "join_us_desc": "We welcome motivated students passionate about Li-ion and solid-state battery research."
+  },
+  "footer": {
+    "copyright": "© 2026 Dongsoo Lee Lab · Gachon University. All rights reserved."
+  },
+  "common": {
+    "lang_toggle": "KO",
+    "read_more": "Read More",
+    "loading": "Loading...",
+    "theme_toggle": "Toggle Theme"
+  }
+}
