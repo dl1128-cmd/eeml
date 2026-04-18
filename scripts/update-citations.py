@@ -20,6 +20,7 @@ import time
 import urllib.parse
 import urllib.request
 import urllib.error
+from html import unescape
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -37,17 +38,44 @@ USER_AGENTS = [
 ]
 
 ROW_RE = re.compile(r'<tr class="gsc_a_tr">([\s\S]*?)</tr>')
-TITLE_RE = re.compile(r'<a[^>]*class="gsc_a_at"[^>]*>([^<]+)</a>')
+# Use DOTALL so titles containing inline tags (<sub>, <sup>, <i>) still match.
+TITLE_RE = re.compile(
+    r'<a[^>]*class="gsc_a_at"[^>]*>(.+?)</a>', re.DOTALL,
+)
 CITE_RE = re.compile(r'<a[^>]*class="gsc_a_ac[^"]*"[^>]*>(\d+)</a>')
 YEAR_RE = re.compile(r'class="gsc_a_h gsc_a_hc gs_ibl"[^>]*>(\d{4})<')
 LINK_RE = re.compile(r'<a[^>]*class="gsc_a_at"[^>]*href="([^"]+)"')
+# Strip any remaining HTML tags from a parsed title.
+TAG_STRIP_RE = re.compile(r"<[^>]+>")
 
 
 def normalize(s: str) -> str:
-    """Lowercase, strip punctuation, collapse whitespace for title matching."""
+    """Lowercase, decode HTML entities, strip punctuation (incl. Unicode
+    hyphens like U+2010 that Scholar uses), collapse whitespace."""
+    s = unescape(s)
     s = re.sub(r"[^\w\s]", " ", s.lower())
     s = re.sub(r"\s+", " ", s).strip()
     return s
+
+
+def match_scholar(pub_title: str, scholar_index: dict) -> dict | None:
+    """Find a Scholar paper for a publication. Tries:
+    1. Exact normalized match.
+    2. Prefix match — Scholar truncates long titles in the listing HTML
+       (e.g. 'A Nano-Micro Hybrid Structure Composed of Fe' for a
+       longer title). If the Scholar title is a prefix of the full
+       publication title with at least 25 chars overlap, accept it.
+    Returns the scholar paper dict or None.
+    """
+    pub_norm = normalize(pub_title)
+    if pub_norm in scholar_index:
+        return scholar_index[pub_norm]
+    for sch_norm, sp in scholar_index.items():
+        if len(sch_norm) < 25:
+            continue
+        if pub_norm.startswith(sch_norm) or sch_norm.startswith(pub_norm):
+            return sp
+    return None
 
 
 def fetch_scholar(scholar_id: str) -> str:
@@ -102,9 +130,11 @@ def parse_papers(html: str) -> list[dict]:
         link = LINK_RE.search(row)
         if not t:
             continue
+        # Strip inline tags (sub/sup/i) from the title before storing.
+        raw_title = TAG_STRIP_RE.sub("", t.group(1)).strip()
         papers.append(
             {
-                "title": t.group(1).strip(),
+                "title": raw_title,
                 "citations": int(c.group(1)) if c else 0,
                 "year": int(y.group(1)) if y else 0,
                 "scholar_link": (
@@ -153,7 +183,7 @@ def main() -> int:
 
     updated = 0
     for p in pubs:
-        sp = scholar_by_title.get(normalize(p.get("title", "")))
+        sp = match_scholar(p.get("title", ""), scholar_by_title)
         if not sp:
             continue
         new_cites = sp["citations"]
