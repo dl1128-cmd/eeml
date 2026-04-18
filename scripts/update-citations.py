@@ -49,11 +49,45 @@ LINK_RE = re.compile(r'<a[^>]*class="gsc_a_at"[^>]*href="([^"]+)"')
 TAG_STRIP_RE = re.compile(r"<[^>]+>")
 
 
+# Greek letter → Latin approximation. Scholar preserves Unicode in chemistry
+# titles (e.g. 'O3-δ'), but the stored publications.json often uses the ASCII
+# approximation ('O3-d'). Translate both sides to the same Latin form so
+# normalization is source-agnostic.
+GREEK_TO_LATIN = str.maketrans({
+    "α": "a", "Α": "a",
+    "β": "b", "Β": "b",
+    "γ": "g", "Γ": "g",
+    "δ": "d", "Δ": "d",
+    "ε": "e", "Ε": "e",
+    "ζ": "z", "Ζ": "z",
+    "η": "h", "Η": "h",
+    "θ": "t", "Θ": "t",
+    "ι": "i", "Ι": "i",
+    "κ": "k", "Κ": "k",
+    "λ": "l", "Λ": "l",
+    "μ": "u", "Μ": "u",
+    "ν": "n", "Ν": "n",
+    "ξ": "x", "Ξ": "x",
+    "ο": "o", "Ο": "o",
+    "π": "p", "Π": "p",
+    "ρ": "r", "Ρ": "r",
+    "σ": "s", "ς": "s", "Σ": "s",
+    "τ": "t", "Τ": "t",
+    "υ": "u", "Υ": "u",
+    "φ": "p", "Φ": "p",
+    "χ": "c", "Χ": "c",
+    "ψ": "p", "Ψ": "p",
+    "ω": "o", "Ω": "o",
+})
+
+
 def normalize(s: str) -> str:
-    """Lowercase, decode HTML entities, strip punctuation (incl. Unicode
-    hyphens like U+2010 that Scholar uses), collapse whitespace."""
+    """Lowercase, decode HTML entities, transliterate Greek → Latin, strip
+    punctuation (incl. Unicode hyphens like U+2010 and middle dots U+00B7
+    that Scholar uses), collapse whitespace."""
     s = unescape(s)
-    s = re.sub(r"[^\w\s]", " ", s.lower())
+    s = s.lower().translate(GREEK_TO_LATIN)
+    s = re.sub(r"[^\w\s]", " ", s)
     s = re.sub(r"\s+", " ", s).strip()
     return s
 
