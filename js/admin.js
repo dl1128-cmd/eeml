@@ -1427,8 +1427,8 @@
       </div>
     `;
 
-    host.querySelector("#ann-save").onclick = () => {
-      const updated = {
+    function readAnnouncement() {
+      return {
         id: val("a-id") || "ann-" + Date.now(),
         enabled: document.getElementById("a-enabled").checked,
         title_ko: val("a-t-ko"), title_en: val("a-t-en"),
@@ -1437,9 +1437,35 @@
         button_url: val("a-url"),
         expires: val("a-expires")
       };
+    }
+
+    // Manual save button still works — forces commit now
+    host.querySelector("#ann-save").onclick = () => {
+      const updated = readAnnouncement();
       STATE.data.announcement = updated;
       saveJSON("announcement.json", updated);
     };
+
+    // Auto-save: any field change commits to GitHub after a 1.2s pause
+    // (debounced so a burst of keystrokes in a textarea only triggers
+    //  one commit). Checkbox toggles also count.
+    let annTimer = null;
+    const scheduleAnnSave = () => {
+      STATE.data.announcement = readAnnouncement();
+      const saveBtn = host.querySelector("#ann-save");
+      if (saveBtn) saveBtn.textContent = "… 자동 저장 대기 중";
+      clearTimeout(annTimer);
+      annTimer = setTimeout(() => {
+        STATE.data.announcement = readAnnouncement();
+        saveJSON("announcement.json", STATE.data.announcement);
+        if (saveBtn) saveBtn.textContent = "💾 announcement.json 저장";
+      }, 1200);
+    };
+    host.querySelectorAll("#tab-announcement input, #tab-announcement textarea")
+      .forEach(el => {
+        el.addEventListener("input", scheduleAnnSave);
+        el.addEventListener("change", scheduleAnnSave);
+      });
 
     host.querySelector("#ann-preview").onclick = () => {
       // Reset dismissal in this browser so user can preview
