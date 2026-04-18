@@ -427,13 +427,13 @@
         return;
       } catch (err) {
         console.error("GitHub save failed:", err);
-        const msg = err.message === "NO_TOKEN"
-          ? "토큰 미설정 — 다운로드로 대체"
-          : `GitHub 커밋 실패 (${err.message.slice(0, 80)}) — 다운로드로 대체`;
-        toast(msg, "error");
+        // Do NOT auto-download on API errors (causes spam when auto-save
+        // fires in a retry loop). Show an actionable error toast instead.
+        toast(`✗ GitHub 커밋 실패 — ${err.message.slice(0, 100)}. 수동 다운로드는 💾 버튼 길게 누르세요.`, "error");
+        return;
       }
     }
-    // Fallback: download
+    // No token configured → download so user can manually commit
     downloadJSON(filename, obj);
   }
 
@@ -1439,36 +1439,37 @@
       };
     }
 
-    // Manual save button still works — forces commit now
+    // Manual save button — user commits when ready (prevents download spam
+    // from the previous auto-save-on-every-keystroke approach)
     host.querySelector("#ann-save").onclick = () => {
       const updated = readAnnouncement();
       STATE.data.announcement = updated;
       saveJSON("announcement.json", updated);
     };
 
-    // Auto-save: any field change commits to GitHub after a 1.2s pause
-    // (debounced so a burst of keystrokes in a textarea only triggers
-    //  one commit). Checkbox toggles also count.
-    let annTimer = null;
-    const scheduleAnnSave = () => {
+    // Update STATE live (without GitHub commit) so tab switching doesn't
+    // lose in-progress edits. Red "변경됨 — 저장 필요" indicator appears
+    // on the save button until committed.
+    const saveBtn = host.querySelector("#ann-save");
+    const originalBtnText = saveBtn.textContent;
+    const onField = () => {
       STATE.data.announcement = readAnnouncement();
-      const saveBtn = host.querySelector("#ann-save");
-      if (saveBtn) saveBtn.textContent = "… 자동 저장 대기 중";
-      clearTimeout(annTimer);
-      annTimer = setTimeout(() => {
-        STATE.data.announcement = readAnnouncement();
-        saveJSON("announcement.json", STATE.data.announcement);
-        if (saveBtn) saveBtn.textContent = "💾 announcement.json 저장";
-      }, 1200);
+      saveBtn.textContent = "● 변경됨 — 저장";
+      saveBtn.classList.add("btn-dirty");
     };
+    saveBtn.addEventListener("click", () => {
+      setTimeout(() => {
+        saveBtn.textContent = originalBtnText;
+        saveBtn.classList.remove("btn-dirty");
+      }, 100);
+    });
     host.querySelectorAll("#tab-announcement input, #tab-announcement textarea")
       .forEach(el => {
-        el.addEventListener("input", scheduleAnnSave);
-        el.addEventListener("change", scheduleAnnSave);
+        el.addEventListener("input", onField);
+        el.addEventListener("change", onField);
       });
 
     host.querySelector("#ann-preview").onclick = () => {
-      // Reset dismissal in this browser so user can preview
       const id = val("a-id");
       if (id) localStorage.removeItem("eeml:ann:dismissed:" + id);
       toast("이 브라우저의 dismissal 을 초기화했습니다. 공개 사이트를 새 탭으로 열면 공지가 보입니다.", "success");

@@ -449,6 +449,18 @@
 }
 .admin-empty .emoji { font-size: 3rem; margin-bottom: var(--space-4); }
 
+/* Unsaved-changes indicator on a save button */
+.btn.btn-dirty {
+  background: #f59e0b !important;
+  border-color: #d97706 !important;
+  color: #fff !important;
+  animation: pulse-dirty 1.6s ease-in-out infinite;
+}
+@keyframes pulse-dirty {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.35); }
+  50%      { box-shadow: 0 0 0 6px rgba(245, 158, 11, 0); }
+}
+
 /* ---- Gallery editor grid (multi-image + banner pick) ---- */
 .gallery-edit-grid {
   display: grid;
