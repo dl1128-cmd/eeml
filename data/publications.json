@@ -561,7 +561,7 @@
   {
     "id": "p2022-022",
     "type": "journal",
-    "top_pick": true,
+    "top_pick": false,
     "year": 2022,
     "title": "Toward High Rate Performance Solid-State Batteries",
     "authors": "D. Lee, H. Lee, T. Song*, U. Paik*",
@@ -613,7 +613,7 @@
   {
     "id": "p2022-018",
     "type": "journal",
-    "top_pick": true,
+    "top_pick": false,
     "year": 2022,
     "title": "High-Performance Asymmetric Flow-Electrode Capacitive Mixing with MnO2-Coated Activated Carbon Flow-Electrode for Energy Harvesting from Salinity Gradient Power",
     "authors": "I. Hwang, D. Lee, Y. Jung, J. Kim, J. Kim, C. Kim, D. Kim, S.C. Yang, T. Song*, U. Paik*",
@@ -717,7 +717,7 @@
   {
     "id": "p2021-010",
     "type": "journal",
-    "top_pick": true,
+    "top_pick": false,
     "year": 2021,
     "title": "Ion-Conducting Channel Implanted Anode Matrix for All-Solid-State Batteries with High Rate Capability and Stable Anode/Solid Electrolyte Interface",
     "authors": "C. Kim, J. Kim, J. Park, J. Kim, S. Lee, S. Sun, S. Myung, D. Lee, K. Park, I. Jang, S. Kim, H. Lee, H. Jung, U. Paik*, T. Song*",
@@ -730,7 +730,7 @@
   {
     "id": "p2021-009",
     "type": "journal",
-    "top_pick": true,
+    "top_pick": false,
     "year": 2021,
     "title": "Epitaxial Growth of Nanostructured Li2Se on Lithium Metal for All Solid-State Batteries",
     "authors": "H. Park, J. Kim, D. Lee, J. Park, S. Jo, J. Kim, T. Song*, U. Paik*",
@@ -769,7 +769,7 @@
   {
     "id": "p2020-006",
     "type": "journal",
-    "top_pick": true,
+    "top_pick": false,
     "year": 2020,
     "title": "Copper Nitride Nanowires Printed Li with Stable Cycling for Li Metal Batteries in Carbonate Electrolytes",
     "authors": "D. Lee, S. Sun, J. Kwon, H. Park, M. Jang, E. Park, B. Son, Y. Jung, T. Song*, U. Paik*",
@@ -808,7 +808,7 @@
   {
     "id": "p2018-003",
     "type": "journal",
-    "top_pick": true,
+    "top_pick": false,
     "year": 2018,
     "title": "A Self-Buffering Structure for Application in High-Performance Sodium-Ion Batteries",
     "authors": "Z. Liu, C. Yue, C. Chen, J. Xiang, F. Hu, D. Lee, D. Shin, S. Sun, L. Hu*, T. Song*",
