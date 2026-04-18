@@ -353,9 +353,22 @@
   const LS_GH_REPO = "eeml:admin:gh_repo";
   const DEFAULT_GH_REPO = "dl1128-cmd/eeml";
 
+  // GitHub tokens are ASCII (^[A-Za-z0-9_-]+$). Strip everything else
+  // defensively — clip.exe on Windows adds CRLF, browsers sometimes paste
+  // with zero-width chars, etc. Any non-ASCII byte in an HTTP header
+  // throws 'String contains non ISO-8859-1 code point'.
+  function sanitizeToken(s) {
+    return String(s || "").replace(/[^A-Za-z0-9_\-]/g, "");
+  }
+
   function getGH() {
-    const token = localStorage.getItem(LS_GH_TOKEN) || "";
-    const repo = localStorage.getItem(LS_GH_REPO) || DEFAULT_GH_REPO;
+    const rawToken = localStorage.getItem(LS_GH_TOKEN) || "";
+    const token = sanitizeToken(rawToken);
+    if (token && token !== rawToken) {
+      // Stored token was dirty — clean it up so future reads are safe
+      localStorage.setItem(LS_GH_TOKEN, token);
+    }
+    const repo = (localStorage.getItem(LS_GH_REPO) || DEFAULT_GH_REPO).trim();
     return { token, repo };
   }
 
@@ -1722,22 +1735,27 @@
 
     document.getElementById("gh-save").onclick = () => {
       const repo = repoInput.value.trim();
-      const token = tokenInput.value.trim();
+      const raw = tokenInput.value;
+      // If field is still showing bullets only, nothing new to save
+      if (/^[•\s]*$/.test(raw)) return setGhStatus("⚠ 새 토큰을 입력하세요", "error");
+      const token = sanitizeToken(raw);
       if (!repo || !repo.includes("/")) return setGhStatus("⚠ repo 는 owner/name 형식", "error");
       if (!token) return setGhStatus("⚠ 토큰을 입력하세요", "error");
-      if (token.includes("•")) return setGhStatus("⚠ 새 토큰을 입력하세요", "error");
+      if (token.length < 20) return setGhStatus("⚠ 토큰이 너무 짧음 — 다시 확인하세요", "error");
       localStorage.setItem(LS_GH_REPO, repo);
       localStorage.setItem(LS_GH_TOKEN, token);
-      setGhStatus("✓ 저장됨 — 이제 저장 버튼이 GitHub에 바로 커밋합니다", "success");
+      setGhStatus(`✓ 저장됨 (길이 ${token.length}자) — 이제 저장 버튼이 GitHub에 바로 커밋합니다`, "success");
       tokenInput.value = "•".repeat(Math.min(token.length, 40));
     };
 
     document.getElementById("gh-test").onclick = async () => {
       setGhStatus("테스트 중...", "info");
       try {
-        const { repo } = getGH();
-        const token = tokenInput.value.includes("•") ? getGH().token : tokenInput.value.trim();
+        const { repo, token: stored } = getGH();
+        const field = tokenInput.value;
+        const token = /^[•\s]*$/.test(field) ? stored : sanitizeToken(field);
         if (!token) return setGhStatus("⚠ 먼저 토큰을 저장하세요", "error");
+        if (token.length < 20) return setGhStatus(`⚠ 토큰이 손상됨 (길이 ${token.length}) — 삭제 후 다시 붙여넣기`, "error");
         const r = await fetch(`https://api.github.com/repos/${repo}`, {
           headers: { "Authorization": `token ${token}`, "Accept": "application/vnd.github+json" },
         });
