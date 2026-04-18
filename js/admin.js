@@ -418,12 +418,13 @@
             <tr data-idx="${i}">
               <td>${p.year || ""}</td>
               <td>
-                <div class="td-title">${escapeHtml(p.title || "")}${p.top_pick ? ' <span class="admin-badge accent">Top</span>' : ''}</div>
+                <div class="td-title">${escapeHtml(p.title || "")}${p.top_pick ? ' <span class="admin-badge accent">SELECTED</span>' : ''}</div>
                 <div class="td-dim">${escapeHtml(p.authors || "")} · <i>${escapeHtml(p.venue || "")}</i>${p.volume ? ", " + escapeHtml(p.volume) : ""}</div>
               </td>
               <td><b>${p.citations ?? 0}</b></td>
               <td><span class="admin-badge gray">${escapeHtml(p.type || "")}</span></td>
               <td class="row-actions">
+                <button class="btn btn-${p.top_pick ? "primary" : "outline"} btn-sm" data-action="toggle-selected" data-idx="${i}" title="홈 화면 노출 여부 (Selected)">${p.top_pick ? "⭐ SELECTED" : "☆ SELECTED"}</button>
                 <button class="btn btn-ghost btn-sm" data-action="edit-pub" data-idx="${i}">편집</button>
                 <button class="btn btn-ghost btn-sm" data-action="del-pub" data-idx="${i}" style="color:#cc0033">삭제</button>
               </td>
@@ -435,6 +436,12 @@
     host.querySelector("#pub-add").onclick = () => editPub(-1);
     host.querySelector("#pub-save").onclick = () => downloadJSON("publications.json", STATE.data.publications);
     host.querySelectorAll("[data-action=edit-pub]").forEach(b => b.onclick = () => editPub(+b.dataset.idx));
+    host.querySelectorAll("[data-action=toggle-selected]").forEach(b => b.onclick = () => {
+      const i = +b.dataset.idx;
+      STATE.data.publications[i].top_pick = !STATE.data.publications[i].top_pick;
+      renderPubs();
+      toast(STATE.data.publications[i].top_pick ? "⭐ Selected로 지정됨" : "Selected 해제됨", "success");
+    });
     host.querySelectorAll("[data-action=del-pub]").forEach(b => b.onclick = () => {
       if (!confirm("이 논문을 삭제하시겠습니까?")) return;
       STATE.data.publications.splice(+b.dataset.idx, 1);
@@ -462,8 +469,8 @@
             <option value="patent" ${p.type==='patent'?'selected':''}>patent (특허)</option>
           </select>
         </div>
-        <div class="admin-form-row"><label>Top Pick</label>
-          <div class="admin-checkbox"><input id="f-top" type="checkbox" ${p.top_pick ? 'checked' : ''} /> <label for="f-top">메인 화면 및 Top Picks 필터에 노출</label></div>
+        <div class="admin-form-row"><label>Selected</label>
+          <div class="admin-checkbox"><input id="f-top" type="checkbox" ${p.top_pick ? 'checked' : ''} /> <label for="f-top">⭐ 홈 화면 Selected 캐러셀에 노출 (최신 10편 가로 스크롤)</label></div>
         </div>
         <div class="admin-form-row"><label>DOI</label><input id="f-doi" value="${escapeAttr(p.doi || '')}" placeholder="10.1002/aenm..." /></div>
         <div class="admin-form-row"><label>논문 PDF / 링크</label><div id="f-pdf-host"></div></div>

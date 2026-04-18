@@ -45,14 +45,26 @@
   function renderFeatured(pubs) {
     const host = document.getElementById("home-featured");
     if (!host) return;
-    const top = pubs.filter(p => p.top_pick).slice(0, 3);
-    host.innerHTML = top.map(p => `
-      <a class="featured-card" href="publications.html">
-        <div class="meta-top"><span>${escapeHtml(p.venue)}</span><span class="year">${p.year}</span></div>
-        <h3>${escapeHtml(p.title)}</h3>
-        <div class="authors">${escapeHtml(truncate(p.authors, 110))}</div>
-      </a>
-    `).join("");
+    const top = pubs
+      .filter(p => p.top_pick)
+      .sort((a, b) => (b.year || 0) - (a.year || 0))
+      .slice(0, 10);
+    if (top.length === 0) {
+      host.innerHTML = `<p style="color:var(--c-text-muted);font-size:var(--fs-sm)">No selected publications yet.</p>`;
+      return;
+    }
+    host.innerHTML = `
+      <div class="featured-scroll" role="region" aria-label="Selected publications">
+        ${top.map(p => `
+          <a class="featured-card" href="publications.html">
+            <div class="meta-top"><span>${escapeHtml(p.venue)}</span><span class="year">${p.year}</span></div>
+            <h3>${escapeHtml(p.title)}</h3>
+            <div class="authors">${escapeHtml(truncate(p.authors, 110))}</div>
+          </a>
+        `).join("")}
+      </div>
+      <div class="featured-scroll-hint" aria-hidden="true">← 가로로 스크롤 →</div>
+    `;
   }
 
   function renderNews(news) {
