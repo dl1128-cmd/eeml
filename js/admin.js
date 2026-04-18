@@ -346,8 +346,84 @@
   }
 
   /* =========================================================================
-   * Download helpers
+   * Save helpers — prefer direct GitHub commit (auto-deploy), fall back to
+   * file download when no token is configured.
    * ========================================================================= */
+  const LS_GH_TOKEN = "eeml:admin:gh_token";
+  const LS_GH_REPO = "eeml:admin:gh_repo";
+  const DEFAULT_GH_REPO = "dl1128-cmd/eeml";
+
+  function getGH() {
+    const token = localStorage.getItem(LS_GH_TOKEN) || "";
+    const repo = localStorage.getItem(LS_GH_REPO) || DEFAULT_GH_REPO;
+    return { token, repo };
+  }
+
+  // btoa doesn't handle Unicode — encode via TextEncoder for Korean content
+  function utf8ToBase64(s) {
+    const bytes = new TextEncoder().encode(s);
+    let bin = "";
+    for (const b of bytes) bin += String.fromCharCode(b);
+    return btoa(bin);
+  }
+
+  async function githubPutFile(path, contentString, message) {
+    const { token, repo } = getGH();
+    if (!token) throw new Error("NO_TOKEN");
+    const api = `https://api.github.com/repos/${repo}/contents/${path}`;
+    const headers = {
+      "Authorization": `token ${token}`,
+      "Accept": "application/vnd.github+json",
+    };
+    // Get current file SHA (required for update)
+    let sha = null;
+    try {
+      const r = await fetch(api + "?ref=main", { headers });
+      if (r.ok) {
+        const j = await r.json();
+        sha = j.sha;
+      }
+    } catch {}
+    const body = {
+      message: message || `chore(admin): update ${path}`,
+      content: utf8ToBase64(contentString),
+      branch: "main",
+    };
+    if (sha) body.sha = sha;
+    const put = await fetch(api, {
+      method: "PUT",
+      headers: { ...headers, "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    if (!put.ok) {
+      const text = await put.text();
+      throw new Error(`GitHub API ${put.status}: ${text.slice(0, 200)}`);
+    }
+    return put.json();
+  }
+
+  async function saveJSON(filename, obj, options = {}) {
+    const path = options.path || `data/${filename}`;
+    const content = JSON.stringify(obj, null, 2) + "\n";
+    const { token } = getGH();
+    if (token) {
+      try {
+        toast(`${filename} GitHub에 커밋 중...`, "info");
+        await githubPutFile(path, content, `chore(admin): update ${filename}`);
+        toast(`✅ ${filename} 자동 반영됨 (1~2분 후 사이트에 보임)`, "success");
+        return;
+      } catch (err) {
+        console.error("GitHub save failed:", err);
+        const msg = err.message === "NO_TOKEN"
+          ? "토큰 미설정 — 다운로드로 대체"
+          : `GitHub 커밋 실패 (${err.message.slice(0, 80)}) — 다운로드로 대체`;
+        toast(msg, "error");
+      }
+    }
+    // Fallback: download
+    downloadJSON(filename, obj);
+  }
+
   function downloadJSON(filename, obj) {
     const blob = new Blob([JSON.stringify(obj, null, 2)], { type: "application/json" });
     const url = URL.createObjectURL(blob);
@@ -434,7 +510,7 @@
       </table>
     `;
     host.querySelector("#pub-add").onclick = () => editPub(-1);
-    host.querySelector("#pub-save").onclick = () => downloadJSON("publications.json", STATE.data.publications);
+    host.querySelector("#pub-save").onclick = () => saveJSON("publications.json", STATE.data.publications);
     host.querySelectorAll("[data-action=edit-pub]").forEach(b => b.onclick = () => editPub(+b.dataset.idx));
     host.querySelectorAll("[data-action=toggle-selected]").forEach(b => b.onclick = () => {
       const i = +b.dataset.idx;
@@ -540,7 +616,7 @@
       </table>
     `;
     host.querySelector("#mem-add").onclick = () => editMember(-1);
-    host.querySelector("#mem-save").onclick = () => downloadJSON("members.json", STATE.data.members);
+    host.querySelector("#mem-save").onclick = () => saveJSON("members.json", STATE.data.members);
     host.querySelectorAll("[data-action=edit-mem]").forEach(b => b.onclick = () => editMember(+b.dataset.idx));
     host.querySelectorAll("[data-action=del-mem]").forEach(b => b.onclick = () => {
       if (!confirm("이 구성원을 삭제하시겠습니까?")) return;
@@ -702,7 +778,7 @@
         links: collectLinksList()
       };
       STATE.data.pi = updated;
-      downloadJSON("pi.json", updated);
+      saveJSON("pi.json", updated);
     };
 
     host.querySelector("#pi-add-edu").onclick = () => {
@@ -864,7 +940,7 @@
       </table>
     `;
     host.querySelector("#news-add").onclick = () => editNews(-1);
-    host.querySelector("#news-save").onclick = () => downloadJSON("news.json", STATE.data.news);
+    host.querySelector("#news-save").onclick = () => saveJSON("news.json", STATE.data.news);
     host.querySelectorAll("[data-action=edit-news]").forEach(b => b.onclick = () => editNews(+b.dataset.idx));
     host.querySelectorAll("[data-action=del-news]").forEach(b => b.onclick = () => {
       if (!confirm("이 소식을 삭제하시겠습니까?")) return;
@@ -947,7 +1023,7 @@
       </table>
     `;
     host.querySelector("#gal-add").onclick = () => editGallery(-1);
-    host.querySelector("#gal-save").onclick = () => downloadJSON("gallery.json", STATE.data.gallery);
+    host.querySelector("#gal-save").onclick = () => saveJSON("gallery.json", STATE.data.gallery);
     host.querySelectorAll("[data-action=edit-gal]").forEach(b => b.onclick = () => editGallery(+b.dataset.idx));
     host.querySelectorAll("[data-action=del-gal]").forEach(b => b.onclick = () => {
       if (!confirm("이 갤러리 항목을 삭제하시겠습니까?")) return;
@@ -1128,7 +1204,7 @@
         </div>
       `).join("")}
     `;
-    host.querySelector("#topic-save").onclick = () => downloadJSON("research_topics.json", STATE.data.topics);
+    host.querySelector("#topic-save").onclick = () => saveJSON("research_topics.json", STATE.data.topics);
     host.querySelectorAll("[data-action=edit-topic]").forEach(b => b.onclick = () => editTopic(+b.dataset.idx));
   }
 
@@ -1342,7 +1418,7 @@
         expires: val("a-expires")
       };
       STATE.data.announcement = updated;
-      downloadJSON("announcement.json", updated);
+      saveJSON("announcement.json", updated);
     };
 
     host.querySelector("#ann-preview").onclick = () => {
@@ -1510,7 +1586,7 @@
         as_of: val("c-asof")
       };
       STATE.data.config = c2;
-      downloadJSON("config.json", c2);
+      saveJSON("config.json", c2);
     };
   }
 
@@ -1550,11 +1626,22 @@
       </div>
 
       <div class="admin-card">
-        <h3>🚀 GitHub 자동 배포 (옵션)</h3>
-        <p class="card-sub">사이트를 GitHub Pages 로 이전하면, 아래에 Personal Access Token 을 넣어 <b>저장</b> 시 바로 GitHub 에 commit 되도록 할 수 있습니다. 현재는 미지원 — GitHub Pages 전환 후 활성화 예정.</p>
+        <h3>🚀 GitHub 자동 배포</h3>
+        <p class="card-sub">
+          <b>토큰을 설정하면 ✨ "저장" 버튼 = 자동 커밋·배포</b>. 다시 JSON 파일 받을 필요 없음.<br/>
+          토큰은 이 브라우저의 localStorage 에만 저장됩니다. 절대 공유 금지.<br/>
+          <b>토큰 만들기</b>: <a href="https://github.com/settings/tokens?type=beta" target="_blank" rel="noopener">github.com/settings/tokens (Fine-grained)</a> →
+          Repository access = <code>dl1128-cmd/eeml</code> → Permissions → <b>Contents: Read and write</b> → Generate.
+        </p>
         <div class="admin-form">
-          <div class="admin-form-row"><label>GitHub repo</label><input disabled placeholder="owner/repo" /></div>
-          <div class="admin-form-row"><label>PAT</label><input disabled placeholder="ghp_..." /></div>
+          <div class="admin-form-row"><label>GitHub repo</label><input id="gh-repo" placeholder="dl1128-cmd/eeml" /></div>
+          <div class="admin-form-row"><label>Personal Access Token</label><input id="gh-token" type="password" placeholder="github_pat_..." autocomplete="off" /></div>
+          <div class="admin-form-row full">
+            <button type="button" class="btn btn-primary" id="gh-save">토큰 저장</button>
+            <button type="button" class="btn btn-outline" id="gh-test" style="margin-left:.5rem">연결 테스트</button>
+            <button type="button" class="btn btn-ghost" id="gh-clear" style="margin-left:.5rem;color:#cc0033">토큰 삭제</button>
+            <span id="gh-status" style="margin-left:1rem;font-size:.875rem;font-weight:500"></span>
+          </div>
         </div>
       </div>
 
@@ -1619,6 +1706,58 @@
         r.readAsText(file);
       };
     });
+
+    // GitHub token handlers
+    const repoInput = document.getElementById("gh-repo");
+    const tokenInput = document.getElementById("gh-token");
+    const ghStatus = document.getElementById("gh-status");
+    const setGhStatus = (msg, kind) => {
+      ghStatus.textContent = msg;
+      ghStatus.style.color = kind === "success" ? "#0F47B8" : kind === "error" ? "#cc0033" : "var(--c-text-light)";
+    };
+    const cur = getGH();
+    repoInput.value = cur.repo;
+    // Show masked token if already stored
+    if (cur.token) tokenInput.value = "•".repeat(Math.min(cur.token.length, 40));
+
+    document.getElementById("gh-save").onclick = () => {
+      const repo = repoInput.value.trim();
+      const token = tokenInput.value.trim();
+      if (!repo || !repo.includes("/")) return setGhStatus("⚠ repo 는 owner/name 형식", "error");
+      if (!token) return setGhStatus("⚠ 토큰을 입력하세요", "error");
+      if (token.includes("•")) return setGhStatus("⚠ 새 토큰을 입력하세요", "error");
+      localStorage.setItem(LS_GH_REPO, repo);
+      localStorage.setItem(LS_GH_TOKEN, token);
+      setGhStatus("✓ 저장됨 — 이제 저장 버튼이 GitHub에 바로 커밋합니다", "success");
+      tokenInput.value = "•".repeat(Math.min(token.length, 40));
+    };
+
+    document.getElementById("gh-test").onclick = async () => {
+      setGhStatus("테스트 중...", "info");
+      try {
+        const { repo } = getGH();
+        const token = tokenInput.value.includes("•") ? getGH().token : tokenInput.value.trim();
+        if (!token) return setGhStatus("⚠ 먼저 토큰을 저장하세요", "error");
+        const r = await fetch(`https://api.github.com/repos/${repo}`, {
+          headers: { "Authorization": `token ${token}`, "Accept": "application/vnd.github+json" },
+        });
+        if (!r.ok) {
+          const msg = (await r.json().catch(() => ({}))).message || `HTTP ${r.status}`;
+          return setGhStatus(`✗ 실패: ${msg}`, "error");
+        }
+        const info = await r.json();
+        setGhStatus(`✓ ${info.full_name} 연결됨 (${info.private ? "private" : "public"})`, "success");
+      } catch (err) {
+        setGhStatus(`✗ ${err.message}`, "error");
+      }
+    };
+
+    document.getElementById("gh-clear").onclick = () => {
+      if (!confirm("저장된 토큰을 삭제하시겠습니까?")) return;
+      localStorage.removeItem(LS_GH_TOKEN);
+      tokenInput.value = "";
+      setGhStatus("토큰 삭제됨 — 이제 저장은 파일 다운로드로 돌아갑니다", "info");
+    };
   }
 
   /* =========================================================================
