@@ -1,0 +1,56 @@
+[
+  {
+    "id": "lab-2026-spring",
+    "date": "2026-03-20",
+    "title_ko": "2026년 봄 연구실 단체 사진",
+    "title_en": "Spring 2026 Lab Group Photo",
+    "summary_ko": "EEML 새 학기 맞이 단체 사진 촬영 — 신입 대학원생 환영회 및 연구 비전 공유",
+    "summary_en": "Group photo for the new semester — welcoming new grad students and sharing research vision.",
+    "body_ko": "2026년 봄학기를 맞아 연구실 전체가 한자리에 모여 단체 사진을 촬영했습니다.\n\n신입 대학원생들의 환영회와 함께 올 한 해 연구 방향성과 개인별 목표를 공유하는 시간을 가졌습니다.",
+    "body_en": "To kick off Spring 2026, the entire lab gathered for a group photo.\n\nWe welcomed new graduate students and shared the year's research roadmap and individual goals.",
+    "cover": "data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%231e3a8a'/%3E%3Cstop offset='1' stop-color='%230ea5e9'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='300' fill='url(%23g)'/%3E%3Ctext x='50%25' y='54%25' font-family='Inter,sans-serif' font-size='42' font-weight='800' fill='white' text-anchor='middle' letter-spacing='4'%3EEEML 2026%3C/text%3E%3Ctext x='50%25' y='70%25' font-family='Inter,sans-serif' font-size='18' fill='white' opacity='0.85' text-anchor='middle'%3ESpring Group Photo%3C/text%3E%3C/svg%3E",
+    "images": [
+      {
+        "src": "data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 600'%3E%3Crect width='800' height='600' fill='%231e3a8a'/%3E%3Ctext x='50%25' y='50%25' font-family='Inter,sans-serif' font-size='48' font-weight='800' fill='white' text-anchor='middle'%3EGroup Photo%3C/text%3E%3C/svg%3E",
+        "caption_ko": "연구실 전체 단체 사진",
+        "caption_en": "Whole-lab group photo"
+      }
+    ]
+  },
+  {
+    "id": "mrs-2026-spring",
+    "date": "2026-04-10",
+    "title_ko": "MRS Spring Meeting 2026 참가",
+    "title_en": "MRS Spring Meeting 2026",
+    "summary_ko": "미국 시애틀에서 열린 MRS 학회에서 대학원생들이 구두·포스터 발표 진행",
+    "summary_en": "Lab members presented oral and poster talks at MRS Spring Meeting in Seattle, USA.",
+    "body_ko": "4월 초 미국 시애틀에서 열린 MRS Spring Meeting 2026에 참석하여 최신 전극 소재 연구를 발표했습니다.\n\n대학원생 2명이 구두 발표, 3명이 포스터 발표를 성공적으로 마쳤습니다.",
+    "body_en": "We attended MRS Spring Meeting 2026 in Seattle (USA) and presented our latest work on electrode materials.\n\nTwo graduate students gave oral talks and three presented posters.",
+    "cover": "data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23065f46'/%3E%3Cstop offset='1' stop-color='%2310b981'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='300' fill='url(%23g)'/%3E%3Ctext x='50%25' y='50%25' font-family='Inter,sans-serif' font-size='56' font-weight='800' fill='white' text-anchor='middle'%3EMRS%3C/text%3E%3Ctext x='50%25' y='68%25' font-family='Inter,sans-serif' font-size='20' fill='white' opacity='0.9' text-anchor='middle'%3ESpring 2026 · Seattle%3C/text%3E%3C/svg%3E",
+    "images": [
+      {
+        "src": "data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 600'%3E%3Crect width='800' height='600' fill='%23065f46'/%3E%3Ctext x='50%25' y='50%25' font-family='Inter,sans-serif' font-size='48' font-weight='800' fill='white' text-anchor='middle'%3EMRS Poster Session%3C/text%3E%3C/svg%3E",
+        "caption_ko": "포스터 세션 발표",
+        "caption_en": "Poster session"
+      }
+    ]
+  },
+  {
+    "id": "lab-dinner-2026q1",
+    "date": "2026-02-15",
+    "title_ko": "1분기 랩 회식",
+    "title_en": "Q1 Lab Dinner",
+    "summary_ko": "학기 중간 리프레시 — 정든 사람들과의 저녁 식사",
+    "summary_en": "Mid-semester refresh — casual dinner with labmates.",
+    "body_ko": "바쁜 연구 일정 사이에 잠깐의 여유 — 1분기 랩 회식을 진행했습니다.\n\n맛있는 음식과 함께 서로의 근황을 나누며 팀워크를 다졌습니다.",
+    "body_en": "A brief pause between busy research schedules — we held our Q1 lab dinner.\n\nOver great food, we caught up and strengthened team bonds.",
+    "cover": "data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23b45309'/%3E%3Cstop offset='1' stop-color='%23f59e0b'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='300' fill='url(%23g)'/%3E%3Ctext x='50%25' y='54%25' font-family='Inter,sans-serif' font-size='36' font-weight='800' fill='white' text-anchor='middle'%3ELab Dinner%3C/text%3E%3Ctext x='50%25' y='70%25' font-family='Inter,sans-serif' font-size='18' fill='white' opacity='0.9' text-anchor='middle'%3E2026 Q1%3C/text%3E%3C/svg%3E",
+    "images": [
+      {
+        "src": "data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 600'%3E%3Crect width='800' height='600' fill='%23b45309'/%3E%3Ctext x='50%25' y='50%25' font-family='Inter,sans-serif' font-size='48' font-weight='800' fill='white' text-anchor='middle'%3ELab Dinner%3C/text%3E%3C/svg%3E",
+        "caption_ko": "회식 자리",
+        "caption_en": "Lab dinner"
+      }
+    ]
+  }
+]

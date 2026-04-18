@@ -4,14 +4,16 @@
 
   document.addEventListener("site:ready", async () => {
     try {
-      const [topics, pubs, news] = await Promise.all([
+      const [topics, pubs, news, gallery] = await Promise.all([
         SiteUtils.loadJSON("data/research_topics.json"),
         SiteUtils.loadJSON("data/publications.json"),
-        SiteUtils.loadJSON("data/news.json")
+        SiteUtils.loadJSON("data/news.json"),
+        SiteUtils.loadJSON("data/gallery.json").catch(() => [])
       ]);
       renderTopics(topics);
       renderFeatured(pubs);
       renderNews(news);
+      renderGallery(gallery);
       renderCitationsChart(SiteUtils.getConfig().citations_history || []);
     } catch (err) { console.error(err); }
   });
@@ -68,6 +70,35 @@
     `).join("");
   }
 
+  function renderGallery(items) {
+    const host = document.getElementById("home-gallery");
+    if (!host) return;
+    const lang = SiteUtils.getLang();
+    const i18n = SiteUtils.getI18n();
+    const list = Array.isArray(items) ? items : [];
+    if (list.length === 0) {
+      host.innerHTML = `<p class="gallery-quick-empty">${(i18n?.gallery?.empty) || "등록된 사진이 없습니다."}</p>`;
+      return;
+    }
+    const sorted = list.slice().sort((a, b) => (a.date < b.date ? 1 : -1)).slice(0, 3);
+    host.innerHTML = sorted.map(g => {
+      const title = lang === "ko" ? (g.title_ko || g.title_en) : (g.title_en || g.title_ko);
+      const summary = lang === "ko" ? (g.summary_ko || g.summary_en) : (g.summary_en || g.summary_ko);
+      const cover = g.cover || ((g.images && g.images[0] && g.images[0].src) || "");
+      return `
+        <a class="gallery-quick-item" href="gallery-detail.html?id=${encodeURIComponent(g.id)}">
+          <div class="gallery-quick-thumb">
+            ${cover ? `<img src="${escapeAttr(cover)}" alt="${escapeAttr(title || "")}" loading="lazy" />` : `<div class="gallery-quick-placeholder">EEML</div>`}
+          </div>
+          <div class="gallery-quick-body">
+            ${g.date ? `<div class="gallery-quick-date">${escapeHtml(g.date)}</div>` : ""}
+            <div class="gallery-quick-title">${escapeHtml(title || "")}</div>
+            ${summary ? `<div class="gallery-quick-summary">${escapeHtml(truncate(summary, 70))}</div>` : ""}
+          </div>
+        </a>`;
+    }).join("");
+  }
+
   function renderCitationsChart(history) {
     const host = document.getElementById("citations-chart");
     if (!host) return;
@@ -110,4 +141,5 @@
   function escapeHtml(s) {
     return String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
   }
+  function escapeAttr(s) { return escapeHtml(s); }
 })();

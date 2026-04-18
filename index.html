@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css?v=20260415t" />
+  <link rel="stylesheet" href="css/style.css?v=20260418a" />
 </head>
 <body>
 
@@ -25,7 +25,8 @@
       <li><a href="member.html" data-i18n="nav.member">Member</a></li>
       <li><a href="research.html" data-i18n="nav.research">Research</a></li>
       <li><a href="publications.html" data-i18n="nav.publications">Publications</a></li>
-      <li><a href="board.html" data-i18n="nav.board">News</a></li>
+      <li><a href="board.html" target="_blank" rel="noopener" data-i18n="nav.board">News</a></li>
+      <li><a href="gallery.html" data-i18n="nav.gallery">Gallery</a></li>
       <li><a href="contact.html" data-i18n="nav.contact">Contact</a></li>
     </ul>
     <div class="nav-right">
@@ -102,13 +103,27 @@
 
   <section class="section">
     <div class="container">
-      <div class="section-title">
-        <div class="eyebrow">Latest news</div>
-        <h2>What's happening.</h2>
-      </div>
-      <ul class="news-quick" id="home-news"></ul>
-      <div class="text-center mt-12">
-        <a href="board.html" class="btn btn-ghost">All news →</a>
+      <div class="home-news-gallery">
+        <div class="home-news-col">
+          <div class="section-title">
+            <div class="eyebrow">Latest news</div>
+            <h2>What's happening.</h2>
+          </div>
+          <ul class="news-quick" id="home-news"></ul>
+          <div class="mt-12">
+            <a href="board.html" class="btn btn-ghost">All news →</a>
+          </div>
+        </div>
+        <div class="home-gallery-col">
+          <div class="section-title">
+            <div class="eyebrow">Photo gallery</div>
+            <h2>Lab moments.</h2>
+          </div>
+          <div class="gallery-quick" id="home-gallery"></div>
+          <div class="mt-12">
+            <a href="gallery.html" class="btn btn-ghost">All photos →</a>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -159,7 +174,7 @@
   </div>
 </footer>
 
-<script src="js/main.js?v=20260415t"></script>
-<script src="js/home.js?v=20260415t"></script>
+<script src="js/main.js?v=20260418a"></script>
+<script src="js/home.js?v=20260418a"></script>
 </body>
 </html>
