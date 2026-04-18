@@ -966,15 +966,28 @@
         <div class="admin-form-row full"><label>영문 요약</label><textarea id="g-s-en" rows="2">${escapeHtml(g.summary_en || "")}</textarea></div>
         <div class="admin-form-row full"><label>한글 본문 (상세 페이지)</label><textarea id="g-b-ko" rows="4">${escapeHtml(g.body_ko || "")}</textarea></div>
         <div class="admin-form-row full"><label>영문 본문</label><textarea id="g-b-en" rows="4">${escapeHtml(g.body_en || "")}</textarea></div>
-        <div class="admin-form-row full"><label>표지 사진 (리스트 카드에 표시)</label><div id="g-cover-host"></div></div>
         <div class="admin-form-row full">
-          <label>추가 사진들 <span class="td-dim" style="font-weight:400">(상세 페이지 그리드)</span></label>
-          <div id="g-images-list"></div>
-          <button type="button" class="btn btn-outline btn-sm" id="g-img-add" style="margin-top:var(--space-2)">+ 사진 추가</button>
+          <label>사진 업로드 <span class="td-dim" style="font-weight:400">(여러 장 선택 가능 · ⭐ 버튼으로 배너 지정)</span></label>
+          <div class="admin-card" style="padding:var(--space-3);background:var(--color-surface);border:1px dashed var(--color-border);display:flex;flex-wrap:wrap;gap:var(--space-2);align-items:center;justify-content:space-between">
+            <div style="font-size:var(--fs-sm);color:var(--color-text-muted)">
+              📁 <b>여러 사진을 한번에</b> 선택할 수 있습니다 (Ctrl/Cmd+클릭)<br/>
+              ⭐ 버튼을 눌러 <b>홈 배너·리스트 표지</b>로 쓸 사진을 지정하세요.
+            </div>
+            <label class="btn btn-primary btn-sm" style="cursor:pointer;margin:0">
+              📁 사진 여러 장 선택
+              <input type="file" id="g-multi-upload" accept="image/jpeg,image/png,image/webp" multiple style="display:none" />
+            </label>
+          </div>
+          <div id="g-upload-progress" style="margin-top:var(--space-2);font-size:var(--fs-sm);color:var(--color-text-muted)"></div>
+          <div id="g-images-list" style="margin-top:var(--space-3)"></div>
         </div>
       </div>
     `;
     openModal(isNew ? "갤러리 항목 추가" : "갤러리 편집", body, () => {
+      // Auto-pick first image as banner if none chosen but images exist
+      if (!g.cover && g.images.length > 0 && g.images[0].src) {
+        g.cover = g.images[0].src;
+      }
       const updated = {
         id: g.id,
         date: val("g-date"),
@@ -994,50 +1007,90 @@
       renderGallery();
     });
 
-    // Mount cover picker
-    mountImagePicker(document.getElementById("g-cover-host"), g.cover, { maxW: 1400, maxH: 1400 }, (v) => { g.cover = v; });
-
-    // Images list
     const listHost = document.getElementById("g-images-list");
-    function renderImages() {
-      listHost.innerHTML = g.images.map((im, i) => `
-        <div class="admin-card" style="padding:var(--space-3);margin-bottom:var(--space-3)">
-          <div class="admin-section-head" style="margin-bottom:var(--space-2)">
-            <strong style="font-size:var(--fs-sm)">사진 ${i + 1}</strong>
-            <div>
-              <button type="button" class="btn btn-ghost btn-sm" data-img-up="${i}" ${i === 0 ? "disabled" : ""}>↑</button>
-              <button type="button" class="btn btn-ghost btn-sm" data-img-dn="${i}" ${i === g.images.length - 1 ? "disabled" : ""}>↓</button>
-              <button type="button" class="btn btn-ghost btn-sm" data-img-del="${i}" style="color:#cc0033">삭제</button>
-            </div>
-          </div>
-          <div data-img-host="${i}"></div>
-          <div class="admin-form-row" style="margin-top:var(--space-2)"><label>한글 캡션</label><input data-img-cap-ko="${i}" value="${escapeAttr(im.caption_ko || "")}" /></div>
-          <div class="admin-form-row"><label>영문 캡션</label><input data-img-cap-en="${i}" value="${escapeAttr(im.caption_en || "")}" /></div>
-        </div>
-      `).join("") || `<div class="td-dim" style="font-size:var(--fs-sm)">추가된 사진이 없습니다.</div>`;
+    const progressHost = document.getElementById("g-upload-progress");
 
-      g.images.forEach((im, i) => {
-        const host = listHost.querySelector(`[data-img-host="${i}"]`);
-        if (host) mountImagePicker(host, im.src || "", { maxW: 1600, maxH: 1600 }, (v) => { g.images[i].src = v; });
+    function renderImages() {
+      if (g.images.length === 0) {
+        listHost.innerHTML = `<div class="td-dim" style="font-size:var(--fs-sm);text-align:center;padding:var(--space-6);border:1px dashed var(--color-border);border-radius:6px">추가된 사진이 없습니다. 위의 버튼으로 사진을 선택하세요.</div>`;
+        return;
+      }
+      listHost.innerHTML = `<div class="gallery-edit-grid">${
+        g.images.map((im, i) => {
+          const isBanner = !!(im.src && g.cover && im.src === g.cover);
+          return `
+            <div class="gallery-edit-item ${isBanner ? "is-banner" : ""}" data-i="${i}">
+              <div class="gallery-edit-thumb">
+                ${im.src ? `<img src="${escapeAttr(im.src)}" alt="" />` : `<div class="gallery-edit-thumb-ph">이미지 없음</div>`}
+                ${isBanner ? `<div class="gallery-edit-banner-badge">⭐ 배너</div>` : ""}
+              </div>
+              <div class="gallery-edit-body">
+                <div class="gallery-edit-row">
+                  <strong style="font-size:var(--fs-sm)">사진 ${i + 1}</strong>
+                  <div class="gallery-edit-actions">
+                    <button type="button" class="btn btn-${isBanner ? "primary" : "outline"} btn-sm" data-banner="${i}" title="이 사진을 리스트 표지·홈 배너로 지정">${isBanner ? "⭐ 배너 선택됨" : "⭐ 배너로 지정"}</button>
+                    <button type="button" class="btn btn-ghost btn-sm" data-up="${i}" ${i === 0 ? "disabled" : ""} title="위로">↑</button>
+                    <button type="button" class="btn btn-ghost btn-sm" data-dn="${i}" ${i === g.images.length - 1 ? "disabled" : ""} title="아래로">↓</button>
+                    <button type="button" class="btn btn-ghost btn-sm" data-del="${i}" style="color:#cc0033" title="삭제">✕</button>
+                  </div>
+                </div>
+                <input data-cap-ko="${i}" placeholder="한글 캡션" value="${escapeAttr(im.caption_ko || "")}" />
+                <input data-cap-en="${i}" placeholder="English caption" value="${escapeAttr(im.caption_en || "")}" />
+              </div>
+            </div>`;
+        }).join("")
+      }</div>`;
+
+      listHost.querySelectorAll("[data-cap-ko]").forEach(el => el.oninput = () => { g.images[+el.dataset.capKo].caption_ko = el.value; });
+      listHost.querySelectorAll("[data-cap-en]").forEach(el => el.oninput = () => { g.images[+el.dataset.capEn].caption_en = el.value; });
+      listHost.querySelectorAll("[data-banner]").forEach(b => b.onclick = () => {
+        const i = +b.dataset.banner;
+        g.cover = g.images[i] && g.images[i].src ? g.images[i].src : "";
+        renderImages();
+        toast("배너 사진으로 지정되었습니다", "ok");
       });
-      listHost.querySelectorAll("[data-img-cap-ko]").forEach(el => el.oninput = () => { g.images[+el.dataset.imgCapKo].caption_ko = el.value; });
-      listHost.querySelectorAll("[data-img-cap-en]").forEach(el => el.oninput = () => { g.images[+el.dataset.imgCapEn].caption_en = el.value; });
-      listHost.querySelectorAll("[data-img-del]").forEach(b => b.onclick = () => { g.images.splice(+b.dataset.imgDel, 1); renderImages(); });
-      listHost.querySelectorAll("[data-img-up]").forEach(b => b.onclick = () => {
-        const i = +b.dataset.imgUp; if (i <= 0) return;
+      listHost.querySelectorAll("[data-del]").forEach(b => b.onclick = () => {
+        const i = +b.dataset.del;
+        const removed = g.images.splice(i, 1)[0];
+        if (removed && removed.src && removed.src === g.cover) g.cover = "";
+        renderImages();
+      });
+      listHost.querySelectorAll("[data-up]").forEach(b => b.onclick = () => {
+        const i = +b.dataset.up; if (i <= 0) return;
         [g.images[i - 1], g.images[i]] = [g.images[i], g.images[i - 1]];
         renderImages();
       });
-      listHost.querySelectorAll("[data-img-dn]").forEach(b => b.onclick = () => {
-        const i = +b.dataset.imgDn; if (i >= g.images.length - 1) return;
+      listHost.querySelectorAll("[data-dn]").forEach(b => b.onclick = () => {
+        const i = +b.dataset.dn; if (i >= g.images.length - 1) return;
         [g.images[i + 1], g.images[i]] = [g.images[i], g.images[i + 1]];
         renderImages();
       });
     }
+
     renderImages();
-    document.getElementById("g-img-add").onclick = () => {
-      g.images.push({ src: "", caption_ko: "", caption_en: "" });
-      renderImages();
+
+    document.getElementById("g-multi-upload").onchange = async (e) => {
+      const files = Array.from(e.target.files || []);
+      if (!files.length) return;
+      let done = 0, failed = 0;
+      const total = files.length;
+      progressHost.textContent = `업로드 중... 0 / ${total}`;
+      for (const file of files) {
+        try {
+          const dataUrl = await resizeImageFile(file, 1600, 1600, 0.85);
+          g.images.push({ src: dataUrl, caption_ko: "", caption_en: "" });
+          if (!g.cover) g.cover = dataUrl;
+          done++;
+        } catch (err) {
+          failed++;
+          console.error("image upload failed:", err);
+        }
+        progressHost.textContent = `업로드 중... ${done + failed} / ${total}${failed ? ` (실패 ${failed})` : ""}`;
+        renderImages();
+      }
+      progressHost.textContent = `✅ ${done}장 업로드 완료${failed ? ` · ${failed}장 실패` : ""}`;
+      e.target.value = "";
+      setTimeout(() => { progressHost.textContent = ""; }, 4000);
     };
   }
 
