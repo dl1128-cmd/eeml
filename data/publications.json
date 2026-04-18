@@ -210,7 +210,7 @@
   {
     "id": "p2025-049",
     "type": "journal",
-    "top_pick": true,
+    "top_pick": false,
     "year": 2025,
     "title": "Unveiling Incompatibility of High Nickel Cathode with p-xylene Solvent for Facile Wet-Slurry Process in All-Solid-State Batteries",
     "authors": "J. Kim, J. Kim, J. Park, S. Lee, D. Lee*, T. Song*, U. Paik*",
@@ -236,7 +236,7 @@
   {
     "id": "p2025-047",
     "type": "journal",
-    "top_pick": true,
+    "top_pick": false,
     "year": 2025,
     "title": "Upcycling Spent Medium-Ni Cathodes via Novel Liquified Salts Sourcing",
     "authors": "M. Yoon, J. Park, W. Chen, Y. Huang, T. Dai, Y. Lee, J. Shin, S. Lee, Y. Kim, D. Lee, D. Shin, J. Cho, Y. Dong, J. Li",
