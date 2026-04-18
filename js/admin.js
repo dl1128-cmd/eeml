@@ -1134,6 +1134,7 @@
 
   function editTopic(idx) {
     const t = { ...STATE.data.topics[idx] };
+    if (!Array.isArray(t.images)) t.images = [];
     const papersText = (t.representative_papers || []).map(p => {
       if (typeof p === "string") return p;
       return `${p.title || ""} | ${p.venue || ""} | ${p.year || ""}`;
@@ -1145,9 +1146,28 @@
         <div class="admin-form-row"><label>영문 제목</label><input id="f-title-en" value="${escapeAttr(t.title_en)}" /></div>
         <div class="admin-form-row full"><label>짧은 설명 (한)</label><textarea id="f-sum-ko" style="min-height:70px">${escapeHtml(t.summary_ko || "")}</textarea><div class="hint">Research 페이지 카드에 표시. 1-2 문장.</div></div>
         <div class="admin-form-row full"><label>짧은 설명 (EN)</label><textarea id="f-sum-en" style="min-height:70px">${escapeHtml(t.summary_en || "")}</textarea></div>
+        <div class="admin-form-row"><label>메인 헤딩 (한)</label><input id="f-heading-ko" value="${escapeAttr(t.heading_ko || "")}" placeholder="예: Various Materials for Batteries" /></div>
+        <div class="admin-form-row"><label>메인 헤딩 (EN)</label><input id="f-heading-en" value="${escapeAttr(t.heading_en || "")}" /></div>
+        <div class="admin-form-row"><label>서브 헤딩 (한)</label><input id="f-subheading-ko" value="${escapeAttr(t.subheading_ko || "")}" placeholder="(Cathode, Anodes, Solid Electrolytes, etc)" /></div>
+        <div class="admin-form-row"><label>서브 헤딩 (EN)</label><input id="f-subheading-en" value="${escapeAttr(t.subheading_en || "")}" /></div>
         <div class="admin-form-row full"><label>상세 본문 (한)</label><textarea id="f-detail-ko" style="min-height:200px">${escapeHtml(t.detail_body_ko || "")}</textarea><div class="hint">세부 페이지(research-detail)에 표시. 빈 줄로 문단 구분.</div></div>
         <div class="admin-form-row full"><label>상세 본문 (EN)</label><textarea id="f-detail-en" style="min-height:200px">${escapeHtml(t.detail_body_en || "")}</textarea></div>
         <div class="admin-form-row"><label>키워드</label><input id="f-keys" value="${escapeAttr((t.keywords || []).join(', '))}" placeholder="쉼표로 구분" /></div>
+        <div class="admin-form-row full">
+          <label>히어로 사진 <span class="td-dim" style="font-weight:400">(첫 번째가 Research 카드 썸네일로 사용됨)</span></label>
+          <div class="admin-card" style="padding:var(--space-3);background:var(--color-surface);border:1px dashed var(--color-border);display:flex;flex-wrap:wrap;gap:var(--space-2);align-items:center;justify-content:space-between">
+            <div style="font-size:var(--fs-sm);color:var(--color-text-muted)">
+              📁 여러 장 동시 업로드 가능 (Ctrl/Cmd+클릭)<br/>
+              🖼 첫 번째 사진이 Research 목록·홈 카드 커버로 사용됩니다.
+            </div>
+            <label class="btn btn-primary btn-sm" style="cursor:pointer;margin:0">
+              📁 사진 선택
+              <input type="file" id="t-multi-upload" accept="image/jpeg,image/png,image/webp" multiple style="display:none" />
+            </label>
+          </div>
+          <div id="t-upload-progress" style="margin-top:var(--space-2);font-size:var(--fs-sm);color:var(--color-text-muted)"></div>
+          <div id="t-images-list" style="margin-top:var(--space-3)"></div>
+        </div>
         <div class="admin-form-row full"><label>대표 논문</label><textarea id="f-papers" class="code" style="min-height:120px">${escapeHtml(papersText)}</textarea><div class="hint" style="margin-top:.25rem">한 줄에 한 편씩. 형식: <code>제목 | 저널 | 연도</code> (| 로 구분)</div></div>
       </div>
     `;
@@ -1156,6 +1176,10 @@
       t.title_en = val("f-title-en");
       t.summary_ko = val("f-sum-ko");
       t.summary_en = val("f-sum-en");
+      t.heading_ko = val("f-heading-ko");
+      t.heading_en = val("f-heading-en");
+      t.subheading_ko = val("f-subheading-ko");
+      t.subheading_en = val("f-subheading-en");
       t.detail_body_ko = val("f-detail-ko");
       t.detail_body_en = val("f-detail-en");
       t.keywords = val("f-keys").split(",").map(s => s.trim()).filter(Boolean);
@@ -1169,7 +1193,84 @@
       STATE.data.topics[idx] = t;
       closeModal();
       renderTopics();
+      toast("저장됨. 반영하려면 💾 research_topics.json 저장 버튼을 누르세요.", "success");
     });
+
+    const listHost = document.getElementById("t-images-list");
+    const progressHost = document.getElementById("t-upload-progress");
+
+    function renderImages() {
+      if (t.images.length === 0) {
+        listHost.innerHTML = `<div class="td-dim" style="font-size:var(--fs-sm);text-align:center;padding:var(--space-6);border:1px dashed var(--color-border);border-radius:6px">추가된 사진이 없습니다.</div>`;
+        return;
+      }
+      listHost.innerHTML = `<div class="gallery-edit-grid">${
+        t.images.map((src, i) => `
+          <div class="gallery-edit-item ${i === 0 ? "is-banner" : ""}" data-i="${i}">
+            <div class="gallery-edit-thumb">
+              <img src="${escapeAttr(src)}" alt="" />
+              ${i === 0 ? `<div class="gallery-edit-banner-badge">🖼 커버</div>` : ""}
+            </div>
+            <div class="gallery-edit-body">
+              <div class="gallery-edit-row">
+                <strong style="font-size:var(--fs-sm)">사진 ${i + 1}</strong>
+                <div class="gallery-edit-actions">
+                  <button type="button" class="btn btn-${i === 0 ? "primary" : "outline"} btn-sm" data-cover="${i}" title="첫 번째 위치로 이동 (커버로 지정)">${i === 0 ? "🖼 커버" : "🖼 커버로"}</button>
+                  <button type="button" class="btn btn-ghost btn-sm" data-up="${i}" ${i === 0 ? "disabled" : ""}>↑</button>
+                  <button type="button" class="btn btn-ghost btn-sm" data-dn="${i}" ${i === t.images.length - 1 ? "disabled" : ""}>↓</button>
+                  <button type="button" class="btn btn-ghost btn-sm" data-del="${i}" style="color:#cc0033">✕</button>
+                </div>
+              </div>
+            </div>
+          </div>`).join("")
+      }</div>`;
+
+      listHost.querySelectorAll("[data-cover]").forEach(b => b.onclick = () => {
+        const i = +b.dataset.cover;
+        if (i === 0) return;
+        const [img] = t.images.splice(i, 1);
+        t.images.unshift(img);
+        renderImages();
+      });
+      listHost.querySelectorAll("[data-del]").forEach(b => b.onclick = () => {
+        t.images.splice(+b.dataset.del, 1);
+        renderImages();
+      });
+      listHost.querySelectorAll("[data-up]").forEach(b => b.onclick = () => {
+        const i = +b.dataset.up; if (i <= 0) return;
+        [t.images[i - 1], t.images[i]] = [t.images[i], t.images[i - 1]];
+        renderImages();
+      });
+      listHost.querySelectorAll("[data-dn]").forEach(b => b.onclick = () => {
+        const i = +b.dataset.dn; if (i >= t.images.length - 1) return;
+        [t.images[i + 1], t.images[i]] = [t.images[i], t.images[i + 1]];
+        renderImages();
+      });
+    }
+    renderImages();
+
+    document.getElementById("t-multi-upload").onchange = async (e) => {
+      const files = Array.from(e.target.files || []);
+      if (!files.length) return;
+      let done = 0, failed = 0;
+      const total = files.length;
+      progressHost.textContent = `업로드 중... 0 / ${total}`;
+      for (const file of files) {
+        try {
+          const dataUrl = await resizeImageFile(file, 1600, 1600, 0.85);
+          t.images.push(dataUrl);
+          done++;
+        } catch (err) {
+          failed++;
+          console.error(err);
+        }
+        progressHost.textContent = `업로드 중... ${done + failed} / ${total}${failed ? ` (실패 ${failed})` : ""}`;
+        renderImages();
+      }
+      progressHost.textContent = `✅ ${done}장 업로드 완료${failed ? ` · ${failed}장 실패` : ""}`;
+      e.target.value = "";
+      setTimeout(() => { progressHost.textContent = ""; }, 4000);
+    };
   }
 
   /* =========================================================================
