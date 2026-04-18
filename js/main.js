@@ -460,7 +460,9 @@
    * ========================================================================= */
   function setupAutoFocus() {
     const SELECTOR = ".topic-cover img, .gallery-cover img, .gallery-quick-thumb img, [data-auto-focus] img, img[data-auto-focus]";
-    const DEFAULT_POS = "center 30%";
+    // Default bias: 20% from top — for typical lab/member photos this keeps
+    // hair + head fully visible after cover-cropping by a landscape frame.
+    const DEFAULT_POS = "center 20%";
     const detector = (typeof window !== "undefined" && "FaceDetector" in window)
       ? tryCreateDetector()
       : null;
@@ -490,7 +492,12 @@
           (a.boundingBox.width * a.boundingBox.height) >
           (b.boundingBox.width * b.boundingBox.height) ? a : b);
         const cx = best.boundingBox.x + best.boundingBox.width / 2;
-        const cy = best.boundingBox.y + best.boundingBox.height / 2;
+        // FaceDetector's bounding box runs forehead → chin; it excludes hair.
+        // Shift the focal point UP by ~40% of face height so when the image
+        // is cropped by a landscape container, the hair stays visible above
+        // the face instead of getting chopped off the top.
+        const faceH = best.boundingBox.height;
+        const cy = best.boundingBox.y + faceH * 0.5 - faceH * 0.4;
         const px = Math.round((cx / img.naturalWidth) * 100);
         const py = Math.round((cy / img.naturalHeight) * 100);
         img.style.objectPosition = `${clamp(px)}% ${clamp(py)}%`;
