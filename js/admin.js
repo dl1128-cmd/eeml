@@ -1425,6 +1425,16 @@
           <div class="admin-form-row"><label>Button URL</label><input id="a-url" value="${escapeAttr(a.button_url || '')}" placeholder="contact.html 또는 https://..." /><div class="hint">비워두면 버튼 안 보임.</div></div>
         </div>
       </div>
+
+      <div class="admin-card" style="display:flex;gap:var(--space-3);align-items:center;justify-content:space-between;position:sticky;bottom:0;background:#fff;border:2px solid var(--color-primary);box-shadow:0 -4px 16px rgba(0,0,0,0.08);z-index:5">
+        <div style="font-size:var(--fs-sm);color:var(--color-text-muted)">
+          편집 완료 후 아래 <b>저장</b> 버튼을 눌러야 GitHub에 반영됩니다.
+        </div>
+        <div style="display:flex;gap:var(--space-2)">
+          <button class="btn btn-outline" id="ann-preview-2" style="min-width:120px">👁 미리보기</button>
+          <button class="btn btn-primary" id="ann-save-2" style="min-width:160px;font-size:var(--fs-base)">💾 저장하기</button>
+        </div>
+      </div>
     `;
 
     function readAnnouncement() {
@@ -1439,41 +1449,47 @@
       };
     }
 
-    // Manual save button — user commits when ready (prevents download spam
-    // from the previous auto-save-on-every-keystroke approach)
-    host.querySelector("#ann-save").onclick = () => {
+    const saveHandler = () => {
       const updated = readAnnouncement();
       STATE.data.announcement = updated;
       saveJSON("announcement.json", updated);
     };
 
+    // Both top and bottom save buttons run the same handler
+    host.querySelector("#ann-save").onclick = saveHandler;
+    host.querySelector("#ann-save-2").onclick = saveHandler;
+
     // Update STATE live (without GitHub commit) so tab switching doesn't
-    // lose in-progress edits. Red "변경됨 — 저장 필요" indicator appears
-    // on the save button until committed.
-    const saveBtn = host.querySelector("#ann-save");
-    const originalBtnText = saveBtn.textContent;
+    // lose in-progress edits. Orange "변경됨 — 저장" indicator appears
+    // on both save buttons until committed.
+    const saveBtns = [host.querySelector("#ann-save"), host.querySelector("#ann-save-2")];
+    const originalTexts = saveBtns.map(b => b.textContent);
     const onField = () => {
       STATE.data.announcement = readAnnouncement();
-      saveBtn.textContent = "● 변경됨 — 저장";
-      saveBtn.classList.add("btn-dirty");
+      saveBtns.forEach((b, i) => {
+        b.textContent = i === 0 ? "● 변경됨 — 저장" : "● 저장하기 (변경 있음)";
+        b.classList.add("btn-dirty");
+      });
     };
-    saveBtn.addEventListener("click", () => {
+    saveBtns.forEach((b, i) => b.addEventListener("click", () => {
       setTimeout(() => {
-        saveBtn.textContent = originalBtnText;
-        saveBtn.classList.remove("btn-dirty");
+        b.textContent = originalTexts[i];
+        b.classList.remove("btn-dirty");
       }, 100);
-    });
+    }));
     host.querySelectorAll("#tab-announcement input, #tab-announcement textarea")
       .forEach(el => {
         el.addEventListener("input", onField);
         el.addEventListener("change", onField);
       });
 
-    host.querySelector("#ann-preview").onclick = () => {
+    const previewHandler = () => {
       const id = val("a-id");
       if (id) localStorage.removeItem("eeml:ann:dismissed:" + id);
       toast("이 브라우저의 dismissal 을 초기화했습니다. 공개 사이트를 새 탭으로 열면 공지가 보입니다.", "success");
     };
+    host.querySelector("#ann-preview").onclick = previewHandler;
+    host.querySelector("#ann-preview-2").onclick = previewHandler;
   }
 
   /* =========================================================================
