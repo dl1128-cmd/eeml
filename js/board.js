@@ -4,8 +4,6 @@
   const TABS = [
     { id: "all", k: "all" },
     { id: "news", k: "news" },
-    { id: "notice", k: "notice" },
-    { id: "seminar", k: "seminar" },
   ];
   // Category badge auto-hides for items older than this many days
   const BADGE_MAX_DAYS = 30;
