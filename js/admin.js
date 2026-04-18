@@ -529,13 +529,13 @@
       const i = +b.dataset.idx;
       STATE.data.publications[i].top_pick = !STATE.data.publications[i].top_pick;
       renderPubs();
-      toast(STATE.data.publications[i].top_pick ? "⭐ Selected로 지정됨" : "Selected 해제됨", "success");
+      saveJSON("publications.json", STATE.data.publications);
     });
     host.querySelectorAll("[data-action=del-pub]").forEach(b => b.onclick = () => {
       if (!confirm("이 논문을 삭제하시겠습니까?")) return;
       STATE.data.publications.splice(+b.dataset.idx, 1);
       renderPubs();
-      toast("삭제됨. 반영하려면 JSON 저장을 눌러 다운로드하세요.", "success");
+      saveJSON("publications.json", STATE.data.publications);
     });
   }
 
@@ -585,6 +585,7 @@
       else STATE.data.publications[idx] = updated;
       closeModal();
       renderPubs();
+      saveJSON("publications.json", STATE.data.publications);
     });
     pubPdfPicker = mountFilePicker(
       document.getElementById("f-pdf-host"),
@@ -635,6 +636,7 @@
       if (!confirm("이 구성원을 삭제하시겠습니까?")) return;
       STATE.data.members.splice(+b.dataset.idx, 1);
       renderMembers();
+      saveJSON("members.json", STATE.data.members);
     });
   }
 
@@ -672,6 +674,7 @@
       else STATE.data.members[idx] = updated;
       closeModal();
       renderMembers();
+      saveJSON("members.json", STATE.data.members);
     });
     photoPicker = mountImagePicker(
       document.getElementById("f-photo-host"),
@@ -959,6 +962,7 @@
       if (!confirm("이 소식을 삭제하시겠습니까?")) return;
       STATE.data.news.splice(+b.dataset.idx, 1);
       renderNews();
+      saveJSON("news.json", STATE.data.news);
     });
   }
 
@@ -991,6 +995,7 @@
       else STATE.data.news[idx] = updated;
       closeModal();
       renderNews();
+      saveJSON("news.json", STATE.data.news);
     });
   }
 
@@ -1042,6 +1047,7 @@
       if (!confirm("이 갤러리 항목을 삭제하시겠습니까?")) return;
       STATE.data.gallery.splice(+b.dataset.idx, 1);
       renderGallery();
+      saveJSON("gallery.json", STATE.data.gallery);
     });
   }
 
@@ -1101,6 +1107,7 @@
       else STATE.data.gallery[idx] = updated;
       closeModal();
       renderGallery();
+      saveJSON("gallery.json", STATE.data.gallery);
     });
 
     const listHost = document.getElementById("g-images-list");
@@ -1282,7 +1289,7 @@
       STATE.data.topics[idx] = t;
       closeModal();
       renderTopics();
-      toast("저장됨. 반영하려면 💾 research_topics.json 저장 버튼을 누르세요.", "success");
+      saveJSON("research_topics.json", STATE.data.topics);
     });
 
     const listHost = document.getElementById("t-images-list");
