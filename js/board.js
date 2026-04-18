@@ -1,4 +1,4 @@
-/* News page — category tabs + expandable rich-body items with images */
+/* News page — category tabs + item list linking to detail page */
 (function () {
   "use strict";
   const TABS = [
@@ -7,6 +7,9 @@
     { id: "notice", k: "notice" },
     { id: "seminar", k: "seminar" },
   ];
+  // Category badge auto-hides for items older than this many days
+  const BADGE_MAX_DAYS = 30;
+
   let items = [];
   let cur = "all";
 
@@ -59,17 +62,13 @@
     host.innerHTML = `<ul class="news-list">${filtered
       .map((n) => renderItem(n, lang))
       .join("")}</ul>`;
+  }
 
-    host.querySelectorAll("[data-action=toggle-news]").forEach((btn) => {
-      btn.onclick = () => {
-        const li = btn.closest(".news-item");
-        if (!li) return;
-        li.classList.toggle("is-open");
-        btn.textContent = li.classList.contains("is-open")
-          ? (lang === "ko" ? "접기 ▲" : "Collapse ▲")
-          : (lang === "ko" ? "본문 보기 ▼" : "Read more ▼");
-      };
-    });
+  function daysSince(dateStr) {
+    if (!dateStr) return Infinity;
+    const d = new Date(dateStr);
+    if (isNaN(d)) return Infinity;
+    return (Date.now() - d.getTime()) / (1000 * 60 * 60 * 24);
   }
 
   function renderItem(n, lang) {
@@ -77,36 +76,20 @@
     const body = lang === "ko"
       ? (n.body_ko || n.body_en || "")
       : (n.body_en || n.body_ko || "");
-    const images = Array.isArray(n.images) ? n.images : [];
-    const hasRich = body.trim().length > 0 || images.length > 0;
-
-    // Short excerpt from body (strip tags + truncate)
     const excerpt = truncate(stripTags(body), 140);
+    const showBadge = !!n.category && daysSince(n.date) <= BADGE_MAX_DAYS;
 
     return `
       <li class="news-item">
         <div class="date">${escapeHtml(n.date || "")}</div>
         <div class="body">
-          <div class="news-head">
-            <div class="title">${title}</div>
-            ${n.category ? `<span class="news-cat">${escapeHtml(n.category)}</span>` : ""}
-          </div>
-          ${excerpt ? `<div class="excerpt">${escapeHtml(excerpt)}</div>` : ""}
-          ${hasRich ? `
-            <div class="news-detail">
-              ${body ? `<div class="news-body">${body}</div>` : ""}
-              ${images.length ? `
-                <div class="news-images">
-                  ${images.map(im => {
-                    const cap = escapeHtml(lang === "ko"
-                      ? (im.caption_ko || im.caption_en || "")
-                      : (im.caption_en || im.caption_ko || ""));
-                    return `<figure><img src="${escapeAttr(im.src)}" alt="${escapeAttr(cap)}" loading="lazy" />${cap ? `<figcaption>${cap}</figcaption>` : ""}</figure>`;
-                  }).join("")}
-                </div>` : ""}
+          <a class="news-link" href="board-detail.html?id=${encodeURIComponent(n.id)}">
+            <div class="news-head">
+              <div class="title">${title}</div>
+              ${showBadge ? `<span class="news-cat">${escapeHtml(n.category)}</span>` : ""}
             </div>
-            <button class="news-toggle" data-action="toggle-news">${lang === "ko" ? "본문 보기 ▼" : "Read more ▼"}</button>
-          ` : ""}
+            ${excerpt ? `<div class="excerpt">${escapeHtml(excerpt)}</div>` : ""}
+          </a>
         </div>
       </li>`;
   }
@@ -116,5 +99,4 @@
   function escapeHtml(s) {
     return String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
   }
-  function escapeAttr(s) { return escapeHtml(s); }
 })();
