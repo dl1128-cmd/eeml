@@ -46,6 +46,7 @@
       setupScrollReveal();
       setupHashScroll();
       setupGalleryProtect();
+      setupAutoFocus();
       document.dispatchEvent(new CustomEvent("site:ready", { detail: state }));
       // Non-blocking
       trackVisit().catch(() => {});
@@ -443,6 +444,77 @@
         }
       }
     });
+  }
+
+  /* =========================================================================
+   * Auto-focus — keeps faces / main subjects visible inside a 'cover'-cropped
+   * image container. Uses the native Shape Detection API (Chrome/Edge) when
+   * available; otherwise falls back to a 'center 30%' bias that works well
+   * for most lab photos (subjects tend to sit in the upper half).
+   *
+   * Targets any <img> inside these containers:
+   *   .topic-cover, .gallery-cover, .gallery-quick-thumb, .featured-card img
+   * plus any element with [data-auto-focus].
+   *
+   * Results are cached per image src on the element so re-renders don't rerun.
+   * ========================================================================= */
+  function setupAutoFocus() {
+    const SELECTOR = ".topic-cover img, .gallery-cover img, .gallery-quick-thumb img, [data-auto-focus] img, img[data-auto-focus]";
+    const DEFAULT_POS = "center 30%";
+    const detector = (typeof window !== "undefined" && "FaceDetector" in window)
+      ? tryCreateDetector()
+      : null;
+
+    function tryCreateDetector() {
+      try { return new window.FaceDetector({ maxDetectedFaces: 5, fastMode: true }); }
+      catch { return null; }
+    }
+
+    async function focus(img) {
+      if (!img || !img.isConnected) return;
+      if (img.dataset.focused === img.src) return; // already processed
+      // Default bias works for non-face scenes too
+      img.style.objectPosition = DEFAULT_POS;
+      img.dataset.focused = img.src;
+      if (!detector) return;
+      // Detector needs a fully decoded image. Data URLs and same-origin work;
+      // cross-origin needs CORS headers (our images are all same-origin).
+      try {
+        if (!img.complete || img.naturalWidth === 0) {
+          await new Promise(res => img.addEventListener("load", res, { once: true }));
+        }
+        const faces = await detector.detect(img);
+        if (!faces || !faces.length) return;
+        // Use the largest face as the focal point
+        const best = faces.reduce((a, b) =>
+          (a.boundingBox.width * a.boundingBox.height) >
+          (b.boundingBox.width * b.boundingBox.height) ? a : b);
+        const cx = best.boundingBox.x + best.boundingBox.width / 2;
+        const cy = best.boundingBox.y + best.boundingBox.height / 2;
+        const px = Math.round((cx / img.naturalWidth) * 100);
+        const py = Math.round((cy / img.naturalHeight) * 100);
+        img.style.objectPosition = `${clamp(px)}% ${clamp(py)}%`;
+      } catch {
+        // Ignore — keep default bias
+      }
+    }
+    function clamp(n) { return Math.max(0, Math.min(100, n)); }
+
+    function scan(root) {
+      (root || document).querySelectorAll(SELECTOR).forEach(focus);
+    }
+    scan();
+    // Re-scan when dynamic content gets rendered (home, research, gallery)
+    const mo = new MutationObserver(muts => {
+      for (const m of muts) {
+        for (const n of m.addedNodes) {
+          if (!(n instanceof Element)) continue;
+          if (n.matches?.(SELECTOR)) focus(n);
+          scan(n);
+        }
+      }
+    });
+    mo.observe(document.body, { childList: true, subtree: true });
   }
 
   window.SiteUtils = {

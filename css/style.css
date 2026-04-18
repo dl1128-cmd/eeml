@@ -520,8 +520,9 @@ p { margin: 0 0 var(--space-4); color: var(--c-text-muted); }
 }
 
 /* Research topic card cover image (list + home).
- * Uses object-fit: contain + fixed aspect ratio so the whole photo is
- * always visible (no cropping). Background color fills empty areas. */
+ * object-fit: cover for full-bleed look; object-position is set by
+ * setupAutoFocus() in main.js based on face detection (Chrome) or a
+ * center-30% default so subjects stay visible. */
 .topic-cover {
   aspect-ratio: 16 / 10;
   border-radius: var(--radius-md);
@@ -529,20 +530,16 @@ p { margin: 0 0 var(--space-4); color: var(--c-text-muted); }
   background: var(--c-surface-2);
   margin-bottom: var(--space-5);
   border: 1px solid var(--c-border);
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 .topic-cover img {
-  max-width: 100%;
-  max-height: 100%;
-  width: auto;
-  height: auto;
-  object-fit: contain;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%; /* default — JS overrides with face centroid */
   display: block;
   transition: transform 0.35s ease;
 }
-.topic-card:hover .topic-cover img { transform: scale(1.03); }
+.topic-card:hover .topic-cover img { transform: scale(1.04); }
 
 .detail-body { font-size: var(--fs-lg); line-height: 1.75; color: var(--c-text); }
 .detail-body p { color: var(--c-text); margin-bottom: var(--space-6); white-space: pre-wrap; }
