@@ -45,6 +45,7 @@
       setupTheme();
       setupScrollReveal();
       setupHashScroll();
+      setupGalleryProtect();
       document.dispatchEvent(new CustomEvent("site:ready", { detail: state }));
       // Non-blocking
       trackVisit().catch(() => {});
@@ -395,6 +396,53 @@
       else if (tries++ < 20) setTimeout(tryScroll, 120);
     };
     setTimeout(tryScroll, 250);
+  }
+
+  /* =========================================================================
+   * Gallery image protection — deterrent only (any determined user can still
+   * fetch via devtools / direct URL). Blocks the casual save flow:
+   *   - contextmenu (right-click "Save image as…")
+   *   - dragstart  (drag-to-desktop)
+   *   - Ctrl/Cmd+S while a gallery image is focused
+   * Applies to any <img> inside containers that opt in via the
+   * [data-protect="gallery"] attribute OR the .gallery-protect class.
+   * We also add the attribute dynamically to known gallery containers.
+   * ========================================================================= */
+  function setupGalleryProtect() {
+    const selectors = [
+      "#gallery-root",
+      "#gallery-detail-root",
+      "#home-gallery",
+      "#lightbox",
+    ];
+    const isInProtected = (el) => {
+      while (el && el !== document.body) {
+        if (el.matches?.(selectors.join(",")) || el.dataset?.protect === "gallery") {
+          return true;
+        }
+        el = el.parentElement;
+      }
+      return false;
+    };
+    const cancel = (e) => {
+      const t = e.target;
+      if (t && (t.tagName === "IMG" || t.tagName === "PICTURE") && isInProtected(t)) {
+        e.preventDefault();
+      }
+    };
+    document.addEventListener("contextmenu", cancel);
+    document.addEventListener("dragstart", cancel);
+    // Ctrl/Cmd+S — best-effort; browsers may still allow via menu bar
+    document.addEventListener("keydown", (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "s") {
+        // Only block if a gallery section is in view
+        const section = document.querySelector(selectors.join(","));
+        if (section) {
+          const r = section.getBoundingClientRect();
+          if (r.top < window.innerHeight && r.bottom > 0) e.preventDefault();
+        }
+      }
+    });
   }
 
   window.SiteUtils = {

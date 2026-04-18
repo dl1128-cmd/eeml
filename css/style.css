@@ -1346,6 +1346,28 @@ p { margin: 0 0 var(--space-4); color: var(--c-text-muted); }
 }
 
 /* ==========================================================================
+ * Gallery image download protection — deterrent only.
+ * Disables native drag and text selection on gallery photos. The actual
+ * right-click handler is attached in js/main.js.
+ * ========================================================================== */
+#gallery-root img,
+#gallery-detail-root img,
+#home-gallery img,
+#lightbox img {
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-drag: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  pointer-events: auto;
+}
+
+/* ==========================================================================
  * Gallery page: meta bar + pagination
  * ========================================================================== */
 .gallery-meta {
