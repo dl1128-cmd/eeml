@@ -419,36 +419,68 @@
     throw new Error(`GitHub API ${put.status}: ${text.slice(0, 200)}`);
   }
 
-  // Per-file debounced save queue — coalesces rapid consecutive edits
-  // (e.g. toggling SELECTED on multiple papers in a row) into a single
-  // commit after a 700ms idle period.
-  const _saveQueue = new Map();
-  function queueSave(filename, obj, delay = 700) {
-    const path = `data/${filename}`;
+  // Per-file save queue — (a) debounces rapid consecutive edits so a
+  // burst of SELECTED toggles becomes one commit, (b) serializes actual
+  // PUT requests so we never have two GitHub commits in flight for the
+  // same file (eliminates 409 SHA races at the source).
+  const _saveQueue = new Map();   // filename -> { timer }
+  const _inflight = new Map();    // filename -> Promise
+
+  function queueSave(filename, latestObj, delay = 1200) {
     const prev = _saveQueue.get(filename);
     if (prev) clearTimeout(prev.timer);
-    const timer = setTimeout(() => {
+    const timer = setTimeout(async () => {
       _saveQueue.delete(filename);
-      saveJSON(filename, obj);
+      // Wait for any previous save to finish before starting a new one
+      try { await _inflight.get(filename); } catch {}
+      // Re-read latest state each run — user might have toggled more
+      // between scheduling and firing
+      const fresh = _freshStateFor(filename) || latestObj;
+      const p = saveJSON(filename, fresh, { quiet: true });
+      _inflight.set(filename, p);
+      try { await p; } catch {}
+      if (_inflight.get(filename) === p) _inflight.delete(filename);
     }, delay);
-    _saveQueue.set(filename, { timer, obj });
+    _saveQueue.set(filename, { timer });
+  }
+  function _freshStateFor(filename) {
+    switch (filename) {
+      case "publications.json":    return STATE.data.publications;
+      case "members.json":         return STATE.data.members;
+      case "news.json":            return STATE.data.news;
+      case "gallery.json":         return STATE.data.gallery;
+      case "research_topics.json": return STATE.data.topics;
+      case "pi.json":              return STATE.data.pi;
+      case "announcement.json":    return STATE.data.announcement;
+      case "config.json":          return STATE.data.config;
+      default: return null;
+    }
   }
 
   async function saveJSON(filename, obj, options = {}) {
     const path = options.path || `data/${filename}`;
     const content = JSON.stringify(obj, null, 2) + "\n";
     const { token } = getGH();
+    const quiet = options.quiet === true;
     if (token) {
       try {
-        toast(`${filename} GitHub에 커밋 중...`, "info");
+        if (!quiet) toast(`${filename} GitHub에 커밋 중...`, "info");
         await githubPutFile(path, content, `chore(admin): update ${filename}`);
-        toast(`✅ ${filename} 자동 반영됨 (1~2분 후 사이트에 보임)`, "success");
+        toast(`✅ ${filename} 저장됨 (1~2분 후 사이트 반영)`, "success");
         return;
       } catch (err) {
         console.error("GitHub save failed:", err);
-        // Do NOT auto-download on API errors (causes spam when auto-save
-        // fires in a retry loop). Show an actionable error toast instead.
-        toast(`✗ GitHub 커밋 실패 — ${err.message.slice(0, 100)}. 수동 다운로드는 💾 버튼 길게 누르세요.`, "error");
+        const m = /GitHub API (\d+)/.exec(err.message || "");
+        const code = m ? m[1] : "";
+        // 409/422 after all retries = someone pushed between our PUTs.
+        // Schedule one more retry silently instead of showing an error —
+        // debounce will coalesce anyway.
+        if (code === "409" || code === "422") {
+          setTimeout(() => queueSave(filename, obj, 300), 200);
+          toast(`⏳ 동시 수정 감지 — 잠시 후 자동 재시도`, "info");
+          return;
+        }
+        toast(`✗ GitHub 커밋 실패 (${code || "?"}) — F12 콘솔에서 상세 확인`, "error");
         return;
       }
     }
