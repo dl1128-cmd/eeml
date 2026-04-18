@@ -49,6 +49,8 @@
       .filter(p => p.top_pick)
       .sort((a, b) => (b.year || 0) - (a.year || 0))
       .slice(0, 10);
+    // Drop the grid class so horizontal scroll can use full width
+    host.className = "featured-scroll-wrap";
     if (top.length === 0) {
       host.innerHTML = `<p style="color:var(--c-text-muted);font-size:var(--fs-sm)">No selected publications yet.</p>`;
       return;
@@ -63,7 +65,6 @@
           </a>
         `).join("")}
       </div>
-      <div class="featured-scroll-hint" aria-hidden="true">← 가로로 스크롤 →</div>
     `;
   }
 

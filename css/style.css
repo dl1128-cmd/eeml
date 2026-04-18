@@ -1091,6 +1091,10 @@ p { margin: 0 0 var(--space-4); color: var(--c-text-muted); }
 .featured-card .authors { font-size: var(--fs-xs); color: var(--c-text-muted); }
 
 /* ---- Featured publications: horizontal scroll (10 cards) ---- */
+.featured-scroll-wrap {
+  display: block;
+  width: 100%;
+}
 .featured-scroll {
   display: flex;
   flex-wrap: nowrap;
@@ -1098,7 +1102,6 @@ p { margin: 0 0 var(--space-4); color: var(--c-text-muted); }
   overflow-x: auto;
   overflow-y: hidden;
   padding: var(--space-2) var(--space-1) var(--space-4);
-  margin: 0 calc(-1 * var(--space-1));
   scroll-snap-type: x mandatory;
   scroll-padding-left: var(--space-1);
   scrollbar-width: thin;
