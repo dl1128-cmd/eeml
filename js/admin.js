@@ -380,7 +380,7 @@
     return btoa(bin);
   }
 
-  async function githubPutFile(path, contentString, message, attempt = 0) {
+  async function githubPutFile(path, content, message, attempt = 0, opts = {}) {
     const { token, repo } = getGH();
     if (!token) throw new Error("NO_TOKEN");
     const api = `https://api.github.com/repos/${repo}/contents/${path}`;
@@ -388,8 +388,6 @@
       "Authorization": `token ${token}`,
       "Accept": "application/vnd.github+json",
     };
-    // Always fetch fresh SHA (required for update). On retry, the old SHA
-    // is stale — must refetch.
     let sha = null;
     try {
       const r = await fetch(api + "?ref=main&_=" + Date.now(), { headers });
@@ -400,7 +398,7 @@
     } catch {}
     const body = {
       message: message || `chore(admin): update ${path}`,
-      content: utf8ToBase64(contentString),
+      content: opts.preEncoded ? content : utf8ToBase64(content),
       branch: "main",
     };
     if (sha) body.sha = sha;
@@ -410,13 +408,79 @@
       body: JSON.stringify(body),
     });
     if (put.ok) return put.json();
-    // 409 Conflict or 422 (stale SHA) → refetch and retry up to 2 times
     if ((put.status === 409 || put.status === 422) && attempt < 2) {
       await new Promise(r => setTimeout(r, 400 * (attempt + 1)));
-      return githubPutFile(path, contentString, message, attempt + 1);
+      return githubPutFile(path, content, message, attempt + 1, opts);
     }
     const text = await put.text();
     throw new Error(`GitHub API ${put.status}: ${text.slice(0, 200)}`);
+  }
+
+  /* Extract base64 data URLs from a JSON-ish object, upload each as a
+   * separate file in assets/images/<category>/, and replace the data URL
+   * with the file path. This is the fix for 403/413 'payload too large'
+   * errors from the Contents API when members/pi/etc. inlined photos.
+   * Also dedupes by SHA-256 hash — identical images reuse one file. */
+  const FILENAME_CATEGORY = {
+    "members.json": "members",
+    "pi.json": "pi",
+    "research_topics.json": "research",
+    "gallery.json": "gallery",
+    "news.json": "news",
+    "announcement.json": "announcements",
+    "config.json": "config",
+  };
+
+  async function uploadDataUrlsAsFiles(obj, category) {
+    const cache = new Map(); // hashHex → path
+    async function convert(dataUrl) {
+      const m = /^data:image\/(jpeg|jpg|png|webp|gif);base64,([A-Za-z0-9+/=\s]+)$/i.exec(dataUrl);
+      if (!m) return dataUrl;
+      let ext = m[1].toLowerCase();
+      if (ext === "jpeg") ext = "jpg";
+      const b64 = m[2].replace(/\s+/g, "");
+      const hashBuf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(b64));
+      const hashHex = Array.from(new Uint8Array(hashBuf))
+        .map(b => b.toString(16).padStart(2, "0"))
+        .join("")
+        .slice(0, 16);
+      const path = `assets/images/${category}/${hashHex}.${ext}`;
+      if (cache.has(hashHex)) return cache.get(hashHex);
+      cache.set(hashHex, path);
+      // Upload with preEncoded=true since the data URL already gave us base64
+      try {
+        await githubPutFile(path, b64, `chore(admin): upload image ${hashHex}.${ext}`, 0, { preEncoded: true });
+      } catch (err) {
+        // If upload of this specific image fails, fall back to the data URL
+        // so the save doesn't wipe the user's photo.
+        console.error("image upload failed:", err);
+        return dataUrl;
+      }
+      return path;
+    }
+    async function walk(o) {
+      if (Array.isArray(o)) {
+        for (let i = 0; i < o.length; i++) {
+          const v = o[i];
+          if (typeof v === "string" && v.startsWith("data:image/")) {
+            o[i] = await convert(v);
+          } else if (v && typeof v === "object") {
+            await walk(v);
+          }
+        }
+      } else if (o && typeof o === "object") {
+        for (const k of Object.keys(o)) {
+          const v = o[k];
+          if (typeof v === "string" && v.startsWith("data:image/")) {
+            o[k] = await convert(v);
+          } else if (v && typeof v === "object") {
+            await walk(v);
+          }
+        }
+      }
+    }
+    await walk(obj);
+    return obj;
   }
 
   // Per-file save queue — (a) debounces rapid consecutive edits so a
@@ -459,11 +523,20 @@
 
   async function saveJSON(filename, obj, options = {}) {
     const path = options.path || `data/${filename}`;
-    const content = JSON.stringify(obj, null, 2) + "\n";
     const { token } = getGH();
     const quiet = options.quiet === true;
     if (token) {
       try {
+        // Strip base64 data URLs out of the JSON and store them as
+        // separate image files. Fixes 403/413 'payload too large' from
+        // GitHub Contents API when multi-MB photos get inlined.
+        const category = FILENAME_CATEGORY[filename] || "uploads";
+        const hadDataUrls = JSON.stringify(obj).includes("data:image/");
+        if (hadDataUrls) {
+          if (!quiet) toast(`📁 사진 파일 분리 업로드 중...`, "info");
+          await uploadDataUrlsAsFiles(obj, category);
+        }
+        const content = JSON.stringify(obj, null, 2) + "\n";
         if (!quiet) toast(`${filename} GitHub에 커밋 중...`, "info");
         await githubPutFile(path, content, `chore(admin): update ${filename}`);
         toast(`✅ ${filename} 저장됨 (1~2분 후 사이트 반영)`, "success");
