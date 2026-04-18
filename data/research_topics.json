@@ -2,132 +2,75 @@
   {
     "id": "energy-materials",
     "order": 1,
-    "title_ko": "에너지 소재 (Energy Materials)",
     "title_en": "Energy Materials",
-    "summary_ko": "차세대 리튬 금속 음극 · 고에너지밀도 양극 · 할라이드 기반 고체 전해질의 소재 설계와 계면 엔지니어링을 연구합니다.",
-    "summary_en": "Materials design and interface engineering for next-generation Li metal anodes, high-energy-density cathodes, and halide-based solid electrolytes.",
-    "detail_body_ko": "리튬 금속 음극은 이론 용량 3,860 mAh/g 의 궁극의 음극 소재로 차세대 배터리의 핵심이지만, dendrite 성장과 전극-전해질 계면 불안정성이 상용화의 큰 장벽입니다. 본 연구실은 Cu₃N 나노와이어 구조, 액체 금속 합금 (Ga-In-Sn) 기반 자가 치유 네트워크, 새로운 계면 안정화 층을 통해 사이클 특성을 혁신합니다.\n\n고에너지밀도 양극에서는 LiNiO₂ 단결정 crack-free 구조와 LiNi₀.₅Mn₁.₅O₄ 5V급 양극의 계면 안정화를 통해 전고체 전지에 적용 가능한 소재를 개발합니다.\n\n할라이드 기반 고체 전해질은 전고체 전지의 유력 후보로 주목받고 있으며, 본 연구실은 mechanochemistry 를 활용한 최적화, 계면 저항 최소화, 장기 사이클 안정성 확보 연구를 진행합니다.",
-    "detail_body_en": "Lithium metal anodes, with a theoretical capacity of 3,860 mAh/g, represent the ultimate anode for next-generation batteries — yet dendrite growth and electrode-electrolyte interface instability remain major barriers to commercialization. Our lab pioneers Cu₃N nanowire architectures, Ga-In-Sn liquid-metal-based self-healing networks, and novel interface stabilization layers to dramatically improve cycling.\n\nFor high-energy-density cathodes, we develop crack-free single-crystalline LiNiO₂ and interphase-stabilized 5 V-class LiNi₀.₅Mn₁.₅O₄ cathodes suitable for all-solid-state batteries.\n\nHalide-based solid electrolytes are emerging as a leading candidate for solid-state systems. We focus on mechanochemistry-driven optimization, interface resistance reduction, and long-term cycling stability.",
-    "keywords": ["Li Metal Anode", "Solid Electrolyte", "Halide", "Interface", "LiNiO2"],
-    "svg": "<svg viewBox='0 0 260 160' xmlns='http://www.w3.org/2000/svg' fill='none' stroke='currentColor' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'><rect x='40' y='40' width='180' height='80' rx='3'/><line x1='100' y1='40' x2='100' y2='120' stroke-dasharray='4 4' opacity='0.5'/><line x1='160' y1='40' x2='160' y2='120' stroke-dasharray='4 4' opacity='0.5'/><circle cx='70' cy='70' r='3' fill='currentColor'/><circle cx='70' cy='90' r='3' fill='currentColor'/><circle cx='70' cy='110' r='3' fill='currentColor'/><circle cx='130' cy='60' r='4' fill='currentColor' opacity='0.6'/><circle cx='130' cy='80' r='4' fill='currentColor' opacity='0.6'/><circle cx='130' cy='100' r='4' fill='currentColor' opacity='0.6'/><circle cx='190' cy='70' r='3' fill='currentColor'/><circle cx='190' cy='90' r='3' fill='currentColor'/><circle cx='190' cy='110' r='3' fill='currentColor'/></svg>",
-    "representative_papers": [
-      {
-        "title": "Self-healing Si anodes with robust ionic and electronic conducting network by Ga-In-Sn liquid metal alloy in solid-state batteries",
-        "venue": "Energy Storage Materials",
-        "year": 2025
-      },
-      {
-        "title": "Interfacial Challenges of Halide-Based All-Solid-State Batteries",
-        "venue": "Advanced Energy Materials",
-        "year": 2025
-      },
-      {
-        "title": "Crack-Free Single-Crystalline LiNiO2 for High Energy Density All-Solid-State Batteries",
-        "venue": "Advanced Energy Materials",
-        "year": 2024
-      },
-      {
-        "title": "Interphase Stabilization of LiNi0.5Mn1.5O4 Cathode for 5 V-Class All-Solid-State Batteries",
-        "venue": "Small",
-        "year": 2024
-      },
-      {
-        "title": "Copper nitride nanowires printed Li with stable cycling for Li metal batteries in carbonate electrolytes",
-        "venue": "Advanced Materials",
-        "year": 2020
-      }
-    ]
+    "title_ko": "Energy Materials",
+    "summary_en": "Rational Design of materials and their applications for electrochemical devices",
+    "summary_ko": "Rational Design of materials and their applications for electrochemical devices",
+    "keywords": [
+      "Cathode",
+      "Anode",
+      "Solid Electrolyte",
+      "ASSB",
+      "LIB"
+    ],
+    "svg": "<svg viewBox=\"0 0 96 96\" xmlns=\"http://www.w3.org/2000/svg\"><defs><linearGradient id=\"g\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\"><stop offset=\"0\" stop-color=\"#1e3a8a\"/><stop offset=\"1\" stop-color=\"#0ea5e9\"/></linearGradient></defs><rect width=\"96\" height=\"96\" rx=\"20\" fill=\"url(#g)\"/><text x=\"48\" y=\"58\" text-anchor=\"middle\" font-family=\"Inter,sans-serif\" font-size=\"28\" font-weight=\"800\" fill=\"white\">EM</text></svg>",
+    "heading_en": "Various Materials for Batteries",
+    "heading_ko": "Various Materials for Batteries",
+    "subheading_en": "(Cathode, Anodes, Solid Electrolytes, etc)",
+    "subheading_ko": "(Cathode, Anodes, Solid Electrolytes, etc)",
+    "images": [
+      "assets/images/research/energy-materials-1-1752801232_l1.jpg",
+      "assets/images/research/energy-materials-2-1752801232_l2.jpg",
+      "assets/images/research/energy-materials-3-1752801232_l3.jpg"
+    ],
+    "detail_body_en": "Our group focuses on the development of high-capacity, cobalt-free cathode materials for next-generation lithium-based energy storage systems. Specifically, we investigate a broad range of advanced cathode chemistries, including Co-free layered oxides and high-voltage spinel structures, which offer both high energy density and cost competitiveness. To enhance electrochemical performance and long-term stability, we employ a combination of strategic doping, surface coating, and structural optimization techniques. These material innovations are systematically integrated and evaluated in both conventional lithium-ion batteries (LIBs) and all-solid-state batteries (ASSBs), with particular attention to interface stability, cycling durability, and scalability. By bridging fundamental materials science with device-level implementation, our research aims to accelerate the practical deployment of sustainable, cobalt-free cathode technologies across various energy storage platforms.\n\nIn parallel, we are actively developing silicon-based anodes to further push the energy density limits of LIBs. Given silicon’s high theoretical capacity, our work addresses the critical challenges posed by its severe volume expansion and the resulting mechanical failure and unstable SEI formation. To mitigate these issues, we employ a multi-scale approach involving nanostructured Si composites, adaptive polymeric binders, and interfacial engineering techniques such as electrolyte additive design, surface coatings, and prelithiation treatments. These strategies are tailored to maintain electrode integrity under dynamic cycling and are applicable to both liquid and solid-state systems. By bridging fundamental materials science with advanced cell design, our group aims to contribute to the realization of durable, high-performance batteries.\n\nIn addition to active materials, our research extends to the design and synthesis of novel inorganic solid electrolytes (SEs) to realize safe and high-performance ASSBs. We actively explore both sulfide-based and halide-based SEs with tailored compositions and crystal structures to enhance ionic conductivity, electrochemical stability, and interface compatibility. Through rational composition design, low-temperature synthesis, and interface engineering, we aim to overcome critical challenges such as interfacial resistance, chemical decomposition, and mechanical failure at the electrode–electrolyte interface. Furthermore, to enable environmentally benign and scalable battery manufacturing, we are developing fluorine-free (F-free) binder systems as alternatives to conventional PVDF. These next-generation polymer binders are designed to provide strong adhesion, mechanical flexibility, and chemical compatibility without relying on persistent fluorinated compounds. Such F-free binders are particularly advantageous for dry electrode fabrication and solid-state architectures, where traditional binders may pose safety and regulatory limitations.",
+    "detail_body_ko": "Our group focuses on the development of high-capacity, cobalt-free cathode materials for next-generation lithium-based energy storage systems. Specifically, we investigate a broad range of advanced cathode chemistries, including Co-free layered oxides and high-voltage spinel structures, which offer both high energy density and cost competitiveness. To enhance electrochemical performance and long-term stability, we employ a combination of strategic doping, surface coating, and structural optimization techniques. These material innovations are systematically integrated and evaluated in both conventional lithium-ion batteries (LIBs) and all-solid-state batteries (ASSBs), with particular attention to interface stability, cycling durability, and scalability. By bridging fundamental materials science with device-level implementation, our research aims to accelerate the practical deployment of sustainable, cobalt-free cathode technologies across various energy storage platforms.\n\nIn parallel, we are actively developing silicon-based anodes to further push the energy density limits of LIBs. Given silicon’s high theoretical capacity, our work addresses the critical challenges posed by its severe volume expansion and the resulting mechanical failure and unstable SEI formation. To mitigate these issues, we employ a multi-scale approach involving nanostructured Si composites, adaptive polymeric binders, and interfacial engineering techniques such as electrolyte additive design, surface coatings, and prelithiation treatments. These strategies are tailored to maintain electrode integrity under dynamic cycling and are applicable to both liquid and solid-state systems. By bridging fundamental materials science with advanced cell design, our group aims to contribute to the realization of durable, high-performance batteries.\n\nIn addition to active materials, our research extends to the design and synthesis of novel inorganic solid electrolytes (SEs) to realize safe and high-performance ASSBs. We actively explore both sulfide-based and halide-based SEs with tailored compositions and crystal structures to enhance ionic conductivity, electrochemical stability, and interface compatibility. Through rational composition design, low-temperature synthesis, and interface engineering, we aim to overcome critical challenges such as interfacial resistance, chemical decomposition, and mechanical failure at the electrode–electrolyte interface. Furthermore, to enable environmentally benign and scalable battery manufacturing, we are developing fluorine-free (F-free) binder systems as alternatives to conventional PVDF. These next-generation polymer binders are designed to provide strong adhesion, mechanical flexibility, and chemical compatibility without relying on persistent fluorinated compounds. Such F-free binders are particularly advantageous for dry electrode fabrication and solid-state architectures, where traditional binders may pose safety and regulatory limitations."
   },
   {
     "id": "novel-processing",
     "order": 2,
-    "title_ko": "신규 공정 (Novel Processing)",
     "title_en": "Novel Processing",
-    "summary_ko": "건식 전극 공정 (dry electrode) 과 Roll-to-Roll 연속 생산 기반으로 두꺼운 전극 · 사전리튬화 구조를 구현하는 차세대 셀 제조 기술을 연구합니다.",
-    "summary_en": "Dry electrode processing and roll-to-roll continuous manufacturing enable thick electrodes and prelithiated architectures for next-generation cell fabrication.",
-    "detail_body_ko": "전통적인 슬러리 기반 전극 공정은 NMP 용매 사용, 고에너지 건조 공정, 두께 제한 등의 한계가 있습니다. 건식 전극 공정은 용매를 사용하지 않고 PTFE 등의 바인더를 활용해 전극을 제조하는 기술로, 에너지 집약적 건조 공정을 생략하고 100 mAh cm⁻² 급 두꺼운 전극 제조를 가능케 합니다.\n\n본 연구실은 건식 전극 공정의 멀티스케일 현상 — 입자 분포, 바인더 피브릴화, 전기화학적 PTFE 분해 — 를 이해하고 이를 최적화하는 연구를 진행합니다. Roll-to-Roll 연속 생산 공정, 사전리튬화(prelithiation) 통합 one-step 공정, 전극 두께에 따른 이온/전자 전달 현상 제어가 핵심 주제입니다.\n\n이 기술은 EV 용 대면적 셀 제조에 직접 응용 가능하며, 산업계와의 협력 연구도 진행 중입니다.",
-    "detail_body_en": "Conventional slurry-based electrode processing suffers from NMP solvent use, energy-intensive drying, and thickness limitations. Dry electrode processing — using PTFE and related binders without solvents — eliminates the energy-intensive drying step and enables thick electrodes (100 mAh cm⁻² class).\n\nWe investigate the multiscale phenomena underlying dry electrode processing — particle distribution, binder fibrillation, and electrochemical PTFE decomposition — and optimize these toward manufacturable thick electrodes. Key topics include roll-to-roll continuous manufacturing, integrated one-step prelithiation, and ion/electron transport control in thick electrodes.\n\nThis technology has direct application to large-area EV cells, and we actively collaborate with industry partners.",
-    "keywords": ["Dry Electrode", "Roll-to-Roll", "Thick Electrode", "Prelithiation", "PTFE"],
-    "svg": "<svg viewBox='0 0 260 160' xmlns='http://www.w3.org/2000/svg' fill='none' stroke='currentColor' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'><circle cx='40' cy='80' r='28' opacity='0.3'/><circle cx='220' cy='80' r='28' opacity='0.3'/><rect x='70' y='60' width='120' height='40' rx='4'/><line x1='78' y1='70' x2='78' y2='90'/><line x1='90' y1='70' x2='90' y2='90'/><line x1='102' y1='70' x2='102' y2='90'/><line x1='114' y1='70' x2='114' y2='90'/><line x1='126' y1='70' x2='126' y2='90'/><line x1='138' y1='70' x2='138' y2='90'/><line x1='150' y1='70' x2='150' y2='90'/><line x1='162' y1='70' x2='162' y2='90'/><line x1='174' y1='70' x2='174' y2='90'/><circle cx='40' cy='80' r='5' fill='currentColor'/><circle cx='220' cy='80' r='5' fill='currentColor'/></svg>",
-    "representative_papers": [
-      {
-        "title": "Integrated One-Step Dry Process Enabling Prelithiated Thick Electrodes",
-        "venue": "Energy & Environmental Science",
-        "year": 2026
-      },
-      {
-        "title": "Multiscale Insights Enable Rational Design of Solvent-Free Dry Electrode Processing",
-        "venue": "Communications Materials",
-        "year": 2025
-      },
-      {
-        "title": "Electrochemical Stabilization of Polytetrafluoroethylene (PTFE) via Electronic Band Engineering",
-        "venue": "Advanced Energy Materials",
-        "year": 2026
-      },
-      {
-        "title": "Low-Resistance LiFePO4 Thick Film Electrode Processed with Dry Electrode Technology",
-        "venue": "Small Science",
-        "year": 2024
-      }
-    ]
-  },
-  {
-    "id": "interface-engineering",
-    "order": 3,
-    "title_ko": "전극-전해질 계면 엔지니어링",
-    "title_en": "Electrode–Electrolyte Interface Engineering",
-    "summary_ko": "음이온 고정 첨가제 · 가교 바인더 · 표면 전하 조절 분리막으로 Li 이온 플럭스를 균일화하고 강건한 계면(SEI) 을 구축합니다.",
-    "summary_en": "Anion-anchoring additives, crosslinked binders, and surface-charge-modulated separators create uniform Li-ion flux and robust solid-electrolyte interphases (SEI).",
-    "detail_body_ko": "배터리의 수명과 안전은 결국 전극-전해질 계면에서 결정됩니다. Li 금속 음극의 dendrite, 고전압 양극의 전해질 분해, 분리막 교차 오염 — 모두 계면 화학의 문제입니다.\n\n본 연구실은 세 가지 축으로 계면을 엔지니어링합니다. 첫째, 음이온 고정(anion-anchoring) 첨가제로 Li⁺ 수송 수를 높이고 plating 불균일성을 제거합니다. 둘째, 가교(crosslinked) 바인더로 전극의 구조적 무결성을 유지하면서 이온 전도 채널을 확보합니다. 셋째, 표면 전하 조절 분리막으로 abuse tolerance 를 강화하고 열 runaway 를 지연시킵니다.\n\n이런 계면 기술은 기존 슬러리 기반 셀뿐 아니라 건식 전극, 전고체 전지에도 직접 이식 가능합니다 — 즉 '계면' 은 연구실의 다른 세 주제를 관통하는 공통 인프라이기도 합니다.",
-    "detail_body_en": "Battery life and safety are ultimately determined at the electrode-electrolyte interface. Dendrites on Li metal anodes, electrolyte decomposition at high-voltage cathodes, separator cross-contamination — all are interface chemistry problems.\n\nWe engineer interfaces along three axes. First, anion-anchoring additives increase the Li⁺ transference number and eliminate plating inhomogeneity. Second, crosslinked binders maintain electrode structural integrity while preserving ion conduction channels. Third, surface-charge-modulated separators enhance abuse tolerance and delay thermal runaway.\n\nThese interface technologies transfer directly to slurry-based cells, dry electrodes, and solid-state batteries alike — meaning 'interfaces' serve as the shared infrastructure that cuts across our other three research themes.",
-    "keywords": ["SEI", "Additive", "Binder", "Separator", "Abuse Tolerance"],
-    "svg": "<svg viewBox='0 0 260 160' xmlns='http://www.w3.org/2000/svg' fill='none' stroke='currentColor' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'><rect x='40' y='40' width='180' height='80' rx='3' opacity='0.4'/><line x1='40' y1='65' x2='220' y2='65' stroke-dasharray='2 2'/><line x1='40' y1='95' x2='220' y2='95' stroke-dasharray='2 2'/><circle cx='70' cy='52' r='3' fill='currentColor'/><circle cx='110' cy='52' r='3' fill='currentColor'/><circle cx='150' cy='52' r='3' fill='currentColor'/><circle cx='190' cy='52' r='3' fill='currentColor'/><path d='M70 52 Q 130 80 190 108' opacity='0.6'/><path d='M110 52 Q 130 80 150 108' opacity='0.6'/><circle cx='70' cy='108' r='3' fill='currentColor'/><circle cx='110' cy='108' r='3' fill='currentColor'/><circle cx='150' cy='108' r='3' fill='currentColor'/><circle cx='190' cy='108' r='3' fill='currentColor'/></svg>",
-    "representative_papers": [
-      {
-        "title": "Uniform Lithium Ion Flux and Robust Interphase Enabled by Anion Anchoring Additive",
-        "venue": "Journal of Materials Chemistry A",
-        "year": 2026
-      },
-      {
-        "title": "Interfacially Reinforced Crosslinked Binder with Structural Integrity",
-        "venue": "Advanced Science",
-        "year": 2026
-      },
-      {
-        "title": "Abuse-Tolerant Separator Enabled by Surface Charge Modulation",
-        "venue": "Advanced Functional Materials",
-        "year": 2026
-      },
-      {
-        "title": "Anode SHIELD: A Surface Hybrid Interlayer for High-Capacity Anodes",
-        "venue": "Advanced Functional Materials",
-        "year": 2025
-      }
-    ]
+    "title_ko": "Novel Processing",
+    "summary_en": "Sustainable & Scalable Processing for Battery Electrodes",
+    "summary_ko": "Sustainable & Scalable Processing for Battery Electrodes",
+    "keywords": [
+      "Dry Process",
+      "Electrode Engineering",
+      "Manufacturing"
+    ],
+    "svg": "<svg viewBox=\"0 0 96 96\" xmlns=\"http://www.w3.org/2000/svg\"><defs><linearGradient id=\"g\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\"><stop offset=\"0\" stop-color=\"#065f46\"/><stop offset=\"1\" stop-color=\"#10b981\"/></linearGradient></defs><rect width=\"96\" height=\"96\" rx=\"20\" fill=\"url(#g)\"/><text x=\"48\" y=\"58\" text-anchor=\"middle\" font-family=\"Inter,sans-serif\" font-size=\"28\" font-weight=\"800\" fill=\"white\">NP</text></svg>",
+    "heading_en": "Advanced Manufacturing for High-Energy Batteries",
+    "heading_ko": "Advanced Manufacturing for High-Energy Batteries",
+    "subheading_en": "(Environmentally friendly, scalable electrode processing)",
+    "subheading_ko": "(Environmentally friendly, scalable electrode processing)",
+    "images": [
+      "assets/images/research/novel-processing-1-1752801677_l1.jpg",
+      "assets/images/research/novel-processing-2-1752801677_l2.jpg"
+    ],
+    "detail_body_en": "In pursuit of sustainable and scalable battery fabrication, our group is pioneering novel processing techniques that minimize environmental impact and manufacturing complexity. A key focus lies in the development of solvent-free electrode manufacturing, which eliminates the use of toxic and volatile organic solvents, thereby reducing energy consumption, drying time, and carbon footprint. We investigate the binder fibrillation and particle distribution in dry-processed electrodes, optimizing their mechanical integrity and electrochemical performance for both LIBs and ASSBs. In parallel, we employ mechanofusion processing as an advanced dry coating technique to fabricate core–shell and densely packed granular particles. This method enables precise control over particle morphology, interfacial chemistry, and functional gradient formation, facilitating improved electronic/ionic conduction, interparticle adhesion, and environmental stability. Together, these solvent-free, additive-compatible processing strategies support the transition toward next-generation battery manufacturing paradigms that are material-efficient, scalable, and environmentally responsible.\n\nTo address the intrinsic instability of lithium metal anodes, our group explores advanced interfacial engineering strategies to suppress Li dendrite growth, improve cycling reversibility, and enable long-term operation in both liquid and solid-state batteries. We develop mechanochemical interface engineering approaches that exploit stress-driven chemical reactions to form robust, ion-conductive, and electronically insulating interphases. These artificial solid electrolyte interphases (SEIs) are tailored to accommodate volume changes and inhibit unstable Li nucleation. In addition, we employ chemical vapor deposition (CVD) and solution-based chemical treatments to construct conformal, ultrathin surface coatings on lithium metal. These engineered interlayers are designed to regulate Li+ flux, suppress side reactions, and stabilize electrode–electrolyte interfaces under both ambient and high-rate conditions. Our research also investigates the synergy between lithium host structures, interfacial chemistry, and mechanical confinement to achieve high Coulombic efficiency and uniform lithium deposition. These efforts aim to unlock the full potential of lithium metal as an ultra-high-capacity anode material and accelerate the realization of next-generation rechargeable batteries with significantly improved energy density and safety.",
+    "detail_body_ko": "In pursuit of sustainable and scalable battery fabrication, our group is pioneering novel processing techniques that minimize environmental impact and manufacturing complexity. A key focus lies in the development of solvent-free electrode manufacturing, which eliminates the use of toxic and volatile organic solvents, thereby reducing energy consumption, drying time, and carbon footprint. We investigate the binder fibrillation and particle distribution in dry-processed electrodes, optimizing their mechanical integrity and electrochemical performance for both LIBs and ASSBs. In parallel, we employ mechanofusion processing as an advanced dry coating technique to fabricate core–shell and densely packed granular particles. This method enables precise control over particle morphology, interfacial chemistry, and functional gradient formation, facilitating improved electronic/ionic conduction, interparticle adhesion, and environmental stability. Together, these solvent-free, additive-compatible processing strategies support the transition toward next-generation battery manufacturing paradigms that are material-efficient, scalable, and environmentally responsible.\n\nTo address the intrinsic instability of lithium metal anodes, our group explores advanced interfacial engineering strategies to suppress Li dendrite growth, improve cycling reversibility, and enable long-term operation in both liquid and solid-state batteries. We develop mechanochemical interface engineering approaches that exploit stress-driven chemical reactions to form robust, ion-conductive, and electronically insulating interphases. These artificial solid electrolyte interphases (SEIs) are tailored to accommodate volume changes and inhibit unstable Li nucleation. In addition, we employ chemical vapor deposition (CVD) and solution-based chemical treatments to construct conformal, ultrathin surface coatings on lithium metal. These engineered interlayers are designed to regulate Li+ flux, suppress side reactions, and stabilize electrode–electrolyte interfaces under both ambient and high-rate conditions. Our research also investigates the synergy between lithium host structures, interfacial chemistry, and mechanical confinement to achieve high Coulombic efficiency and uniform lithium deposition. These efforts aim to unlock the full potential of lithium metal as an ultra-high-capacity anode material and accelerate the realization of next-generation rechargeable batteries with significantly improved energy density and safety."
   },
   {
     "id": "water-energy-nexus",
-    "order": 4,
-    "title_ko": "수자원-에너지 넥서스 (Water-Energy Nexus)",
-    "title_en": "Water-Energy Nexus",
-    "summary_ko": "해수-담수 염분 농도차 에너지 (Blue Energy) 를 수확하는 Flow-Electrode Capacitive Mixing (F-CapMix) 및 수처리-에너지 결합 전기화학 디바이스를 연구합니다.",
-    "summary_en": "Flow-electrode capacitive mixing (F-CapMix) for blue energy harvesting from salinity gradients, and integrated electrochemical devices for water treatment and energy.",
-    "detail_body_ko": "강물이 바다로 흘러들어갈 때 발생하는 염분 농도차는 전 지구적으로 TW 급의 재생에너지 자원으로 평가받고 있지만, 수확 기술이 상용화 수준에 미치지 못했습니다. Flow-Electrode Capacitive Mixing (F-CapMix) 은 capacitive deionization 에서 파생된 비대칭 유동-전극 구조를 활용해 농도차 에너지를 직접 전기로 변환하는 기술입니다.\n\n본 연구실은 MnO₂ 코팅 활성탄 기반 비대칭 F-CapMix 아키텍처, 전극-용액 계면 특성 제어, 대면적 스케일-업 공정을 연구합니다. 이는 해안 지역의 청정에너지 자원 활용뿐 아니라 담수화-발전 하이브리드 시스템의 핵심 기술입니다.\n\n또한 배터리 소재 연구 경험을 수자원-에너지 교차 영역으로 확장해 수처리, 이온 분리, 에너지 저장을 통합하는 디바이스 플랫폼을 탐색합니다.",
-    "detail_body_en": "The salinity gradient between freshwater and seawater represents a TW-scale global renewable energy resource, yet harvesting technologies have not reached commercial viability. Flow-Electrode Capacitive Mixing (F-CapMix), derived from capacitive deionization, uses asymmetric flow-electrode architectures to directly convert salinity gradient energy into electricity.\n\nWe develop MnO₂-coated activated carbon-based asymmetric F-CapMix architectures, control electrode-solution interfacial properties, and explore large-area scale-up. Beyond clean energy harvesting in coastal regions, this is a core technology for hybrid desalination-power systems.\n\nWe also extend battery materials expertise to the water-energy intersection, exploring device platforms that integrate water treatment, ion separation, and energy storage.",
-    "keywords": ["F-CapMix", "Blue Energy", "Salinity Gradient", "Desalination", "Capacitive Deionization"],
-    "svg": "<svg viewBox='0 0 260 160' xmlns='http://www.w3.org/2000/svg' fill='none' stroke='currentColor' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'><path d='M30 100 Q 70 80 110 100 T 190 100 T 230 100' /><path d='M30 115 Q 70 95 110 115 T 190 115 T 230 115' opacity='0.6'/><path d='M30 130 Q 70 110 110 130 T 190 130 T 230 130' opacity='0.4'/><circle cx='130' cy='50' r='15' /><line x1='130' y1='30' x2='130' y2='35'/><line x1='130' y1='65' x2='130' y2='70'/><line x1='110' y1='50' x2='115' y2='50'/><line x1='145' y1='50' x2='150' y2='50'/></svg>",
-    "representative_papers": [
-      {
-        "title": "High-Performance Asymmetric Flow-Electrode Capacitive Mixing with MnO2-Coated Activated Carbon Flow-Electrode for Energy Harvesting from Salinity Gradient Power",
-        "venue": "ACS Materials Letters",
-        "year": 2022
-      },
-      {
-        "title": "Harvesting Blue Energy via Flow-Electrode Capacitive Mixing (F-CapMix)",
-        "venue": "Chemical Engineering Journal",
-        "year": 2025
-      }
-    ]
+    "order": 3,
+    "title_en": "Water Energy Nexus",
+    "title_ko": "Water Energy Nexus",
+    "summary_en": "Electrochemically-Mediated Water Purification & Power Generation",
+    "summary_ko": "Electrochemically-Mediated Water Purification & Power Generation",
+    "keywords": [
+      "Flow-electrode",
+      "Capacitive Mixing",
+      "Desalination"
+    ],
+    "svg": "<svg viewBox=\"0 0 96 96\" xmlns=\"http://www.w3.org/2000/svg\"><defs><linearGradient id=\"g\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\"><stop offset=\"0\" stop-color=\"#7c2d12\"/><stop offset=\"1\" stop-color=\"#f59e0b\"/></linearGradient></defs><rect width=\"96\" height=\"96\" rx=\"20\" fill=\"url(#g)\"/><text x=\"48\" y=\"58\" text-anchor=\"middle\" font-family=\"Inter,sans-serif\" font-size=\"28\" font-weight=\"800\" fill=\"white\">WE</text></svg>",
+    "heading_en": "",
+    "heading_ko": "",
+    "subheading_en": "",
+    "subheading_ko": "",
+    "images": [
+      "assets/images/research/water-energy-nexus-1-1752801726_l1.jpg"
+    ],
+    "detail_body_en": "To address the growing demand for decentralized and energy-efficient water purification and energy harvesting, our group explores innovative electrochemical systems based on flow-electrode technologies. We investigate flow-electrode capacitive deionization (F-CDI) and flow-electrode capacitive mixing (F-CapMix) as dual-function platforms for desalination and salinity gradient power generation, respectively. These systems utilize continuous-flow, carbon-based slurries to enable scalable ion removal and energy extraction without traditional ion-exchange electrodes or chemical regenerants. A central focus of our research lies in the rational design of novel materials to improve flowability, conductivity, and redox activity. We develop advanced hybrid carbon electrodes with hierarchical porosity and redox-active additives to enhance charge storage and ion transport. Additionally, we explore tailored redox couples capable of reversible interactions with both Na⁺ and Cl⁻ ions, aiming to overcome asymmetry limitations and maximize energy output in F-CapMix systems. By integrating electrochemical engineering, materials design, and system modeling, we aim to deliver multifunctional technologies for off-grid water-energy recovery. Our efforts support the realization of carbon-neutral, circular, and resilient infrastructures aligned with the global water–energy nexus challenges.",
+    "detail_body_ko": "To address the growing demand for decentralized and energy-efficient water purification and energy harvesting, our group explores innovative electrochemical systems based on flow-electrode technologies. We investigate flow-electrode capacitive deionization (F-CDI) and flow-electrode capacitive mixing (F-CapMix) as dual-function platforms for desalination and salinity gradient power generation, respectively. These systems utilize continuous-flow, carbon-based slurries to enable scalable ion removal and energy extraction without traditional ion-exchange electrodes or chemical regenerants. A central focus of our research lies in the rational design of novel materials to improve flowability, conductivity, and redox activity. We develop advanced hybrid carbon electrodes with hierarchical porosity and redox-active additives to enhance charge storage and ion transport. Additionally, we explore tailored redox couples capable of reversible interactions with both Na⁺ and Cl⁻ ions, aiming to overcome asymmetry limitations and maximize energy output in F-CapMix systems. By integrating electrochemical engineering, materials design, and system modeling, we aim to deliver multifunctional technologies for off-grid water-energy recovery. Our efforts support the realization of carbon-neutral, circular, and resilient infrastructures aligned with the global water–energy nexus challenges."
   }
 ]

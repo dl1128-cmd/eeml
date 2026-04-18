@@ -32,7 +32,10 @@
 
     const name = lang === "ko" ? topic.title_ko : topic.title_en;
     const summary = lang === "ko" ? topic.summary_ko : topic.summary_en;
+    const heading = lang === "ko" ? (topic.heading_ko || topic.heading_en || "") : (topic.heading_en || topic.heading_ko || "");
+    const subheading = lang === "ko" ? (topic.subheading_ko || topic.subheading_en || "") : (topic.subheading_en || topic.subheading_ko || "");
     const detail = lang === "ko" ? (topic.detail_body_ko || "") : (topic.detail_body_en || "");
+    const images = Array.isArray(topic.images) ? topic.images : [];
     const repPapers = topic.representative_papers || [];
 
     // Auto-set document title
@@ -49,7 +52,16 @@
 
       <section class="section" style="padding-top: var(--space-12);">
         <div class="container-narrow">
-          <div class="topic-hero-svg">${topic.svg || ""}</div>
+          ${images.length ? `
+            <div class="research-hero-images">
+              ${images.map(src => `<figure><img src="${escapeAttr(src)}" alt="${escapeAttr(name)}" loading="lazy" /></figure>`).join("")}
+            </div>` : `<div class="topic-hero-svg">${topic.svg || ""}</div>`}
+
+          ${heading ? `
+            <div class="research-heading-block">
+              <h2 class="research-heading">${escapeHtml(heading)}</h2>
+              ${subheading ? `<p class="research-subheading">${escapeHtml(subheading)}</p>` : ""}
+            </div>` : ""}
 
           ${(topic.keywords || []).length ? `
             <div class="keywords" style="margin: var(--space-8) 0;">
@@ -106,4 +118,5 @@
   function escapeHtml(s) {
     return String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
   }
+  function escapeAttr(s) { return escapeHtml(s); }
 })();
