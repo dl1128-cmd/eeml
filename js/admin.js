@@ -380,7 +380,7 @@
     return btoa(bin);
   }
 
-  async function githubPutFile(path, contentString, message) {
+  async function githubPutFile(path, contentString, message, attempt = 0) {
     const { token, repo } = getGH();
     if (!token) throw new Error("NO_TOKEN");
     const api = `https://api.github.com/repos/${repo}/contents/${path}`;
@@ -388,10 +388,11 @@
       "Authorization": `token ${token}`,
       "Accept": "application/vnd.github+json",
     };
-    // Get current file SHA (required for update)
+    // Always fetch fresh SHA (required for update). On retry, the old SHA
+    // is stale — must refetch.
     let sha = null;
     try {
-      const r = await fetch(api + "?ref=main", { headers });
+      const r = await fetch(api + "?ref=main&_=" + Date.now(), { headers });
       if (r.ok) {
         const j = await r.json();
         sha = j.sha;
@@ -408,11 +409,29 @@
       headers: { ...headers, "Content-Type": "application/json" },
       body: JSON.stringify(body),
     });
-    if (!put.ok) {
-      const text = await put.text();
-      throw new Error(`GitHub API ${put.status}: ${text.slice(0, 200)}`);
+    if (put.ok) return put.json();
+    // 409 Conflict or 422 (stale SHA) → refetch and retry up to 2 times
+    if ((put.status === 409 || put.status === 422) && attempt < 2) {
+      await new Promise(r => setTimeout(r, 400 * (attempt + 1)));
+      return githubPutFile(path, contentString, message, attempt + 1);
     }
-    return put.json();
+    const text = await put.text();
+    throw new Error(`GitHub API ${put.status}: ${text.slice(0, 200)}`);
+  }
+
+  // Per-file debounced save queue — coalesces rapid consecutive edits
+  // (e.g. toggling SELECTED on multiple papers in a row) into a single
+  // commit after a 700ms idle period.
+  const _saveQueue = new Map();
+  function queueSave(filename, obj, delay = 700) {
+    const path = `data/${filename}`;
+    const prev = _saveQueue.get(filename);
+    if (prev) clearTimeout(prev.timer);
+    const timer = setTimeout(() => {
+      _saveQueue.delete(filename);
+      saveJSON(filename, obj);
+    }, delay);
+    _saveQueue.set(filename, { timer, obj });
   }
 
   async function saveJSON(filename, obj, options = {}) {
@@ -529,13 +548,15 @@
       const i = +b.dataset.idx;
       STATE.data.publications[i].top_pick = !STATE.data.publications[i].top_pick;
       renderPubs();
-      saveJSON("publications.json", STATE.data.publications);
+      // Debounced — lets user toggle several papers in a row and only
+      // commits once after they stop clicking (no 409 storms)
+      queueSave("publications.json", STATE.data.publications);
     });
     host.querySelectorAll("[data-action=del-pub]").forEach(b => b.onclick = () => {
       if (!confirm("이 논문을 삭제하시겠습니까?")) return;
       STATE.data.publications.splice(+b.dataset.idx, 1);
       renderPubs();
-      saveJSON("publications.json", STATE.data.publications);
+      queueSave("publications.json", STATE.data.publications);
     });
   }
 
@@ -636,7 +657,7 @@
       if (!confirm("이 구성원을 삭제하시겠습니까?")) return;
       STATE.data.members.splice(+b.dataset.idx, 1);
       renderMembers();
-      saveJSON("members.json", STATE.data.members);
+      queueSave("members.json", STATE.data.members);
     });
   }
 
@@ -962,7 +983,7 @@
       if (!confirm("이 소식을 삭제하시겠습니까?")) return;
       STATE.data.news.splice(+b.dataset.idx, 1);
       renderNews();
-      saveJSON("news.json", STATE.data.news);
+      queueSave("news.json", STATE.data.news);
     });
   }
 
@@ -1047,7 +1068,7 @@
       if (!confirm("이 갤러리 항목을 삭제하시겠습니까?")) return;
       STATE.data.gallery.splice(+b.dataset.idx, 1);
       renderGallery();
-      saveJSON("gallery.json", STATE.data.gallery);
+      queueSave("gallery.json", STATE.data.gallery);
     });
   }
 
@@ -1452,7 +1473,14 @@
     const saveHandler = () => {
       const updated = readAnnouncement();
       STATE.data.announcement = updated;
+      // Clear 'dismissed' flags in THIS browser so the popup shows again
+      // on the next visit to the public site (most common confusion: user
+      // clicked '다시 보지 않기' once and then can't see their own popup).
+      for (const k of Object.keys(localStorage)) {
+        if (k.startsWith("eeml:ann:dismissed:")) localStorage.removeItem(k);
+      }
       saveJSON("announcement.json", updated);
+      toast("✅ 저장됨 + 이 브라우저 dismissal 초기화됨 — 공개 사이트 새 탭으로 열면 팝업 보임", "success");
     };
 
     // Both top and bottom save buttons run the same handler
