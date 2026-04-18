@@ -93,22 +93,54 @@ def normalize(s: str) -> str:
 
 
 def match_scholar(pub_title: str, scholar_index: dict) -> dict | None:
-    """Find a Scholar paper for a publication. Tries:
+    """Find a Scholar paper for a publication. Tries in order:
     1. Exact normalized match.
-    2. Prefix match — Scholar truncates long titles in the listing HTML
-       (e.g. 'A Nano-Micro Hybrid Structure Composed of Fe' for a
-       longer title). If the Scholar title is a prefix of the full
-       publication title with at least 25 chars overlap, accept it.
+    2. Prefix match — Scholar truncates long titles in the listing HTML.
+       If either normalized form is a prefix of the other with ≥25 chars
+       overlap, accept it.
+    3. Fuzzy token match — handles plural/singular, one-word typos, etc.
+       Uses Jaccard similarity on token sets; requires ≥5 tokens on both
+       sides and similarity ≥ 0.85. The best candidate above threshold
+       wins.
     Returns the scholar paper dict or None.
     """
     pub_norm = normalize(pub_title)
     if pub_norm in scholar_index:
         return scholar_index[pub_norm]
+    # Prefix match
     for sch_norm, sp in scholar_index.items():
         if len(sch_norm) < 25:
             continue
         if pub_norm.startswith(sch_norm) or sch_norm.startswith(pub_norm):
             return sp
+    # Fuzzy token match — Jaccard + overlap coefficient (handles
+    # plural/singular, one-word typos). Both metrics reported so we can
+    # accept on either, which catches 'salt' vs 'salts' style diffs that
+    # Jaccard alone misses.
+    pub_tokens = set(pub_norm.split())
+    if len(pub_tokens) < 5:
+        return None
+    best = None
+    best_score = 0.0
+    best_overlap = 0.0
+    for sch_norm, sp in scholar_index.items():
+        sch_tokens = set(sch_norm.split())
+        if len(sch_tokens) < 5:
+            continue
+        inter = len(pub_tokens & sch_tokens)
+        union = len(pub_tokens | sch_tokens)
+        jaccard = inter / union if union else 0.0
+        overlap = inter / min(len(pub_tokens), len(sch_tokens))
+        combined = max(jaccard, overlap - 0.05)  # slight pref for Jaccard
+        if combined > best_score:
+            best_score = combined
+            best = sp
+            best_overlap = overlap
+    # Accept if Jaccard ≥ 0.85 OR overlap ≥ 0.90 (and the best Jaccard
+    # is at least 0.80 so we don't match wildly divergent titles).
+    if best and (best_score >= 0.85 or (best_overlap >= 0.90 and best_score >= 0.80)):
+        print(f"  ~ fuzzy match (J={best_score:.2f} O={best_overlap:.2f}): {best['title'][:60]!r}")
+        return best
     return None
 
 
