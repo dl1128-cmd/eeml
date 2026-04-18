@@ -1254,6 +1254,47 @@ p { margin: 0 0 var(--space-4); color: var(--c-text-muted); }
   display: block;
   width: 100%;
 }
+.featured-scroll-container {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  gap: var(--space-2);
+}
+.featured-scroll-container .featured-scroll { flex: 1 1 auto; min-width: 0; }
+.featured-scroll-btn {
+  flex: 0 0 auto;
+  align-self: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--c-border);
+  background: var(--c-surface);
+  color: var(--c-text);
+  font-size: 1.5rem;
+  font-family: var(--font-sans);
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, opacity 0.2s ease, transform 0.15s ease;
+  user-select: none;
+  z-index: 2;
+}
+.featured-scroll-btn:hover:not(:disabled) {
+  background: var(--c-accent);
+  border-color: var(--c-accent);
+  color: #fff;
+  transform: scale(1.05);
+}
+.featured-scroll-btn:active:not(:disabled) { transform: scale(0.95); }
+.featured-scroll-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+@media (max-width: 640px) {
+  .featured-scroll-btn { width: 36px; height: 36px; font-size: 1.25rem; }
+}
 .featured-scroll {
   display: flex;
   flex-wrap: nowrap;

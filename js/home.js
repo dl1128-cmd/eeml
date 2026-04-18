@@ -57,16 +57,40 @@
       return;
     }
     host.innerHTML = `
-      <div class="featured-scroll" role="region" aria-label="Selected publications">
-        ${top.map(p => `
-          <a class="featured-card" href="publications.html">
-            <div class="meta-top"><span>${escapeHtml(p.venue)}</span><span class="year">${p.year}</span></div>
-            <h3>${escapeHtml(p.title)}</h3>
-            <div class="authors">${escapeHtml(truncate(p.authors, 110))}</div>
-          </a>
-        `).join("")}
+      <div class="featured-scroll-container">
+        <button type="button" class="featured-scroll-btn prev" aria-label="Previous publications">‹</button>
+        <div class="featured-scroll" role="region" aria-label="Selected publications">
+          ${top.map(p => `
+            <a class="featured-card" href="publications.html">
+              <div class="meta-top"><span>${escapeHtml(p.venue)}</span><span class="year">${p.year}</span></div>
+              <h3>${escapeHtml(p.title)}</h3>
+              <div class="authors">${escapeHtml(truncate(p.authors, 110))}</div>
+            </a>
+          `).join("")}
+        </div>
+        <button type="button" class="featured-scroll-btn next" aria-label="Next publications">›</button>
       </div>
     `;
+
+    const scroller = host.querySelector(".featured-scroll");
+    const prevBtn = host.querySelector(".featured-scroll-btn.prev");
+    const nextBtn = host.querySelector(".featured-scroll-btn.next");
+    const stepPx = () => {
+      // Scroll by roughly one card + gap
+      const card = scroller.querySelector(".featured-card");
+      const cw = card ? card.getBoundingClientRect().width : 320;
+      return cw + 28; // gap ≈ 1.75rem
+    };
+    const updateBtns = () => {
+      const max = scroller.scrollWidth - scroller.clientWidth;
+      prevBtn.disabled = scroller.scrollLeft <= 2;
+      nextBtn.disabled = scroller.scrollLeft >= max - 2;
+    };
+    prevBtn.onclick = () => scroller.scrollBy({ left: -stepPx(), behavior: "smooth" });
+    nextBtn.onclick = () => scroller.scrollBy({ left: stepPx(), behavior: "smooth" });
+    scroller.addEventListener("scroll", updateBtns, { passive: true });
+    window.addEventListener("resize", updateBtns, { passive: true });
+    updateBtns();
   }
 
   function renderNews(news) {
