@@ -28,7 +28,7 @@
   {
     "id": "p2026-063",
     "type": "journal",
-    "top_pick": false,
+    "top_pick": true,
     "year": 2026,
     "title": "Interfacially Reinforced Crosslinked Binder with Structural Integrity for Stable Micro-sized Silicon Anodes in All-Solid-State Batteries",
     "authors": "C. Lee, Y. Nam, I. Jeong, D. Lee, M. Yoon, J. Lim, S. Sun, J. Choi*, C.H. Park*",
@@ -67,7 +67,7 @@
   {
     "id": "p2026-060",
     "type": "journal",
-    "top_pick": true,
+    "top_pick": false,
     "year": 2026,
     "title": "Mechanochemistry-Driven Optimization of Halide-Based Solid-State Electrolytes via Orthogonal Design of Experiments and Regression Modeling",
     "authors": "M. Beltran, B. Wang, Y. Tan, J. Choi, D. Lee, L. Su",
