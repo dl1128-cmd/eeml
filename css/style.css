@@ -1098,12 +1098,12 @@ p { margin: 0 0 var(--space-4); color: var(--c-text-muted); }
 .featured-scroll {
   display: flex;
   flex-wrap: nowrap;
-  gap: var(--space-5);
+  gap: 1.75rem;
   overflow-x: auto;
   overflow-y: hidden;
-  padding: var(--space-2) var(--space-1) var(--space-4);
+  padding: var(--space-2) var(--space-2) var(--space-4);
   scroll-snap-type: x mandatory;
-  scroll-padding-left: var(--space-1);
+  scroll-padding-left: var(--space-2);
   scrollbar-width: thin;
   scrollbar-color: var(--c-border) transparent;
   -webkit-overflow-scrolling: touch;
