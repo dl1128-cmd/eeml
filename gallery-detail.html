@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Research · EEML</title>
+  <title>Gallery · EEML</title>
   <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg" />
-  <meta property="og:title" content="Research · Dongsoo Lee Lab" />
+  <meta property="og:title" content="Gallery · Dongsoo Lee Lab" />
   <meta property="og:type" content="article" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -34,8 +34,18 @@
 </header>
 
 <main>
-  <div id="research-detail-root"></div>
+  <div id="gallery-detail-root"></div>
 </main>
+
+<div id="lightbox" class="lightbox" hidden>
+  <button class="lightbox-close" aria-label="close">✕</button>
+  <button class="lightbox-prev" aria-label="previous">‹</button>
+  <button class="lightbox-next" aria-label="next">›</button>
+  <figure class="lightbox-figure">
+    <img id="lightbox-img" alt="" />
+    <figcaption id="lightbox-caption"></figcaption>
+  </figure>
+</div>
 
 <footer class="site-footer">
   <div class="container">
@@ -50,6 +60,6 @@
 </footer>
 
 <script src="js/main.js?v=20260415t"></script>
-<script src="js/research-detail.js?v=20260415t"></script>
+<script src="js/gallery-detail.js?v=20260415t"></script>
 </body>
 </html>

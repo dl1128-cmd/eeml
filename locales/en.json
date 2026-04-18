@@ -6,7 +6,17 @@
     "publications": "Publications",
     "member": "Member",
     "board": "News",
+    "gallery": "Gallery",
     "contact": "Contact"
+  },
+  "gallery": {
+    "title": "Gallery",
+    "subtitle": "Lab life & activities",
+    "empty": "No photos yet.",
+    "read_more": "Read more →",
+    "back": "← Gallery",
+    "prev": "← Previous",
+    "next": "Next →"
   },
   "home": {
     "tagline": "Designing the next generation of lithium-ion and solid-state battery materials.",

@@ -20,7 +20,8 @@
       topics: null,
       config: null,
       pi: null,
-      announcement: null
+      announcement: null,
+      gallery: null
     },
     currentTab: "pi",
     modal: { onSave: null }
@@ -320,14 +321,15 @@
       return res.json();
     };
     try {
-      const [pubs, members, news, topics, config, pi, ann] = await Promise.all([
+      const [pubs, members, news, topics, config, pi, ann, gallery] = await Promise.all([
         fetchJSON("data/publications.json"),
         fetchJSON("data/members.json"),
         fetchJSON("data/news.json"),
         fetchJSON("data/research_topics.json"),
         fetchJSON("data/config.json"),
         fetchJSON("data/pi.json"),
-        fetchJSON("data/announcement.json").catch(() => ({ id: "ann-default", enabled: false, title_ko: "", title_en: "", body_ko: "", body_en: "", button_text_ko: "", button_text_en: "", button_url: "", expires: "" }))
+        fetchJSON("data/announcement.json").catch(() => ({ id: "ann-default", enabled: false, title_ko: "", title_en: "", body_ko: "", body_en: "", button_text_ko: "", button_text_en: "", button_url: "", expires: "" })),
+        fetchJSON("data/gallery.json").catch(() => [])
       ]);
       STATE.data.publications = pubs;
       STATE.data.members = members;
@@ -336,6 +338,7 @@
       STATE.data.config = config;
       STATE.data.pi = pi;
       STATE.data.announcement = ann;
+      STATE.data.gallery = gallery;
     } catch (err) {
       toast("데이터를 불러오지 못했습니다: " + err.message, "error");
       console.error(err);
@@ -388,7 +391,7 @@
     STATE.currentTab = name;
     document.querySelectorAll(".admin-tab").forEach(b => b.classList.toggle("active", b.dataset.tab === name));
     document.querySelectorAll(".admin-tab-panel").forEach(p => p.classList.toggle("active", p.id === "tab-" + name));
-    const renderer = { publications: renderPubs, members: renderMembers, pi: renderPI, news: renderNews, topics: renderTopics, announcement: renderAnnouncement, stats: renderStats, config: renderConfig, settings: renderSettings }[name];
+    const renderer = { publications: renderPubs, members: renderMembers, pi: renderPI, news: renderNews, topics: renderTopics, gallery: renderGallery, announcement: renderAnnouncement, stats: renderStats, config: renderConfig, settings: renderSettings }[name];
     if (renderer) renderer();
   }
 
@@ -896,6 +899,149 @@
   }
 
   /* =========================================================================
+   * Gallery editor
+   * Each entry: { id, date, title_ko, title_en, summary_ko, summary_en,
+   *               body_ko, body_en, cover, images:[{src, caption_ko, caption_en}] }
+   * ========================================================================= */
+  function renderGallery() {
+    const host = document.getElementById("tab-gallery");
+    const items = (STATE.data.gallery || []).slice().sort((a, b) => (a.date < b.date ? 1 : -1));
+    host.innerHTML = `
+      <div class="admin-section-head">
+        <h2>갤러리 <span class="count">${items.length}개</span></h2>
+        <div class="admin-section-actions">
+          <button class="btn btn-outline" id="gal-add">+ 항목 추가</button>
+          <button class="btn btn-primary" id="gal-save">💾 gallery.json 저장</button>
+        </div>
+      </div>
+      <div class="admin-card" style="color:var(--color-text-muted);font-size:var(--fs-sm)">
+        💡 표지 사진 + 추가 사진 여러 장 업로드 가능. 공개 사이트에서 3열 그리드로 표시되고 클릭 시 상세 페이지가 열립니다.
+      </div>
+      <table class="admin-table">
+        <thead><tr><th style="width:90px">표지</th><th style="width:110px">날짜</th><th>제목</th><th style="width:80px">사진수</th><th style="width:160px">작업</th></tr></thead>
+        <tbody>
+          ${items.map(g => {
+            const realIdx = STATE.data.gallery.findIndex(x => x.id === g.id);
+            const cover = g.cover || (g.images && g.images[0] && g.images[0].src) || "";
+            const nImg = (g.images || []).length;
+            return `
+              <tr>
+                <td>${cover ? `<img src="${escapeAttr(cover)}" alt="" style="width:64px;height:48px;object-fit:cover;border-radius:4px;border:1px solid var(--color-border)" />` : `<div style="width:64px;height:48px;background:var(--color-surface);border-radius:4px;border:1px dashed var(--color-border)"></div>`}</td>
+                <td class="td-dim" style="font-family:var(--font-mono)">${g.date || ""}</td>
+                <td><div class="td-title">${escapeHtml(g.title_ko || "")}</div><div class="td-dim">${escapeHtml(g.title_en || "")}</div></td>
+                <td class="td-dim">${nImg}장</td>
+                <td class="row-actions">
+                  <button class="btn btn-ghost btn-sm" data-action="edit-gal" data-idx="${realIdx}">편집</button>
+                  <button class="btn btn-ghost btn-sm" data-action="del-gal" data-idx="${realIdx}" style="color:#cc0033">삭제</button>
+                </td>
+              </tr>`;
+          }).join("")}
+        </tbody>
+      </table>
+    `;
+    host.querySelector("#gal-add").onclick = () => editGallery(-1);
+    host.querySelector("#gal-save").onclick = () => downloadJSON("gallery.json", STATE.data.gallery);
+    host.querySelectorAll("[data-action=edit-gal]").forEach(b => b.onclick = () => editGallery(+b.dataset.idx));
+    host.querySelectorAll("[data-action=del-gal]").forEach(b => b.onclick = () => {
+      if (!confirm("이 갤러리 항목을 삭제하시겠습니까?")) return;
+      STATE.data.gallery.splice(+b.dataset.idx, 1);
+      renderGallery();
+    });
+  }
+
+  function editGallery(idx) {
+    const isNew = idx === -1;
+    const today = new Date().toISOString().slice(0, 10);
+    const g = isNew
+      ? { id: "g-" + Date.now(), date: today, title_ko: "", title_en: "", summary_ko: "", summary_en: "", body_ko: "", body_en: "", cover: "", images: [] }
+      : JSON.parse(JSON.stringify(STATE.data.gallery[idx]));
+    if (!Array.isArray(g.images)) g.images = [];
+
+    const body = `
+      <div class="admin-form">
+        <div class="admin-form-row"><label>날짜<span class="req">*</span></label><input id="g-date" type="date" value="${g.date || today}" /></div>
+        <div class="admin-form-row"><label>한글 제목<span class="req">*</span></label><input id="g-t-ko" value="${escapeAttr(g.title_ko || "")}" /></div>
+        <div class="admin-form-row"><label>영문 제목</label><input id="g-t-en" value="${escapeAttr(g.title_en || "")}" /></div>
+        <div class="admin-form-row full"><label>한글 요약 (카드에 표시)</label><textarea id="g-s-ko" rows="2">${escapeHtml(g.summary_ko || "")}</textarea></div>
+        <div class="admin-form-row full"><label>영문 요약</label><textarea id="g-s-en" rows="2">${escapeHtml(g.summary_en || "")}</textarea></div>
+        <div class="admin-form-row full"><label>한글 본문 (상세 페이지)</label><textarea id="g-b-ko" rows="4">${escapeHtml(g.body_ko || "")}</textarea></div>
+        <div class="admin-form-row full"><label>영문 본문</label><textarea id="g-b-en" rows="4">${escapeHtml(g.body_en || "")}</textarea></div>
+        <div class="admin-form-row full"><label>표지 사진 (리스트 카드에 표시)</label><div id="g-cover-host"></div></div>
+        <div class="admin-form-row full">
+          <label>추가 사진들 <span class="td-dim" style="font-weight:400">(상세 페이지 그리드)</span></label>
+          <div id="g-images-list"></div>
+          <button type="button" class="btn btn-outline btn-sm" id="g-img-add" style="margin-top:var(--space-2)">+ 사진 추가</button>
+        </div>
+      </div>
+    `;
+    openModal(isNew ? "갤러리 항목 추가" : "갤러리 편집", body, () => {
+      const updated = {
+        id: g.id,
+        date: val("g-date"),
+        title_ko: val("g-t-ko"),
+        title_en: val("g-t-en"),
+        summary_ko: val("g-s-ko"),
+        summary_en: val("g-s-en"),
+        body_ko: val("g-b-ko"),
+        body_en: val("g-b-en"),
+        cover: g.cover || "",
+        images: g.images || []
+      };
+      if (!updated.date || !updated.title_ko) return toast("날짜와 한글 제목은 필수입니다", "error");
+      if (isNew) STATE.data.gallery.unshift(updated);
+      else STATE.data.gallery[idx] = updated;
+      closeModal();
+      renderGallery();
+    });
+
+    // Mount cover picker
+    mountImagePicker(document.getElementById("g-cover-host"), g.cover, { maxW: 1400, maxH: 1400 }, (v) => { g.cover = v; });
+
+    // Images list
+    const listHost = document.getElementById("g-images-list");
+    function renderImages() {
+      listHost.innerHTML = g.images.map((im, i) => `
+        <div class="admin-card" style="padding:var(--space-3);margin-bottom:var(--space-3)">
+          <div class="admin-section-head" style="margin-bottom:var(--space-2)">
+            <strong style="font-size:var(--fs-sm)">사진 ${i + 1}</strong>
+            <div>
+              <button type="button" class="btn btn-ghost btn-sm" data-img-up="${i}" ${i === 0 ? "disabled" : ""}>↑</button>
+              <button type="button" class="btn btn-ghost btn-sm" data-img-dn="${i}" ${i === g.images.length - 1 ? "disabled" : ""}>↓</button>
+              <button type="button" class="btn btn-ghost btn-sm" data-img-del="${i}" style="color:#cc0033">삭제</button>
+            </div>
+          </div>
+          <div data-img-host="${i}"></div>
+          <div class="admin-form-row" style="margin-top:var(--space-2)"><label>한글 캡션</label><input data-img-cap-ko="${i}" value="${escapeAttr(im.caption_ko || "")}" /></div>
+          <div class="admin-form-row"><label>영문 캡션</label><input data-img-cap-en="${i}" value="${escapeAttr(im.caption_en || "")}" /></div>
+        </div>
+      `).join("") || `<div class="td-dim" style="font-size:var(--fs-sm)">추가된 사진이 없습니다.</div>`;
+
+      g.images.forEach((im, i) => {
+        const host = listHost.querySelector(`[data-img-host="${i}"]`);
+        if (host) mountImagePicker(host, im.src || "", { maxW: 1600, maxH: 1600 }, (v) => { g.images[i].src = v; });
+      });
+      listHost.querySelectorAll("[data-img-cap-ko]").forEach(el => el.oninput = () => { g.images[+el.dataset.imgCapKo].caption_ko = el.value; });
+      listHost.querySelectorAll("[data-img-cap-en]").forEach(el => el.oninput = () => { g.images[+el.dataset.imgCapEn].caption_en = el.value; });
+      listHost.querySelectorAll("[data-img-del]").forEach(b => b.onclick = () => { g.images.splice(+b.dataset.imgDel, 1); renderImages(); });
+      listHost.querySelectorAll("[data-img-up]").forEach(b => b.onclick = () => {
+        const i = +b.dataset.imgUp; if (i <= 0) return;
+        [g.images[i - 1], g.images[i]] = [g.images[i], g.images[i - 1]];
+        renderImages();
+      });
+      listHost.querySelectorAll("[data-img-dn]").forEach(b => b.onclick = () => {
+        const i = +b.dataset.imgDn; if (i >= g.images.length - 1) return;
+        [g.images[i + 1], g.images[i]] = [g.images[i], g.images[i + 1]];
+        renderImages();
+      });
+    }
+    renderImages();
+    document.getElementById("g-img-add").onclick = () => {
+      g.images.push({ src: "", caption_ko: "", caption_en: "" });
+      renderImages();
+    };
+  }
+
+  /* =========================================================================
    * Research topics editor (simpler, no SVG editing for safety)
    * ========================================================================= */
   function renderTopics() {
@@ -1237,6 +1383,7 @@
           <div class="admin-form-row"><label>members.json</label><input type="file" accept=".json" data-import="members" /></div>
           <div class="admin-form-row"><label>news.json</label><input type="file" accept=".json" data-import="news" /></div>
           <div class="admin-form-row"><label>research_topics.json</label><input type="file" accept=".json" data-import="topics" /></div>
+          <div class="admin-form-row"><label>gallery.json</label><input type="file" accept=".json" data-import="gallery" /></div>
           <div class="admin-form-row"><label>config.json</label><input type="file" accept=".json" data-import="config" /></div>
         </div>
       </div>
