@@ -73,14 +73,16 @@
     if (!host) return;
     const lang = SiteUtils.getLang();
     const sorted = [...news].sort((a, b) => (a.date < b.date ? 1 : -1)).slice(0, 5);
-    host.innerHTML = sorted.map(n => `
-      <li>
-        <a href="board.html">
-          <span class="date">${n.date}</span>
-          <span class="title">${escapeHtml(lang === "ko" ? n.title_ko : n.title_en)}</span>
-        </a>
-      </li>
-    `).join("");
+    host.innerHTML = sorted.map(n => {
+      const title = lang === "ko" ? (n.title_ko || n.title_en) : (n.title_en || n.title_ko);
+      return `
+        <li>
+          <a href="board.html">
+            <span class="date">${n.date}</span>
+            <span class="title">${escapeHtml(title || "")}</span>
+          </a>
+        </li>`;
+    }).join("");
   }
 
   function renderGallery(items) {

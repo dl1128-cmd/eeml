@@ -1,119 +1,151 @@
 [
   {
-    "id": "n-13",
+    "id": "n-17",
     "date": "2026-03-13",
     "category": "news",
     "title_ko": "과학기술정보통신부 우수연구-신진연구 (유형A) 선정",
-    "title_en": "Selected as MSIT Excellent Research – Young Researcher (Type A)",
-    "body_ko": "과학기술정보통신부 우수연구-신진연구 (유형A) 과제에 선정되었습니다.",
-    "body_en": "Selected as MSIT Excellent Research – Young Researcher (Type A)."
+    "title_en": "과학기술정보통신부 우수연구-신진연구 (유형A) 선정",
+    "body_ko": "<p><b>과학기술정보통신부 우수연구-신진연구 (유형A) 선정</b><b></b></p><p><b>&nbsp;- \"5 MPa 이하 저압 구동 전고체전지 실리콘 음극 개발\"</b></p><p><b>&nbsp;- 과제 기간: 2026.03~2029.02 (3억)</b></p>",
+    "body_en": "",
+    "images": [],
+    "source_url": "http://eeml.co.kr/bbs/board.php?tbl=bbs41&mode=VIEW&num=17"
   },
   {
-    "id": "n-12",
+    "id": "n-16",
     "date": "2026-03-09",
     "category": "news",
-    "title_ko": "가천대, 전고체전지 '순수 실리콘 음극' 성능 5배 향상",
-    "title_en": "Gachon University — All-Solid-State Battery Pure Silicon Anode Performance Improved 5×",
-    "body_ko": "가천대에서 전고체전지의 순수 실리콘 음극 성능을 5배 이상 향상시킨 연구 성과가 언론에 보도되었습니다.",
-    "body_en": "Our research improving pure silicon anode performance in all-solid-state batteries by over 5× was covered in the press."
+    "title_ko": "가천대, 전고체전지 ‘순수 실리콘 음극’ 성능 5배 향상",
+    "title_en": "가천대, 전고체전지 ‘순수 실리콘 음극’ 성능 5배 향상",
+    "body_ko": "<p><b>우리 연구실의 연구결과가 3월 9일 한국경제,해럴드경제, 한국대학신문 등 언론지에 보도되었습니다.</b></p><p><b><br></b></p><p><b>기사제목: 가천대, 전고체전지 ‘순수 실리콘 음극’ 성능 5배 향상</b></p><p><b>기사링크: <a href=\"https://www.hankyung.com/article/202603098864h\" target=\"_blank\" rel=\"noopener\">https://www.hankyung.com/article/202603098864h</a>;&nbsp;<a href=\"https://biz.heraldcorp.com/article/10690335\" target=\"_blank\" rel=\"noopener\">https://biz.heraldcorp.com/article/10690335</a>;&nbsp;<a href=\"https://news.unn.net/news/articleView.html?idxno=590593\" target=\"_blank\" rel=\"noopener\">https://news.unn.net/news/articleView.html?idxno=590593</a></b></p><p><br></p><p></p><p><br></p><p><b>기사내용:</b></p><p><b>가천대학교 연구팀이 전고체전지용 순수 실리콘 음극의 성능과 수명을 크게 개선하는 기술을 개발했다. 기존 실리콘 음극의 구조 불안정 문제를 해결해 배터리 성능을 5배 이상 향상했다.</b></p><p><br></p><p><b>가천대는 화공생명배터리공학부 이동수·박찬호·최정현 교수 연구팀이 한국지질자원연구원 정인철 박사 연구팀과 공동으로 신소재 바인더 ‘IRCB(계면강화 가교 바인더)’를 개발했다고 9일 밝혔다.</b></p><p><br></p><p><b>배터리는 양극과 음극 사이를 리튬 이온이 이동하며 에너지를 저장·방출한다. 음극 소재로 주로 사용되는 흑연 대신 실리콘을 이용하면 이론적으로 약 10배 많은 전기를 저장할 수 있다. 같은 크기의 배터리로 더 오래 사용할 수 있다는 장점이 있다.</b></p><p><b><br></b></p><p><b>그러나 실리콘은 충·방전 과정에서 부피가 최대 3배까지 팽창·수축한다. 이 과정에서 입자 파괴와 전극 구조 붕괴가 발생해 상용 배터리에서는 소량 첨가 방식으로만 활용됐다. 특히 전극과 전해질이 밀착돼야 하는 전고체전지에서는 이 같은 부피 변화로 접촉이 쉽게 깨지는 문제가 있었다.</b></p><p><b><br></b></p><p><b>연구팀은 이를 해결하기 위해 3차원 그물망 구조의 IRCB 바인더를 설계했다. 에폭시와 아민 반응을 기반으로 형성된 고분자 네트워크 구조가 실리콘 입자와 강하게 결합해 전극 구조를 안정적으로 유지하도록 했다.</b></p><p><br></p><p><b>실험 결과 IRCB를 적용한 순수 실리콘 음극은 빠른 충·방전 조건에서도 300회 반복 후 초기 용량의 90% 이상을 유지했다. 기존 PVDF 바인더 기반 실리콘 음극의 용량 유지율(16%)과 비교하면 5배 이상 향상된 성능이다.</b></p><p><b><br></b></p><p><b>이번 연구 성과는 에너지·재료 분야 국제학술지 Advanced Science(임팩트팩터 14.1)에 ‘Interfacially Reinforced Crosslinked Binder with Structural Integrity for Stable Micro-Sized Silicon Anodes in All-solid-state Batteries’라는 제목으로 2일 온라인 게재됐다.</b></p><p><b><br></b></p><p><b>논문에는 이동수 교수가 주 교신저자로 참여했으며 박찬호·최정현 교수가 공동 교신저자로 이름을 올렸다. 제1저자는 이찬호 석사과정생이며 남유리 석사와 정인철 한국지질자원연구원 선임연구원이 공동 제1저자로 참여했다.</b></p><p><br></p><p><b>이동수 교수는 “전고체전지에서 도전적인 소재로 평가되는 순수 실리콘 음극을 안정적으로 구현할 가능성을 제시한 연구”라며 “고에너지밀도 전고체전지 상용화를 앞당길 기반 기술이 될 것”이라고 말했다.</b></p><p><b><br></b></p><p><b>이번 연구는 산업통상자원부 소재부품기술개발사업과 과학기술정보통신부 기초연구사업, 한국지질자원연구원 기본사업 지원을 받아 수행됐다.</b></p><p><br></p>",
+    "body_en": "",
+    "images": [],
+    "source_url": "http://eeml.co.kr/bbs/board.php?tbl=bbs41&mode=VIEW&num=16"
+  },
+  {
+    "id": "n-15",
+    "date": "2026-03-04",
+    "category": "news",
+    "title_ko": "강려원, 이서은, 이상진, 박해인 학생 석사과정 입학을 축하합니다.",
+    "title_en": "강려원, 이서은, 이상진, 박해인 학생 석사과정 입학을 축하합니다.",
+    "body_ko": "<ul><li><p>2026. 03. 01. 강려원, 이서은, 이상진, 박해인 학생 석사과정 입학을 축하합니다.</p></li></ul>",
+    "body_en": "",
+    "images": [],
+    "source_url": "http://eeml.co.kr/bbs/board.php?tbl=bbs41&mode=VIEW&num=15"
+  },
+  {
+    "id": "n-14",
+    "date": "2026-03-04",
+    "category": "news",
+    "title_ko": "이찬호 학생의 첫 논문(전고체전지 실리콘 음극 바인더)이 Advanced Science 저널에 게재되었습니다. Congrat!",
+    "title_en": "이찬호 학생의 첫 논문(전고체전지 실리콘 음극 바인더)이 Advanced Science 저널에 게재되었습니다. Congrat!",
+    "body_ko": "<p>논문 제목:&nbsp;Interfacially Reinforced Crosslinked Binder with Structural Integrity for Stable Micro-sized Silicon Anodes in All-solid-state Batteries&nbsp;</p><p>저널: Advanced Science (Impact Factor 14.1)</p><p>링크:&nbsp;<a href=\"https://advanced.onlinelibrary.wiley.com/doi/10.1002/advs.202600022\" target=\"_blank\" rel=\"noopener\">https://advanced.onlinelibrary.wiley.com/doi/10.1002/advs.202600022</a></p><p><br>&nbsp;</p>",
+    "body_en": "",
+    "images": [
+      {
+        "src": "assets/images/news/14-202603041122221054182137.jpg",
+        "caption_ko": "Advanced Science_표지",
+        "caption_en": ""
+      }
+    ],
+    "source_url": "http://eeml.co.kr/bbs/board.php?tbl=bbs41&mode=VIEW&num=14"
   },
   {
     "id": "n-11",
-    "date": "2026-03-04",
-    "category": "news",
-    "title_ko": "강려원, 이서은, 이상진, 박해인 학생 석사과정 입학 축하",
-    "title_en": "Welcome M.S. Students: Ryeowon Kang, Seoeun Lee, Sangjin Lee, Haein Park",
-    "body_ko": "강려원, 이서은, 이상진, 박해인 학생의 석사과정 입학을 축하합니다.",
-    "body_en": "Congratulations to Ryeowon Kang, Seoeun Lee, Sangjin Lee, and Haein Park on joining the M.S. program."
-  },
-  {
-    "id": "n-10",
-    "date": "2026-03-04",
-    "category": "news",
-    "title_ko": "이찬호 학생 첫 논문 Advanced Science 게재",
-    "title_en": "Chanho Lee's First Paper Published in Advanced Science",
-    "body_ko": "이찬호 학생의 첫 논문 (전고체전지 실리콘 음극 바인더) 이 Advanced Science 저널에 게재되었습니다. Congrats!",
-    "body_en": "Chanho Lee's first paper (binder for silicon anode in all-solid-state batteries) has been published in Advanced Science. Congratulations!"
-  },
-  {
-    "id": "n-9",
     "date": "2025-07-17",
     "category": "news",
     "title_ko": "산업통상자원부 소재부품기술개발사업 선정",
+    "title_en": "Welcome M.S. Students: Ryeowon Kang, Seoeun Lee, Sangjin Lee, Haein Park",
+    "body_ko": "<ul><li><p>산업통상자원부 소재부품기술개발사업 선정</p></li></ul><p>-&nbsp;인체밀착형웨어러블기기용 전고체리튬고분자배터리개발 사업, 과제 기간: 2025.04&nbsp;~ 2028.12</p><p>- 정부, 차세대 전고체 배터리 상용화에 1824억원 투입 (<a href=\"https://m.ekn.kr/view.php?key=20250519028318056\" target=\"_blank\" rel=\"noopener\">링크</a>)</p>",
+    "body_en": "Congratulations to Ryeowon Kang, Seoeun Lee, Sangjin Lee, and Haein Park on joining the M.S. program.",
+    "images": [],
+    "source_url": "http://eeml.co.kr/bbs/board.php?tbl=bbs41&mode=VIEW&num=11"
+  },
+  {
+    "id": "n-10",
+    "date": "2025-03-11",
+    "category": "news",
+    "title_ko": "가천대학교 배터리특성화대학원 (산업통상자원부) 선정 (150억 / 5년)",
+    "title_en": "Chanho Lee's First Paper Published in Advanced Science",
+    "body_ko": "<ul><li><p>2025. 03. 11. 가천대학교 배터리특성화대학원 (산업통상자원부) 선정 (150억 / 5년)</p></li></ul><p>- 과제 기간: 2025.04 ~ 2030.03</p>",
+    "body_en": "Chanho Lee's first paper (binder for silicon anode in all-solid-state batteries) has been published in Advanced Science. Congratulations!",
+    "images": [],
+    "source_url": "http://eeml.co.kr/bbs/board.php?tbl=bbs41&mode=VIEW&num=10"
+  },
+  {
+    "id": "n-9",
+    "date": "2025-03-01",
+    "category": "news",
+    "title_ko": "Dayakar Gandla 박사가 EEML에 Research Professor로 합류했습니다.",
     "title_en": "Selected for MOTIE Materials & Components Technology Development Program",
-    "body_ko": "산업통상자원부 소재부품기술개발사업에 선정되었습니다.",
-    "body_en": "Selected for MOTIE (Ministry of Trade, Industry and Energy) Materials and Components Technology Development program."
+    "body_ko": "<ul><li><p>2025. 03. 01. Dayakar Gandla 박사가 EEML에 Research Professor로 합류했습니다.</p></li></ul>",
+    "body_en": "Selected for MOTIE (Ministry of Trade, Industry and Energy) Materials and Components Technology Development program.",
+    "images": [],
+    "source_url": "http://eeml.co.kr/bbs/board.php?tbl=bbs41&mode=VIEW&num=9"
   },
   {
     "id": "n-8",
-    "date": "2025-03-11",
+    "date": "2025-03-01",
     "category": "news",
-    "title_ko": "가천대 배터리특성화대학원 (산업통상자원부) 선정 (150억 / 5년)",
+    "title_ko": "조우섭 학생 석사과정 입학을 축하합니다.",
     "title_en": "Gachon Battery Specialization Graduate School Selected by MOTIE (₩15B / 5 years)",
-    "body_ko": "가천대학교가 산업통상자원부의 배터리특성화대학원 사업에 선정되었습니다. 총 150억원 / 5년 규모.",
-    "body_en": "Gachon University has been selected for the MOTIE Battery Specialization Graduate School program (₩15 billion over 5 years)."
+    "body_ko": "<ul><li><p>2025. 03. 01. 조우섭 학생 석사과정 입학을 축하합니다.</p></li></ul>",
+    "body_en": "Gachon University has been selected for the MOTIE Battery Specialization Graduate School program (₩15 billion over 5 years).",
+    "images": [],
+    "source_url": "http://eeml.co.kr/bbs/board.php?tbl=bbs41&mode=VIEW&num=8"
   },
   {
     "id": "n-7",
-    "date": "2025-03-01",
+    "date": "2024-11-27",
     "category": "news",
-    "title_ko": "Dayakar Gandla 박사 EEML 합류 (Research Professor)",
+    "title_ko": "강려원 학생 이차전지 COSS 혁신융합대학 단장상 수상을 축하합니다",
     "title_en": "Dr. Dayakar Gandla Joins EEML as Research Professor",
-    "body_ko": "Dayakar Gandla 박사가 EEML 에 Research Professor 로 합류했습니다.",
-    "body_en": "Dr. Dayakar Gandla has joined EEML as a Research Professor."
+    "body_ko": "<ul><li><p>2024. 11. 27. 강려원 학생 이차전지 COSS 혁신융합대학 단장상 수상을 축하합니다.</p></li></ul>",
+    "body_en": "Dr. Dayakar Gandla has joined EEML as a Research Professor.",
+    "images": [],
+    "source_url": "http://eeml.co.kr/bbs/board.php?tbl=bbs41&mode=VIEW&num=7"
   },
   {
     "id": "n-6",
-    "date": "2025-03-01",
+    "date": "2024-09-27",
     "category": "news",
-    "title_ko": "조우섭 학생 석사과정 입학 축하",
+    "title_ko": "강려원 학생 이차전지 혁신융합대학 연합 경진대회 파우치 셀 설계 부문 금상 수상을 축하합니다.",
     "title_en": "Welcome M.S. Student: Wooseop Jo",
-    "body_ko": "조우섭 학생의 석사과정 입학을 축하합니다.",
-    "body_en": "Congratulations to Wooseop Jo on joining the M.S. program."
+    "body_ko": "<ul><li><p>2024. 09. 27. 강려원 학생 이차전지 혁신융합대학 연합 경진대회 파우치 셀 설계 부문 금상 수상을 축하합니다.</p></li></ul>",
+    "body_en": "Congratulations to Wooseop Jo on joining the M.S. program.",
+    "images": [],
+    "source_url": "http://eeml.co.kr/bbs/board.php?tbl=bbs41&mode=VIEW&num=6"
   },
   {
     "id": "n-5",
-    "date": "2024-11-27",
-    "category": "news",
-    "title_ko": "강려원 학생 이차전지 COSS 혁신융합대학 단장상 수상",
-    "title_en": "Ryeowon Kang — COSS Secondary Battery Innovation Convergence University Director's Award",
-    "body_ko": "강려원 학생이 이차전지 COSS 혁신융합대학 단장상을 수상한 것을 축하합니다.",
-    "body_en": "Congratulations to Ryeowon Kang on receiving the Director's Award at the COSS Secondary Battery Innovation Convergence University."
-  },
-  {
-    "id": "n-4",
-    "date": "2024-09-27",
-    "category": "news",
-    "title_ko": "강려원 학생 파우치 셀 설계 부문 금상 수상",
-    "title_en": "Ryeowon Kang — Gold Award in Pouch Cell Design Competition",
-    "body_ko": "강려원 학생이 이차전지 혁신융합대학 연합 경진대회 파우치 셀 설계 부문 금상을 수상한 것을 축하합니다.",
-    "body_en": "Congratulations to Ryeowon Kang on winning the Gold Award in the Pouch Cell Design category of the Secondary Battery Innovation Convergence University joint competition."
-  },
-  {
-    "id": "n-3",
     "date": "2024-09-17",
     "category": "news",
     "title_ko": "산업통상자원부 소재부품기술개발사업 선정",
+    "title_en": "Ryeowon Kang — COSS Secondary Battery Innovation Convergence University Director's Award",
+    "body_ko": "<ul><li><p>산업통상자원부 소재부품기술개발사업 선정</p></li></ul><p>- 폐실리콘 기반 고에너지밀도 복합 전극 제조 기술 개발, 과제 기간: 2024.08 ~ 2028.12</p>",
+    "body_en": "Congratulations to Ryeowon Kang on receiving the Director's Award at the COSS Secondary Battery Innovation Convergence University.",
+    "images": [],
+    "source_url": "http://eeml.co.kr/bbs/board.php?tbl=bbs41&mode=VIEW&num=5"
+  },
+  {
+    "id": "n-4",
+    "date": "2024-09-01",
+    "category": "news",
+    "title_ko": "2024. 09. 01. Ashok Kumar Kakarla 박사가 EEML에 박사후연구과정으로 합류했습니다.",
+    "title_en": "Ryeowon Kang — Gold Award in Pouch Cell Design Competition",
+    "body_ko": "<p><br></p>",
+    "body_en": "Congratulations to Ryeowon Kang on winning the Gold Award in the Pouch Cell Design category of the Secondary Battery Innovation Convergence University joint competition.",
+    "images": [],
+    "source_url": "http://eeml.co.kr/bbs/board.php?tbl=bbs41&mode=VIEW&num=4"
+  },
+  {
+    "id": "n-3",
+    "date": "2024-09-01",
+    "category": "news",
+    "title_ko": "2024. 09. 01. 이찬호, 김진형 학생 석사과정 입학을 축하합니다.",
     "title_en": "Selected for MOTIE Materials & Components Technology Development Program",
-    "body_ko": "산업통상자원부 소재부품기술개발사업에 선정되었습니다.",
-    "body_en": "Selected for MOTIE Materials & Components Technology Development program."
-  },
-  {
-    "id": "n-2",
-    "date": "2024-09-01",
-    "category": "news",
-    "title_ko": "Ashok Kumar Kakarla 박사 EEML 박사후연구원으로 합류",
-    "title_en": "Dr. Ashok Kumar Kakarla Joins EEML as Postdoctoral Fellow",
-    "body_ko": "Ashok Kumar Kakarla 박사가 EEML 박사후연구원으로 합류했습니다.",
-    "body_en": "Dr. Ashok Kumar Kakarla has joined EEML as a Postdoctoral Fellow."
-  },
-  {
-    "id": "n-1",
-    "date": "2024-09-01",
-    "category": "news",
-    "title_ko": "이찬호, 김진형 학생 석사과정 입학 축하",
-    "title_en": "Welcome M.S. Students: Chanho Lee, Jinhyung Kim",
-    "body_ko": "이찬호, 김진형 학생의 석사과정 입학을 축하합니다.",
-    "body_en": "Congratulations to Chanho Lee and Jinhyung Kim on joining the M.S. program."
+    "body_ko": "<p><br></p>",
+    "body_en": "Selected for MOTIE Materials & Components Technology Development program.",
+    "images": [],
+    "source_url": "http://eeml.co.kr/bbs/board.php?tbl=bbs41&mode=VIEW&num=3"
   }
 ]
