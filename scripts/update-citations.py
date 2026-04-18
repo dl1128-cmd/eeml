@@ -17,6 +17,7 @@ import os
 import re
 import sys
 import time
+import urllib.parse
 import urllib.request
 import urllib.error
 from pathlib import Path
@@ -50,29 +51,44 @@ def normalize(s: str) -> str:
 
 
 def fetch_scholar(scholar_id: str) -> str:
-    url = (
+    """Fetch Scholar HTML. Tries direct first (works locally); falls back to
+    public CORS proxies (needed on GitHub Actions because Scholar blocks
+    datacenter IPs with 403)."""
+    base = (
         f"https://scholar.google.com/citations?user={scholar_id}"
         "&hl=en&cstart=0&pagesize=100"
     )
+    attempts: list[tuple[str, str]] = [("direct", base)]
+    for proxy in (
+        "https://api.codetabs.com/v1/proxy?quest=",
+        "https://api.allorigins.win/raw?url=",
+        "https://corsproxy.io/?",
+        "https://cors-anywhere.herokuapp.com/",
+    ):
+        attempts.append((proxy.split("/")[2], proxy + urllib.parse.quote(base, safe="")))
+
     last_err: Exception | None = None
-    for ua in USER_AGENTS:
-        req = urllib.request.Request(
-            url,
-            headers={
-                "User-Agent": ua,
-                "Accept": "text/html,application/xhtml+xml",
-                "Accept-Language": "en-US,en;q=0.9",
-            },
-        )
-        try:
-            with urllib.request.urlopen(req, timeout=30) as r:
-                html = r.read().decode("utf-8", errors="replace")
-            if "gsc_a_tr" in html or "gsc_rsb_std" in html:
-                return html
-            time.sleep(2)
-        except Exception as exc:
-            last_err = exc
-            time.sleep(2)
+    for label, url in attempts:
+        for ua in USER_AGENTS:
+            req = urllib.request.Request(
+                url,
+                headers={
+                    "User-Agent": ua,
+                    "Accept": "text/html,application/xhtml+xml",
+                    "Accept-Language": "en-US,en;q=0.9",
+                },
+            )
+            try:
+                with urllib.request.urlopen(req, timeout=45) as r:
+                    html = r.read().decode("utf-8", errors="replace")
+                if "gsc_a_tr" in html or "gsc_rsb_std" in html:
+                    print(f"Scholar fetch via {label}: OK")
+                    return html
+                time.sleep(2)
+            except Exception as exc:
+                last_err = exc
+                time.sleep(2)
+        print(f"Scholar fetch via {label} failed.", file=sys.stderr)
     raise RuntimeError(f"Scholar fetch failed for {scholar_id}: {last_err}")
 
 
