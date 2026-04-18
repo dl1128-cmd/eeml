@@ -405,7 +405,7 @@
   {
     "id": "p2024-034",
     "type": "journal",
-    "top_pick": true,
+    "top_pick": false,
     "year": 2024,
     "title": "High-Loading Lithium-Sulfur Batteries with Solvent-Free Dry-Electrode Processing",
     "authors": "D. Lee, A. Manthiram*",
