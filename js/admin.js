@@ -412,6 +412,18 @@
       await new Promise(r => setTimeout(r, 400 * (attempt + 1)));
       return githubPutFile(path, content, message, attempt + 1, opts);
     }
+    // 403 with rate-limit headers = secondary rate limit hit
+    if (put.status === 403) {
+      const retryAfter = put.headers.get("retry-after");
+      const resetEpoch = put.headers.get("x-ratelimit-reset");
+      let hint = "GitHub rate limit — 몇 분 기다린 뒤 다시 저장하세요";
+      if (retryAfter) hint = `GitHub rate limit — ${retryAfter}초 뒤 재시도 가능`;
+      else if (resetEpoch) {
+        const ms = (parseInt(resetEpoch) * 1000) - Date.now();
+        if (ms > 0) hint = `GitHub rate limit — ${Math.ceil(ms / 60000)}분 뒤 재시도 가능`;
+      }
+      throw new Error(`RATE_LIMIT: ${hint}`);
+    }
     const text = await put.text();
     throw new Error(`GitHub API ${put.status}: ${text.slice(0, 200)}`);
   }
@@ -543,14 +555,16 @@
         return;
       } catch (err) {
         console.error("GitHub save failed:", err);
-        const m = /GitHub API (\d+)/.exec(err.message || "");
+        const msg = err.message || "";
+        const m = /GitHub API (\d+)/.exec(msg);
         const code = m ? m[1] : "";
-        // 409/422 after all retries = someone pushed between our PUTs.
-        // Schedule one more retry silently instead of showing an error —
-        // debounce will coalesce anyway.
         if (code === "409" || code === "422") {
           setTimeout(() => queueSave(filename, obj, 300), 200);
           toast(`⏳ 동시 수정 감지 — 잠시 후 자동 재시도`, "info");
+          return;
+        }
+        if (msg.startsWith("RATE_LIMIT:")) {
+          toast(`🚦 ${msg.replace("RATE_LIMIT:", "").trim()}`, "error");
           return;
         }
         toast(`✗ GitHub 커밋 실패 (${code || "?"}) — F12 콘솔에서 상세 확인`, "error");
