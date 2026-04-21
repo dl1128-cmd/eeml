@@ -73,7 +73,7 @@
     "authors": "M. Beltran, B. Wang, Y. Tan, J. Choi, D. Lee, L. Su",
     "venue": "ACS Materials Letters",
     "volume": "8(2), 614-620",
-    "citations": 1,
+    "citations": 2,
     "doi": "10.1021/acsmaterialslett.5c01492",
     "link": ""
   },
@@ -294,7 +294,7 @@
     "authors": "J. Kim, J. Jeong, D. Lee, J. Kim, M. Naito, H. Park*, T. Song*, U. Paik*",
     "venue": "Chemical Engineering Journal",
     "volume": "505, 159328",
-    "citations": 11,
+    "citations": 12,
     "doi": "10.2139/ssrn.5024476",
     "link": ""
   },
@@ -541,7 +541,7 @@
     "authors": "S. Sun, S. Myeong, J. Kim, D. Lee, J. Kim, K. Park, J. Kim, J. Kwon, U. Paik*, T. Song*",
     "venue": "Chemical Engineering Journal",
     "volume": "450, 137993",
-    "citations": 23,
+    "citations": 24,
     "doi": "10.1016/j.cej.2022.137993",
     "link": ""
   },
@@ -801,7 +801,7 @@
     "authors": "H. Park, D. Lee, T. Song*",
     "venue": "Journal of Power Sources",
     "volume": "414, 377-382",
-    "citations": 84,
+    "citations": 85,
     "doi": "10.1016/j.jpowsour.2019.01.015",
     "link": ""
   },
