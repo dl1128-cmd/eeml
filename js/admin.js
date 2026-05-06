@@ -321,7 +321,7 @@
       return res.json();
     };
     try {
-      const [pubs, members, news, topics, config, pi, ann, gallery] = await Promise.all([
+      const [pubs, members, news, topics, config, pi, ann, gallery, covers] = await Promise.all([
         fetchJSON("data/publications.json"),
         fetchJSON("data/members.json"),
         fetchJSON("data/news.json"),
@@ -329,7 +329,8 @@
         fetchJSON("data/config.json"),
         fetchJSON("data/pi.json"),
         fetchJSON("data/announcement.json").catch(() => ({ id: "ann-default", enabled: false, title_ko: "", title_en: "", body_ko: "", body_en: "", button_text_ko: "", button_text_en: "", button_url: "", expires: "" })),
-        fetchJSON("data/gallery.json").catch(() => [])
+        fetchJSON("data/gallery.json").catch(() => []),
+        fetchJSON("data/journal_covers.json").catch(() => [])
       ]);
       STATE.data.publications = pubs;
       STATE.data.members = members;
@@ -339,6 +340,7 @@
       STATE.data.pi = pi;
       STATE.data.announcement = ann;
       STATE.data.gallery = gallery;
+      STATE.data.covers = covers;
     } catch (err) {
       toast("데이터를 불러오지 못했습니다: " + err.message, "error");
       console.error(err);
@@ -438,6 +440,7 @@
     "pi.json": "pi",
     "research_topics.json": "research",
     "gallery.json": "gallery",
+    "journal_covers.json": "covers",
     "news.json": "news",
     "announcement.json": "announcements",
     "config.json": "config",
@@ -525,6 +528,7 @@
       case "members.json":         return STATE.data.members;
       case "news.json":            return STATE.data.news;
       case "gallery.json":         return STATE.data.gallery;
+      case "journal_covers.json":  return STATE.data.covers;
       case "research_topics.json": return STATE.data.topics;
       case "pi.json":              return STATE.data.pi;
       case "announcement.json":    return STATE.data.announcement;
@@ -618,7 +622,7 @@
     STATE.currentTab = name;
     document.querySelectorAll(".admin-tab").forEach(b => b.classList.toggle("active", b.dataset.tab === name));
     document.querySelectorAll(".admin-tab-panel").forEach(p => p.classList.toggle("active", p.id === "tab-" + name));
-    const renderer = { publications: renderPubs, members: renderMembers, pi: renderPI, news: renderNews, topics: renderTopics, gallery: renderGallery, announcement: renderAnnouncement, stats: renderStats, config: renderConfig, settings: renderSettings }[name];
+    const renderer = { publications: renderPubs, members: renderMembers, pi: renderPI, news: renderNews, topics: renderTopics, gallery: renderGallery, covers: renderCovers, announcement: renderAnnouncement, stats: renderStats, config: renderConfig, settings: renderSettings }[name];
     if (renderer) renderer();
   }
 
@@ -1334,6 +1338,185 @@
       progressHost.textContent = `✅ ${done}장 업로드 완료${failed ? ` · ${failed}장 실패` : ""}`;
       e.target.value = "";
       setTimeout(() => { progressHost.textContent = ""; }, 4000);
+    };
+  }
+
+  /* =========================================================================
+   * Journal Cover Gallery editor
+   * ========================================================================= */
+  function renderCovers() {
+    const host = document.getElementById("tab-covers");
+    if (!Array.isArray(STATE.data.covers)) STATE.data.covers = [];
+    const list = STATE.data.covers
+      .slice()
+      .sort((a, b) => (Number(a.order) || 0) - (Number(b.order) || 0));
+    host.innerHTML = `
+      <div class="admin-section-head">
+        <h2>저널 커버 갤러리 <span class="count">${list.length}개</span></h2>
+        <div class="admin-section-actions">
+          <button class="btn btn-outline" id="cov-add">+ 커버 추가</button>
+          <button class="btn btn-primary" id="cov-save">💾 journal_covers.json 저장</button>
+        </div>
+      </div>
+      <div class="admin-card" style="color:var(--color-text-muted);font-size:var(--fs-sm)">
+        💡 Publications 페이지 상단 배너에 가로 스크롤 갤러리로 표시됩니다. 클릭 시 큰 이미지 + 설명이 모달로 열립니다.
+        ↑↓ 버튼으로 표시 순서를 조정하세요. 첫 번째 항목이 가장 왼쪽에 표시됩니다.
+      </div>
+      ${list.length === 0
+        ? `<div class="admin-card" style="text-align:center;padding:var(--space-8);color:var(--color-text-muted)">아직 등록된 커버가 없습니다. <b>+ 커버 추가</b> 버튼으로 시작하세요.</div>`
+        : `<table class="admin-table">
+            <thead><tr><th style="width:80px">순서</th><th style="width:90px">커버</th><th>저널 / 제목</th><th style="width:80px">연도</th><th style="width:220px">작업</th></tr></thead>
+            <tbody>
+              ${list.map((c, displayIdx) => {
+                const realIdx = STATE.data.covers.findIndex(x => x.id === c.id);
+                return `
+                  <tr>
+                    <td class="td-dim" style="font-family:var(--font-mono)">${displayIdx + 1}</td>
+                    <td>${c.image
+                      ? `<img src="${escapeAttr(c.image)}" alt="" style="width:60px;height:80px;object-fit:cover;border-radius:4px;border:1px solid var(--color-border)" />`
+                      : `<div style="width:60px;height:80px;background:var(--color-surface);border-radius:4px;border:1px dashed var(--color-border)"></div>`}</td>
+                    <td>
+                      <div class="td-title" style="color:var(--c-accent);font-weight:600">${escapeHtml(c.journal || "(저널명 없음)")}</div>
+                      <div class="td-dim" style="font-size:var(--fs-sm);margin-top:2px">${escapeHtml(c.title_en || c.title_ko || "")}</div>
+                    </td>
+                    <td class="td-dim">${c.year ? escapeHtml(String(c.year)) : "—"}</td>
+                    <td class="row-actions">
+                      <button class="btn btn-ghost btn-sm" data-action="cov-up" data-idx="${realIdx}" ${displayIdx === 0 ? "disabled" : ""} title="위로">↑</button>
+                      <button class="btn btn-ghost btn-sm" data-action="cov-dn" data-idx="${realIdx}" ${displayIdx === list.length - 1 ? "disabled" : ""} title="아래로">↓</button>
+                      <button class="btn btn-ghost btn-sm" data-action="cov-edit" data-idx="${realIdx}">편집</button>
+                      <button class="btn btn-ghost btn-sm" data-action="cov-del" data-idx="${realIdx}" style="color:#cc0033">삭제</button>
+                    </td>
+                  </tr>`;
+              }).join("")}
+            </tbody>
+          </table>`}
+    `;
+    host.querySelector("#cov-add").onclick = () => editCover(-1);
+    host.querySelector("#cov-save").onclick = () => saveJSON("journal_covers.json", STATE.data.covers);
+    host.querySelectorAll("[data-action=cov-edit]").forEach(b => b.onclick = () => editCover(+b.dataset.idx));
+    host.querySelectorAll("[data-action=cov-del]").forEach(b => b.onclick = () => {
+      if (!confirm("이 커버를 삭제하시겠습니까?")) return;
+      STATE.data.covers.splice(+b.dataset.idx, 1);
+      reorderCovers();
+      renderCovers();
+      queueSave("journal_covers.json", STATE.data.covers);
+    });
+    host.querySelectorAll("[data-action=cov-up]").forEach(b => b.onclick = () => moveCover(+b.dataset.idx, -1));
+    host.querySelectorAll("[data-action=cov-dn]").forEach(b => b.onclick = () => moveCover(+b.dataset.idx, +1));
+  }
+
+  function moveCover(idx, dir) {
+    const sorted = STATE.data.covers
+      .slice()
+      .sort((a, b) => (Number(a.order) || 0) - (Number(b.order) || 0));
+    const target = STATE.data.covers[idx];
+    const pos = sorted.findIndex(c => c.id === target.id);
+    const newPos = pos + dir;
+    if (newPos < 0 || newPos >= sorted.length) return;
+    [sorted[pos], sorted[newPos]] = [sorted[newPos], sorted[pos]];
+    sorted.forEach((c, i) => { c.order = i + 1; });
+    renderCovers();
+    queueSave("journal_covers.json", STATE.data.covers);
+  }
+
+  function reorderCovers() {
+    const sorted = STATE.data.covers
+      .slice()
+      .sort((a, b) => (Number(a.order) || 0) - (Number(b.order) || 0));
+    sorted.forEach((c, i) => { c.order = i + 1; });
+  }
+
+  function editCover(idx) {
+    const isNew = idx === -1;
+    const nextOrder = (STATE.data.covers || []).reduce((m, c) => Math.max(m, Number(c.order) || 0), 0) + 1;
+    const c = isNew
+      ? { id: "cov-" + Date.now(), image: "", journal: "", year: "", title_ko: "", title_en: "", description_ko: "", description_en: "", doi: "", link: "", order: nextOrder }
+      : JSON.parse(JSON.stringify(STATE.data.covers[idx]));
+
+    const body = `
+      <div class="admin-form">
+        <div class="admin-form-row full">
+          <label>커버 이미지<span class="req">*</span></label>
+          <div class="admin-card" style="padding:var(--space-3);background:var(--color-surface);border:1px dashed var(--color-border);display:flex;flex-wrap:wrap;gap:var(--space-3);align-items:center;justify-content:space-between">
+            <div style="font-size:var(--fs-sm);color:var(--color-text-muted)">
+              📁 JPG/PNG/WEBP 권장 · 자동으로 1600px로 리사이징됩니다.<br/>
+              📐 권장 비율 <b>3:4 (세로형)</b> — 일반적인 저널 커버 비율
+            </div>
+            <label class="btn btn-primary btn-sm" style="cursor:pointer;margin:0">
+              📁 이미지 선택
+              <input type="file" id="c-img-upload" accept="image/jpeg,image/png,image/webp" style="display:none" />
+            </label>
+          </div>
+          <div id="c-img-progress" style="margin-top:var(--space-2);font-size:var(--fs-sm);color:var(--color-text-muted)"></div>
+          <div id="c-img-preview" style="margin-top:var(--space-3)"></div>
+        </div>
+        <div class="admin-form-row"><label>저널명<span class="req">*</span></label><input id="c-journal" value="${escapeAttr(c.journal || "")}" placeholder="예: Advanced Energy Materials" /></div>
+        <div class="admin-form-row"><label>연도</label><input id="c-year" type="number" min="1900" max="2099" value="${escapeAttr(c.year || "")}" placeholder="2026" /></div>
+        <div class="admin-form-row full"><label>한글 제목</label><input id="c-title-ko" value="${escapeAttr(c.title_ko || "")}" placeholder="논문 한글 제목 (선택)" /></div>
+        <div class="admin-form-row full"><label>영문 제목</label><input id="c-title-en" value="${escapeAttr(c.title_en || "")}" placeholder="Paper title in English" /></div>
+        <div class="admin-form-row full"><label>한글 설명</label><textarea id="c-desc-ko" rows="3" placeholder="커버에 대한 간단한 한글 설명 (모달에 표시)">${escapeHtml(c.description_ko || "")}</textarea></div>
+        <div class="admin-form-row full"><label>영문 설명</label><textarea id="c-desc-en" rows="3" placeholder="Brief English description">${escapeHtml(c.description_en || "")}</textarea></div>
+        <div class="admin-form-row"><label>DOI</label><input id="c-doi" value="${escapeAttr(c.doi || "")}" placeholder="10.1002/aenm.xxxx (선택)" /></div>
+        <div class="admin-form-row"><label>링크 URL</label><input id="c-link" value="${escapeAttr(c.link || "")}" placeholder="https://... (DOI 대신 사용)" /></div>
+      </div>
+    `;
+    openModal(isNew ? "저널 커버 추가" : "저널 커버 편집", body, () => {
+      const journal = val("c-journal").trim();
+      if (!c.image) return toast("커버 이미지는 필수입니다", "error");
+      if (!journal) return toast("저널명은 필수입니다", "error");
+      const updated = {
+        id: c.id,
+        image: c.image,
+        journal,
+        year: val("c-year").trim() ? parseInt(val("c-year"), 10) : "",
+        title_ko: val("c-title-ko").trim(),
+        title_en: val("c-title-en").trim(),
+        description_ko: val("c-desc-ko"),
+        description_en: val("c-desc-en"),
+        doi: val("c-doi").trim(),
+        link: val("c-link").trim(),
+        order: c.order || nextOrder
+      };
+      if (isNew) STATE.data.covers.push(updated);
+      else STATE.data.covers[idx] = updated;
+      reorderCovers();
+      closeModal();
+      renderCovers();
+      saveJSON("journal_covers.json", STATE.data.covers);
+    });
+
+    const previewHost = document.getElementById("c-img-preview");
+    const progressHost = document.getElementById("c-img-progress");
+
+    function renderPreview() {
+      if (!c.image) {
+        previewHost.innerHTML = `<div class="td-dim" style="font-size:var(--fs-sm);text-align:center;padding:var(--space-6);border:1px dashed var(--color-border);border-radius:6px">아직 이미지가 없습니다.</div>`;
+        return;
+      }
+      previewHost.innerHTML = `
+        <div style="display:flex;gap:var(--space-3);align-items:flex-start">
+          <img src="${escapeAttr(c.image)}" alt="" style="width:160px;height:auto;aspect-ratio:3/4;object-fit:cover;border-radius:6px;border:1px solid var(--color-border);box-shadow:0 4px 12px rgba(0,0,0,0.08)" />
+          <button type="button" class="btn btn-ghost btn-sm" id="c-img-clear" style="color:#cc0033">✕ 이미지 삭제</button>
+        </div>`;
+      const clearBtn = document.getElementById("c-img-clear");
+      if (clearBtn) clearBtn.onclick = () => { c.image = ""; renderPreview(); };
+    }
+    renderPreview();
+
+    document.getElementById("c-img-upload").onchange = async (e) => {
+      const file = (e.target.files || [])[0];
+      if (!file) return;
+      progressHost.textContent = "업로드 중...";
+      try {
+        c.image = await resizeImageFile(file, 1600, 1600, 0.85);
+        progressHost.textContent = "✅ 업로드 완료";
+        setTimeout(() => { progressHost.textContent = ""; }, 2000);
+        renderPreview();
+      } catch (err) {
+        progressHost.textContent = "✗ 업로드 실패";
+        console.error(err);
+      }
+      e.target.value = "";
     };
   }
 

@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css?v=20260418v" />
+  <link rel="stylesheet" href="css/style.css?v=20260507v" />
 </head>
 <body>
 <header class="site-header">
@@ -39,6 +39,45 @@
       <h1 data-i18n="publications.title">Publications</h1>
     </div>
   </section>
+
+  <!-- Journal Cover Gallery -->
+  <section class="section section-tight" id="journal-covers-section" hidden>
+    <div class="container">
+      <div class="jc-header">
+        <div>
+          <div class="eyebrow" data-i18n="publications.covers_eyebrow">Featured</div>
+          <h2 class="jc-title" data-i18n="publications.covers_title">Journal Cover Gallery</h2>
+        </div>
+        <div class="jc-nav-btns" id="jc-nav-btns" hidden>
+          <button class="jc-nav-btn" data-jc-dir="prev" aria-label="Previous">‹</button>
+          <button class="jc-nav-btn" data-jc-dir="next" aria-label="Next">›</button>
+        </div>
+      </div>
+      <div class="jc-track-wrap">
+        <div class="jc-track" id="journal-covers-track"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cover detail modal -->
+  <div id="jc-modal" class="jc-modal" hidden>
+    <div class="jc-modal-backdrop" data-jc-close></div>
+    <div class="jc-modal-box">
+      <button class="jc-modal-close" data-jc-close aria-label="Close">✕</button>
+      <div class="jc-modal-image"><img id="jc-modal-img" alt="" /></div>
+      <div class="jc-modal-body">
+        <div class="jc-modal-meta">
+          <span id="jc-modal-journal"></span>
+          <span class="jc-modal-sep" id="jc-modal-sep" hidden>·</span>
+          <span id="jc-modal-year"></span>
+        </div>
+        <h3 id="jc-modal-title"></h3>
+        <p id="jc-modal-desc"></p>
+        <a id="jc-modal-link" class="btn btn-outline btn-sm" target="_blank" rel="noopener" hidden>Read paper ↗</a>
+      </div>
+    </div>
+  </div>
+
   <section class="section">
     <div class="container">
       <div id="publications-root"></div>
@@ -56,6 +95,6 @@
     <div class="footer-bottom" data-i18n="footer.copyright"></div>
   </div>
 </footer>
-<script src="js/main.js?v=20260418v"></script>
-<script src="js/publications.js?v=20260418v"></script>
+<script src="js/main.js?v=20260507v"></script>
+<script src="js/publications.js?v=20260507v"></script>
 </body></html>

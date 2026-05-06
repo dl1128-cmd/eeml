@@ -21,7 +21,104 @@
       pubs = await SiteUtils.loadJSON("data/publications.json");
       renderAll(root);
     } catch (err) { console.error(err); }
+    try {
+      const covers = await SiteUtils.loadJSON("data/journal_covers.json").catch(() => []);
+      renderJournalCovers(covers || []);
+    } catch (err) { console.error(err); }
   });
+
+  /* ========== Journal Cover Gallery ========== */
+  function renderJournalCovers(covers) {
+    const section = document.getElementById("journal-covers-section");
+    const track = document.getElementById("journal-covers-track");
+    const navBtns = document.getElementById("jc-nav-btns");
+    if (!section || !track) return;
+    const list = (covers || []).filter(c => c && c.image)
+      .slice()
+      .sort((a, b) => (Number(a.order) || 0) - (Number(b.order) || 0));
+    if (!list.length) { section.hidden = true; return; }
+    section.hidden = false;
+    const lang = (window.SiteUtils && SiteUtils.getLang) ? SiteUtils.getLang() : "en";
+    track.innerHTML = list.map((c, i) => {
+      const journal = escapeHtml(c.journal || "");
+      const year = c.year ? `<span class="jc-card-year">${escapeHtml(String(c.year))}</span>` : "";
+      const meta = journal ? `<div class="jc-card-meta"><span class="jc-card-journal">${journal}</span>${year}</div>` : "";
+      const titleSrc = lang === "ko" ? (c.title_ko || c.title || c.title_en || "") : (c.title_en || c.title || c.title_ko || "");
+      const title = titleSrc ? `<div class="jc-card-title">${escapeHtml(titleSrc)}</div>` : "";
+      return `
+        <button class="jc-card" data-jc-idx="${i}" type="button">
+          <div class="jc-card-imgwrap"><img src="${escapeAttr(c.image)}" alt="${escapeAttr(journal || titleSrc || 'Journal cover')}" loading="lazy" /></div>
+          <div class="jc-card-body">${meta}${title}</div>
+        </button>`;
+    }).join("");
+
+    track.querySelectorAll("[data-jc-idx]").forEach(el => {
+      el.addEventListener("click", () => openCoverModal(list[+el.dataset.jcIdx]));
+    });
+
+    if (list.length > 3) {
+      navBtns.hidden = false;
+      navBtns.querySelectorAll("[data-jc-dir]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const card = track.querySelector(".jc-card");
+          const step = card ? card.getBoundingClientRect().width + 24 : 320;
+          track.scrollBy({ left: btn.dataset.jcDir === "next" ? step : -step, behavior: "smooth" });
+        });
+      });
+    }
+
+    bindCoverModalClose();
+  }
+
+  function openCoverModal(c) {
+    if (!c) return;
+    const lang = (window.SiteUtils && SiteUtils.getLang) ? SiteUtils.getLang() : "en";
+    const modal = document.getElementById("jc-modal");
+    const img = document.getElementById("jc-modal-img");
+    const journalEl = document.getElementById("jc-modal-journal");
+    const yearEl = document.getElementById("jc-modal-year");
+    const sepEl = document.getElementById("jc-modal-sep");
+    const titleEl = document.getElementById("jc-modal-title");
+    const descEl = document.getElementById("jc-modal-desc");
+    const linkEl = document.getElementById("jc-modal-link");
+    img.src = c.image || "";
+    img.alt = c.journal || c.title || "Journal cover";
+    journalEl.textContent = c.journal || "";
+    yearEl.textContent = c.year ? String(c.year) : "";
+    sepEl.hidden = !(c.journal && c.year);
+    titleEl.textContent = lang === "ko"
+      ? (c.title_ko || c.title || c.title_en || "")
+      : (c.title_en || c.title || c.title_ko || "");
+    descEl.textContent = lang === "ko"
+      ? (c.description_ko || c.description_en || "")
+      : (c.description_en || c.description_ko || "");
+    const href = c.link || (c.doi ? (String(c.doi).startsWith("http") ? c.doi : `https://doi.org/${c.doi}`) : "");
+    if (href) { linkEl.href = href; linkEl.hidden = false; } else { linkEl.hidden = true; }
+    modal.hidden = false;
+    document.body.classList.add("jc-modal-open");
+  }
+
+  function bindCoverModalClose() {
+    const modal = document.getElementById("jc-modal");
+    if (!modal || modal.dataset.bound === "1") return;
+    modal.dataset.bound = "1";
+    modal.querySelectorAll("[data-jc-close]").forEach(el => {
+      el.addEventListener("click", () => {
+        modal.hidden = true;
+        document.body.classList.remove("jc-modal-open");
+      });
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && !modal.hidden) {
+        modal.hidden = true;
+        document.body.classList.remove("jc-modal-open");
+      }
+    });
+  }
+
+  function escapeAttr(s) {
+    return escapeHtml(s);
+  }
 
   // Scholar fetch 완료 시 citations 매칭 + 재렌더
   document.addEventListener("scholar:papers", (e) => {
