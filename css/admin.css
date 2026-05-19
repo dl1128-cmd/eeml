@@ -118,8 +118,16 @@
 .admin-tabs {
   background: #fff;
   border-bottom: 1px solid var(--color-border);
-  position: sticky; top: 60px; z-index: 40;
+  position: sticky;
+  z-index: 40;
 }
+.admin-tabs-primary { top: 60px; }
+.admin-tabs-secondary {
+  top: 113px; /* sits right below primary (primary is ~53px tall) */
+  background: var(--color-bg-soft, #f7f8fa);
+  border-bottom: 1px solid var(--color-border);
+}
+.admin-tabs-secondary[hidden] { display: none; }
 .admin-tabs-inner {
   max-width: 1400px;
   margin: 0 auto;
@@ -136,9 +144,31 @@
   border-bottom: 2px solid transparent;
   white-space: nowrap;
   transition: all var(--transition);
+  background: transparent;
 }
 .admin-tab:hover { color: var(--color-primary); }
 .admin-tab.active { color: var(--color-primary); border-bottom-color: var(--color-primary); font-weight: 600; }
+
+/* Primary tabs slightly larger / bolder */
+.admin-tabs-primary .admin-tab { font-size: var(--fs-base); padding: var(--space-4) var(--space-5); font-weight: 600; }
+.admin-tabs-primary .admin-tab.active { background: linear-gradient(180deg, transparent 0%, rgba(14, 165, 233, 0.06) 100%); }
+
+/* Secondary tabs smaller, pill-style, subdued background */
+.admin-tabs-secondary .admin-tabs-inner { padding-top: 6px; padding-bottom: 6px; gap: 4px; }
+.admin-tabs-secondary .admin-tab {
+  font-size: var(--fs-sm);
+  padding: 8px 14px;
+  border-bottom: none;
+  border-radius: 6px;
+  color: var(--color-text-muted);
+}
+.admin-tabs-secondary .admin-tab:hover { background: rgba(0, 0, 0, 0.04); color: var(--color-text); }
+.admin-tabs-secondary .admin-tab.active {
+  background: var(--color-primary, #0ea5e9);
+  color: #fff;
+  font-weight: 600;
+}
+.admin-tabs-secondary .admin-tab.active:hover { background: var(--color-primary, #0ea5e9); }
 
 .admin-main {
   max-width: 1400px;

@@ -438,7 +438,7 @@
       document.getElementById("dashboard").classList.remove("hidden");
       await loadAll();
       bindTabs();
-      switchTab("pi");
+      switchGroup("pi");
     } else {
       err.textContent = "비밀번호가 맞지 않습니다.";
       pwInput.value = "";
@@ -753,9 +753,40 @@
   /* =========================================================================
    * Tabs
    * ========================================================================= */
+  /* =========================================================================
+   * 2-level navigation (top-level group → optional sub-tabs)
+   * Mirrors the public site's nav structure so the admin feels familiar.
+   * ========================================================================= */
+  const TAB_GROUPS = {
+    pi:           { tabs: [{ id: "pi",           label: "🎓 PI 프로필" }] },
+    member:       { tabs: [{ id: "members",      label: "👥 구성원" }] },
+    research:     { tabs: [{ id: "topics",       label: "🔬 연구 주제" }] },
+    publications: { tabs: [
+                    { id: "publications", label: "📄 논문" },
+                    { id: "patents",      label: "📜 특허" },
+                    { id: "covers",       label: "🎨 Journal Covers" }
+                  ] },
+    news:         { tabs: [
+                    { id: "news",         label: "📣 뉴스" },
+                    { id: "announcement", label: "📢 공지 팝업" }
+                  ] },
+    gallery:      { tabs: [{ id: "gallery",      label: "🖼 Gallery" }] },
+    system:       { tabs: [
+                    { id: "config",       label: "⚙️ 기본설정" },
+                    { id: "stats",        label: "📊 접속 통계" },
+                    { id: "settings",     label: "🔐 관리자 설정" }
+                  ] }
+  };
+
+  // Reverse map: tab id -> group name (for first-render & deep linking)
+  const TAB_TO_GROUP = Object.fromEntries(
+    Object.entries(TAB_GROUPS).flatMap(([g, def]) => def.tabs.map(t => [t.id, g]))
+  );
+
   function bindTabs() {
-    document.querySelectorAll(".admin-tab").forEach(btn => {
-      btn.addEventListener("click", () => switchTab(btn.dataset.tab));
+    // Primary group buttons
+    document.querySelectorAll(".admin-tabs-primary .admin-tab").forEach(btn => {
+      btn.addEventListener("click", () => switchGroup(btn.dataset.group));
     });
     document.getElementById("logout-btn").addEventListener("click", logout);
     document.getElementById("modal-close").addEventListener("click", closeModal);
@@ -765,9 +796,42 @@
     });
   }
 
+  function switchGroup(groupName) {
+    const group = TAB_GROUPS[groupName];
+    if (!group) return;
+    // Highlight primary
+    document.querySelectorAll(".admin-tabs-primary .admin-tab").forEach(b =>
+      b.classList.toggle("active", b.dataset.group === groupName)
+    );
+    // Render secondary tabs (only if more than one)
+    const subnav = document.getElementById("admin-subtabs");
+    if (group.tabs.length > 1) {
+      subnav.hidden = false;
+      subnav.innerHTML = `<div class="admin-tabs-inner">${
+        group.tabs.map(t => `<button type="button" class="admin-tab" data-tab="${t.id}">${t.label}</button>`).join("")
+      }</div>`;
+      subnav.querySelectorAll(".admin-tab").forEach(b =>
+        b.addEventListener("click", () => switchTab(b.dataset.tab))
+      );
+    } else {
+      subnav.hidden = true;
+      subnav.innerHTML = "";
+    }
+    // Activate the first tab in the group (or restore the last one used)
+    const remembered = group.lastTab && group.tabs.find(t => t.id === group.lastTab) ? group.lastTab : group.tabs[0].id;
+    switchTab(remembered);
+  }
+
   function switchTab(name) {
     STATE.currentTab = name;
-    document.querySelectorAll(".admin-tab").forEach(b => b.classList.toggle("active", b.dataset.tab === name));
+    // Remember last sub-tab per group so re-opening the group keeps context
+    const groupName = TAB_TO_GROUP[name];
+    if (groupName && TAB_GROUPS[groupName]) TAB_GROUPS[groupName].lastTab = name;
+    // Sub-tab active state
+    document.querySelectorAll(".admin-tabs-secondary .admin-tab").forEach(b =>
+      b.classList.toggle("active", b.dataset.tab === name)
+    );
+    // Panel visibility
     document.querySelectorAll(".admin-tab-panel").forEach(p => p.classList.toggle("active", p.id === "tab-" + name));
     const renderer = { publications: renderPubs, patents: renderPatents, members: renderMembers, pi: renderPI, news: renderNews, topics: renderTopics, gallery: renderGallery, covers: renderCovers, announcement: renderAnnouncement, stats: renderStats, config: renderConfig, settings: renderSettings }[name];
     if (renderer) renderer();
