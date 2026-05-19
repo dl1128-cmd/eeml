@@ -464,7 +464,7 @@
       return res.json();
     };
     try {
-      const [pubs, members, news, topics, config, pi, ann, gallery, covers] = await Promise.all([
+      const [pubs, members, news, topics, config, pi, ann, gallery, covers, patents] = await Promise.all([
         fetchJSON("data/publications.json"),
         fetchJSON("data/members.json"),
         fetchJSON("data/news.json"),
@@ -473,7 +473,8 @@
         fetchJSON("data/pi.json"),
         fetchJSON("data/announcement.json").catch(() => ({ id: "ann-default", enabled: false, title_ko: "", title_en: "", body_ko: "", body_en: "", button_text_ko: "", button_text_en: "", button_url: "", expires: "" })),
         fetchJSON("data/gallery.json").catch(() => []),
-        fetchJSON("data/journal_covers.json").catch(() => [])
+        fetchJSON("data/journal_covers.json").catch(() => []),
+        fetchJSON("data/patents.json").catch(() => [])
       ]);
       STATE.data.publications = pubs;
       STATE.data.members = members;
@@ -484,6 +485,7 @@
       STATE.data.announcement = ann;
       STATE.data.gallery = gallery;
       STATE.data.covers = covers;
+      STATE.data.patents = patents;
     } catch (err) {
       toast("데이터를 불러오지 못했습니다: " + err.message, "error");
       console.error(err);
@@ -580,6 +582,7 @@
    * Also dedupes by SHA-256 hash — identical images reuse one file. */
   const FILENAME_CATEGORY = {
     "members.json": "members",
+    "patents.json": "patents",
     "pi.json": "pi",
     "research_topics.json": "research",
     "gallery.json": "gallery",
@@ -669,6 +672,7 @@
     switch (filename) {
       case "publications.json":    return STATE.data.publications;
       case "members.json":         return STATE.data.members;
+      case "patents.json":         return STATE.data.patents;
       case "news.json":            return STATE.data.news;
       case "gallery.json":         return STATE.data.gallery;
       case "journal_covers.json":  return STATE.data.covers;
@@ -765,8 +769,129 @@
     STATE.currentTab = name;
     document.querySelectorAll(".admin-tab").forEach(b => b.classList.toggle("active", b.dataset.tab === name));
     document.querySelectorAll(".admin-tab-panel").forEach(p => p.classList.toggle("active", p.id === "tab-" + name));
-    const renderer = { publications: renderPubs, members: renderMembers, pi: renderPI, news: renderNews, topics: renderTopics, gallery: renderGallery, covers: renderCovers, announcement: renderAnnouncement, stats: renderStats, config: renderConfig, settings: renderSettings }[name];
+    const renderer = { publications: renderPubs, patents: renderPatents, members: renderMembers, pi: renderPI, news: renderNews, topics: renderTopics, gallery: renderGallery, covers: renderCovers, announcement: renderAnnouncement, stats: renderStats, config: renderConfig, settings: renderSettings }[name];
     if (renderer) renderer();
+  }
+
+  /* =========================================================================
+   * Patents editor
+   * ========================================================================= */
+  function renderPatents() {
+    const host = document.getElementById("tab-patents");
+    const items = (STATE.data && STATE.data.patents) || [];
+    host.innerHTML = `
+      <div class="admin-section-head">
+        <h2>특허 (Patents) <span style="font-weight:400;color:var(--c-text-light);font-size:.75em">${items.length}건</span></h2>
+        <div class="admin-section-actions">
+          <button class="btn btn-primary" id="pat-add">+ 특허 추가</button>
+        </div>
+      </div>
+      <div id="pat-list"></div>
+    `;
+    renderPatentList();
+    host.querySelector("#pat-add").onclick = () => editPatent(-1);
+  }
+
+  function renderPatentList() {
+    const list = document.getElementById("pat-list");
+    const items = (STATE.data && STATE.data.patents) || [];
+    if (!items.length) {
+      list.innerHTML = `<p style="color:var(--c-text-light);padding:2rem 0;text-align:center">등록된 특허가 없습니다. <b>+ 특허 추가</b> 버튼으로 추가하세요.</p>`;
+      return;
+    }
+    list.innerHTML = `
+      <table class="admin-table">
+        <thead><tr>
+          <th style="width:60px">구분</th>
+          <th style="width:50px">#</th>
+          <th>제목</th>
+          <th style="width:140px">발명자</th>
+          <th style="width:60px">연도</th>
+          <th style="width:140px">번호</th>
+          <th style="width:100px"></th>
+        </tr></thead>
+        <tbody>
+          ${items.map((p, i) => {
+            const inv = Array.isArray(p.inventors) ? p.inventors.join(", ") : (p.inventors || "");
+            const typeBadge = p.type === "international" ? `<span class="patent-badge patent-badge-app">INT'L</span>` : `<span class="patent-badge">국내</span>`;
+            const num = p.registration_no ? `등록 ${escapeHtml(p.registration_no)}` : (p.application_no ? `출원 ${escapeHtml(p.application_no)}` : (p.status_text || ""));
+            return `
+              <tr>
+                <td>${typeBadge}</td>
+                <td style="font-family:var(--font-mono);color:var(--c-text-muted)">${escapeHtml(String(p.number ?? ""))}</td>
+                <td>${escapeHtml(p.title || "")}</td>
+                <td style="font-size:.85em;color:var(--c-text-muted)">${escapeHtml(inv.length > 40 ? inv.slice(0, 40) + "…" : inv)}</td>
+                <td>${escapeHtml(String(p.year ?? ""))}</td>
+                <td style="font-family:var(--font-mono);font-size:.78em">${num}</td>
+                <td>
+                  <button class="btn btn-ghost btn-sm" data-pat-edit="${i}">✎ 편집</button>
+                  <button class="btn btn-ghost btn-sm" data-pat-del="${i}" style="color:#dc2626">삭제</button>
+                </td>
+              </tr>`;
+          }).join("")}
+        </tbody>
+      </table>
+    `;
+    list.querySelectorAll("[data-pat-edit]").forEach(b => b.onclick = () => editPatent(+b.dataset.patEdit));
+    list.querySelectorAll("[data-pat-del]").forEach(b => b.onclick = () => {
+      if (!confirm("이 특허를 삭제하시겠습니까?")) return;
+      STATE.data.patents.splice(+b.dataset.patDel, 1);
+      renderPatentList();
+      saveJSON("patents.json", STATE.data.patents);
+    });
+  }
+
+  function editPatent(idx) {
+    const isNew = idx === -1;
+    const existing = !isNew ? STATE.data.patents[idx] : null;
+    const items = (STATE.data && STATE.data.patents) || [];
+    const nextNum = isNew ? Math.max(0, ...items.filter(p => p.type === "domestic").map(p => Number(p.number) || 0)) + 1 : (existing.number || "");
+    const p = existing || {
+      id: "p-dom-" + Date.now(),
+      type: "domestic",
+      number: nextNum,
+      title: "", inventors: [], year: new Date().getFullYear(),
+      application_no: "", registration_no: "", status_text: ""
+    };
+    const body = `
+      <div class="admin-form">
+        <div class="admin-form-row"><label>구분<span class="req">*</span></label>
+          <select id="pat-type">
+            <option value="domestic" ${p.type==='domestic'?'selected':''}>국내 (Domestic)</option>
+            <option value="international" ${p.type==='international'?'selected':''}>국제 (International)</option>
+          </select>
+        </div>
+        <div class="admin-form-row"><label>번호 (No.)</label><input id="pat-number" type="number" value="${escapeAttr(String(p.number ?? ''))}" /></div>
+        <div class="admin-form-row full"><label>제목<span class="req">*</span></label><textarea id="pat-title" style="min-height:60px">${escapeHtml(p.title || '')}</textarea></div>
+        <div class="admin-form-row full"><label>발명자 (쉼표 또는 한 줄에 한 명)</label><textarea id="pat-inv" style="min-height:48px" placeholder="이동수, 최정현, 김진형">${escapeHtml(Array.isArray(p.inventors) ? p.inventors.join(", ") : (p.inventors || ''))}</textarea></div>
+        <div class="admin-form-row"><label>연도</label><input id="pat-year" type="number" value="${escapeAttr(String(p.year ?? ''))}" /></div>
+        <div class="admin-form-row"><label>출원번호</label><input id="pat-app" value="${escapeAttr(p.application_no || '')}" placeholder="10-2025-0163397" /></div>
+        <div class="admin-form-row"><label>등록번호</label><input id="pat-reg" value="${escapeAttr(p.registration_no || '')}" placeholder="10-2839805" /></div>
+        <div class="admin-form-row full"><label>기타 상태 텍스트 <span style="color:var(--c-text-light);font-size:.85em">(번호 둘 다 없을 때 표시, 예: "Publication of US...")</span></label><input id="pat-status" value="${escapeAttr(p.status_text || '')}" /></div>
+      </div>
+    `;
+    openModal(isNew ? "특허 추가" : "특허 편집", body, () => {
+      const invRaw = val("pat-inv").trim();
+      const inventors = invRaw.split(/[,\n]+/).map(s => s.trim()).filter(Boolean);
+      const updated = {
+        id: p.id,
+        type: val("pat-type"),
+        number: Number(val("pat-number")) || 0,
+        title: val("pat-title").trim(),
+        inventors,
+        year: Number(val("pat-year")) || 0,
+        application_no: val("pat-app").trim(),
+        registration_no: val("pat-reg").trim(),
+        status_text: val("pat-status").trim()
+      };
+      if (!updated.title) return toast("제목은 필수입니다", "error");
+      if (!STATE.data.patents) STATE.data.patents = [];
+      if (isNew) STATE.data.patents.unshift(updated);
+      else STATE.data.patents[idx] = updated;
+      closeModal();
+      renderPatentList();
+      saveJSON("patents.json", STATE.data.patents);
+    });
   }
 
   /* =========================================================================

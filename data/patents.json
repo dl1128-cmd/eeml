@@ -1,0 +1,156 @@
+[
+  {
+    "id": "p-int-2",
+    "type": "international",
+    "number": 2,
+    "title": "Anode active material, method for manufacturing same, and lithium secondary battery comprising same",
+    "inventors": ["U Paik", "T Song", "S Lee", "S Sun", "D Lee"],
+    "year": 2022,
+    "application_no": "",
+    "registration_no": "",
+    "status_text": "Publication of US20220263084A1"
+  },
+  {
+    "id": "p-int-1",
+    "type": "international",
+    "number": 1,
+    "title": "Negative electrode for lithium secondary battery, method for manufacturing same, and lithium secondary battery including same",
+    "inventors": ["B Son", "E Park", "M Jang", "T Song", "S Sun", "D Lee"],
+    "year": 2021,
+    "application_no": "",
+    "registration_no": "",
+    "status_text": "Publication of US20210273217A1"
+  },
+  {
+    "id": "p-dom-12",
+    "type": "domestic",
+    "number": 12,
+    "title": "전극의 설계 방법, 이에 의해 설계된 전극 및 이를 포함하는 이차전지",
+    "inventors": ["허성중", "권기민", "이기강", "김승태", "오승민", "강려원", "정미강", "김민석", "이동수", "최정현"],
+    "year": 2026,
+    "application_no": "10-2026-0033056",
+    "registration_no": "",
+    "status_text": ""
+  },
+  {
+    "id": "p-dom-11",
+    "type": "domestic",
+    "number": 11,
+    "title": "에폭시 기반 고에너지밀도 리튬 이차전지용 음극의 제조방법",
+    "inventors": ["박찬호", "이동수", "이찬호", "남유리", "김태욱"],
+    "year": 2025,
+    "application_no": "10-2025-0146061",
+    "registration_no": "",
+    "status_text": ""
+  },
+  {
+    "id": "p-dom-10",
+    "type": "domestic",
+    "number": 10,
+    "title": "리튬 전지용 음극, 리튬 전지용 음극의 제조방법 및 상기 음극을 포함하는 리튬 이온 전지",
+    "inventors": ["이동수", "최정현", "김진형", "유승은", "박해인"],
+    "year": 2025,
+    "application_no": "10-2025-0163398",
+    "registration_no": "",
+    "status_text": ""
+  },
+  {
+    "id": "p-dom-9",
+    "type": "domestic",
+    "number": 9,
+    "title": "전고체 전지용 음극의 제조방법, 전고체 전지용 음극, 및 상기 음극을 포함하는 전고체 전지",
+    "inventors": ["이동수", "최정현", "김진형"],
+    "year": 2025,
+    "application_no": "10-2025-0163397",
+    "registration_no": "",
+    "status_text": ""
+  },
+  {
+    "id": "p-dom-8",
+    "type": "domestic",
+    "number": 8,
+    "title": "세라믹 표면 코팅층을 도입하여 전지 성능을 개선시킨 실리콘-흑연 복합 음극 및 이의 제조 방법과 그 리튬이차전지",
+    "inventors": ["이동수", "최정현", "이승호"],
+    "year": 2025,
+    "application_no": "10-2024-0159808",
+    "registration_no": "10-2839805",
+    "status_text": ""
+  },
+  {
+    "id": "p-dom-7",
+    "type": "domestic",
+    "number": 7,
+    "title": "전극 첨가제에 의해 기계화학적으로 향상시킨 리튬이차전지용 음극 및 그 제조 방법과 이를 포함하는 리튬이차전지",
+    "inventors": ["이동수", "최정현", "이주현"],
+    "year": 2024,
+    "application_no": "10-2024-0159807",
+    "registration_no": "",
+    "status_text": ""
+  },
+  {
+    "id": "p-dom-6",
+    "type": "domestic",
+    "number": 6,
+    "title": "전기화학특성 개선을 위한 리튬이차전지용 이중 코팅 분리막 및 그 제조 방법과 이를 포함하는 리튬이차전지",
+    "inventors": ["최정현", "이동수", "이승호"],
+    "year": 2024,
+    "application_no": "10-2024-0159810",
+    "registration_no": "10-2891469",
+    "status_text": ""
+  },
+  {
+    "id": "p-dom-5",
+    "type": "domestic",
+    "number": 5,
+    "title": "건식 공정을 통해 전기화학특성을 향상시킨 리튬이차전지 및 그 제조 방법",
+    "inventors": ["최정현", "이동수", "이주현"],
+    "year": 2025,
+    "application_no": "10-2024-0159809",
+    "registration_no": "10-2821783",
+    "status_text": ""
+  },
+  {
+    "id": "p-dom-4",
+    "type": "domestic",
+    "number": 4,
+    "title": "리튬 이차전지용 음극, 이의 제조방법 및 이를 포함하는 리튬 이차전지",
+    "inventors": ["박은경", "장민철", "송태섭", "선세호", "손병국", "이동수"],
+    "year": 2023,
+    "application_no": "",
+    "registration_no": "1024886800000",
+    "status_text": ""
+  },
+  {
+    "id": "p-dom-3",
+    "type": "domestic",
+    "number": 3,
+    "title": "염분차 발전장치",
+    "inventors": ["송태섭", "양승철", "황인성", "이동수"],
+    "year": 2022,
+    "application_no": "",
+    "registration_no": "1020220030732",
+    "status_text": ""
+  },
+  {
+    "id": "p-dom-2",
+    "type": "domestic",
+    "number": 2,
+    "title": "무음극 리튬이차전지 및 그 제조방법",
+    "inventors": ["송태섭", "백운규", "선세호", "이동수"],
+    "year": 2023,
+    "application_no": "",
+    "registration_no": "1025313460000",
+    "status_text": ""
+  },
+  {
+    "id": "p-dom-1",
+    "type": "domestic",
+    "number": 1,
+    "title": "음극 활물질, 그의 제조방법 및 이를 포함하는 리튬이차전지",
+    "inventors": ["백운규", "송태섭", "이승우", "선세호", "이동수"],
+    "year": 2021,
+    "application_no": "",
+    "registration_no": "1022286540000",
+    "status_text": ""
+  }
+]

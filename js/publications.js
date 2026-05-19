@@ -25,7 +25,71 @@
       const covers = await SiteUtils.loadJSON("data/journal_covers.json").catch(() => []);
       renderJournalCovers(covers || []);
     } catch (err) { console.error(err); }
+    try {
+      const patents = await SiteUtils.loadJSON("data/patents.json").catch(() => []);
+      renderPatents(patents || []);
+    } catch (err) { console.error(err); }
   });
+
+  /* ========== Patents ========== */
+  function renderPatents(patents) {
+    const section = document.getElementById("patents-section");
+    const root = document.getElementById("patents-root");
+    if (!section || !root) return;
+    const list = (patents || []).filter(p => p && p.title);
+    if (!list.length) { section.hidden = true; return; }
+    section.hidden = false;
+    const lang = (window.SiteUtils && SiteUtils.getLang) ? SiteUtils.getLang() : "en";
+
+    // Group by type, newest first within each
+    const sortDesc = (a, b) => {
+      const yb = Number(b.year) || 0;
+      const ya = Number(a.year) || 0;
+      if (yb !== ya) return yb - ya;
+      return (Number(b.number) || 0) - (Number(a.number) || 0);
+    };
+    const intl = list.filter(p => p.type === "international").sort(sortDesc);
+    const dom  = list.filter(p => p.type !== "international").sort(sortDesc);
+
+    const groups = [];
+    if (intl.length) groups.push({ label: lang === "ko" ? "국제 특허" : "International", items: intl });
+    if (dom.length)  groups.push({ label: lang === "ko" ? "국내 특허" : "Domestic", items: dom });
+
+    root.innerHTML = groups.map(g => `
+      <div class="patent-group">
+        <h3 class="patent-group-title">${escapeHtml(g.label)} <span class="patent-group-count">${g.items.length}</span></h3>
+        <ol class="patent-list">
+          ${g.items.map(p => renderPatentItem(p, lang)).join("")}
+        </ol>
+      </div>
+    `).join("");
+  }
+
+  function renderPatentItem(p, lang) {
+    const inventors = Array.isArray(p.inventors) ? p.inventors.join(", ") : (p.inventors || "");
+    const year = p.year ? `<span class="patent-year">${escapeHtml(String(p.year))}</span>` : "";
+    const badges = [];
+    if (p.application_no) {
+      const label = lang === "ko" ? "출원" : "Application";
+      badges.push(`<span class="patent-badge patent-badge-app">${label}&nbsp;${escapeHtml(p.application_no)}</span>`);
+    }
+    if (p.registration_no) {
+      const label = lang === "ko" ? "등록" : "Registration";
+      badges.push(`<span class="patent-badge patent-badge-reg">${label}&nbsp;${escapeHtml(p.registration_no)}</span>`);
+    }
+    if (p.status_text && !p.application_no && !p.registration_no) {
+      badges.push(`<span class="patent-badge">${escapeHtml(p.status_text)}</span>`);
+    }
+    return `
+      <li class="patent-item">
+        <div class="patent-row">
+          <div class="patent-title">${escapeHtml(p.title)}</div>
+          ${year}
+        </div>
+        ${inventors ? `<div class="patent-inventors">${escapeHtml(inventors)}</div>` : ""}
+        ${badges.length ? `<div class="patent-badges">${badges.join("")}</div>` : ""}
+      </li>`;
+  }
 
   /* ========== Journal Cover Gallery ========== */
   function renderJournalCovers(covers) {
@@ -35,7 +99,16 @@
     if (!section || !track) return;
     const list = (covers || []).filter(c => c && c.image)
       .slice()
-      .sort((a, b) => (Number(a.order) || 0) - (Number(b.order) || 0));
+      .sort((a, b) => {
+        // Newest first by year (desc); ties broken by order (asc), then by id.
+        const yb = Number(b.year) || 0;
+        const ya = Number(a.year) || 0;
+        if (yb !== ya) return yb - ya;
+        const oa = Number(a.order) || 0;
+        const ob = Number(b.order) || 0;
+        if (oa !== ob) return oa - ob;
+        return String(a.id || "").localeCompare(String(b.id || ""));
+      });
     if (!list.length) { section.hidden = true; return; }
     section.hidden = false;
     const lang = (window.SiteUtils && SiteUtils.getLang) ? SiteUtils.getLang() : "en";
