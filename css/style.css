@@ -19,7 +19,7 @@
   --c-highlight: #1B5BD9;
   --c-navy-deep: #0A1929;
 
-  --font-display: "Fraunces", "Noto Serif KR", Georgia, serif;
+  --font-display: "Source Serif 4", "Noto Serif KR", Georgia, serif;
   --font-sans: "Inter", "Noto Sans KR", -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 
@@ -1228,6 +1228,8 @@ p { margin: 0 0 var(--space-4); color: var(--c-text-muted); }
 .page-header .container { max-width: var(--container-narrow); }
 .page-header h1 { margin-bottom: var(--space-3); }
 .page-header p { font-size: var(--fs-lg); }
+/* News 상세: 문장형 제목이라 전역 h1(최대 4rem)은 과함 → 축소 */
+#news-detail-root .page-header h1 { font-size: clamp(1.5rem, 3.2vw, var(--fs-3xl)); line-height: 1.2; }
 
 /* ---- Featured publications grid (Home) ---- */
 .featured-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: var(--space-6); }
