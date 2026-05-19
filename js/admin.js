@@ -2195,69 +2195,160 @@
   }
 
   /* =========================================================================
-   * Visitor stats — now powered by Google Analytics 4
-   * The old counterapi.dev backend was discontinued (record-not-found 400);
-   * we open the GA4 dashboard in a new tab where the full report lives.
+   * Visitor stats — self-hosted analytics from Caddy access logs.
+   * A separate scheduled task (EEML-Stats) parses the logs into
+   * data/stats.json every 5 minutes. We also keep a GA4 dashboard link
+   * for richer analysis (real-time, source/medium, demographics).
    * ========================================================================= */
-  function renderStats() {
+  async function renderStats() {
     const host = document.getElementById("tab-stats");
     const cfg = (STATE.data && STATE.data.config) || {};
     const gaId = (cfg.analytics && cfg.analytics.ga4_id) || "";
-    const configured = /^G-[A-Z0-9]+$/i.test(gaId);
-
-    const dashboardUrl = configured
-      ? "https://analytics.google.com/analytics/web/#/"
-      : "https://analytics.google.com/";
+    const gaConfigured = /^G-[A-Z0-9]+$/i.test(gaId);
 
     host.innerHTML = `
       <div class="admin-section-head">
         <h2>접속 통계</h2>
         <div class="admin-section-actions">
-          <a href="${dashboardUrl}" target="_blank" rel="noopener" class="btn btn-primary">📊 GA4 대시보드 열기 ↗</a>
+          <button class="btn btn-outline" id="stats-refresh">🔄 새로고침</button>
+          ${gaConfigured
+            ? `<a href="https://analytics.google.com/" target="_blank" rel="noopener" class="btn btn-primary">📊 GA4 대시보드 열기 ↗</a>`
+            : `<a href="https://analytics.google.com/" target="_blank" rel="noopener" class="btn btn-outline">📊 GA4 시작 ↗</a>`}
         </div>
       </div>
 
-      ${configured ? `
-        <div class="admin-card" style="background:#dcfce7;border-color:#86efac;color:#166534">
-          <b>✅ Google Analytics 4 연결됨</b> &nbsp;<code style="background:rgba(255,255,255,0.5);padding:2px 6px;border-radius:4px">${escapeHtml(gaId)}</code><br/>
-          모든 페이지에 GA4 추적 코드가 자동으로 삽입됩니다. 위 <b>📊 GA4 대시보드 열기</b> 버튼을 눌러 실시간/일별/주별/월별 방문 통계, 인기 페이지, 유입 경로, 디바이스/지역 분포 등을 확인하세요.
-        </div>
+      <div id="stats-source-banner"></div>
 
-        <div class="admin-card" style="margin-top:1.5rem">
-          <h3 style="margin-top:0">📌 GA4 에서 볼 수 있는 통계</h3>
-          <ul style="line-height:1.9;margin:0;padding-left:1.25rem">
-            <li><b>실시간</b> — 지금 사이트 보고 있는 사용자 수, 활동 중인 페이지</li>
-            <li><b>방문자</b> — 일/주/월별 활성 사용자, 신규 vs 재방문</li>
-            <li><b>인기 페이지</b> — 가장 많이 본 페이지 (예: /pi, /publications, /research)</li>
-            <li><b>유입 경로</b> — 검색엔진/직접/추천/소셜 등 어디서 들어오는지</li>
-            <li><b>지역 / 언어 / 디바이스</b> — 방문자 분포</li>
-            <li><b>참여도</b> — 평균 체류 시간, 이탈률, 페이지/세션</li>
-          </ul>
+      <div id="stats-cards" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1rem;margin-top:1.25rem">
+        ${["today","yesterday","this_month","last_month","total"].map(k => `
+          <div class="admin-card stats-cell" data-stat-card="${k}">
+            <div class="stats-label">${({today:"오늘",yesterday:"어제",this_month:"이번 달",last_month:"지난 달",total:"전체"})[k]}</div>
+            <div class="stats-value" data-stat="${k}">···</div>
+          </div>
+        `).join("")}
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr;gap:1.5rem;margin-top:1.5rem">
+        <div class="admin-card">
+          <h3 style="margin-top:0;display:flex;justify-content:space-between;align-items:baseline">
+            <span>최근 7일 페이지뷰</span>
+            <span id="stats-week-total" style="font-size:.85em;color:var(--c-text-muted);font-weight:400"></span>
+          </h3>
+          <div id="stats-chart" style="min-height:170px"></div>
+        </div>
+        <div class="admin-card">
+          <h3 style="margin-top:0">최근 30일 인기 페이지 TOP 10</h3>
+          <div id="stats-toppages"></div>
+        </div>
+      </div>
+
+      ${gaConfigured ? `
+        <div class="admin-card" style="background:#dcfce7;border-color:#86efac;color:#166534;margin-top:1.5rem">
+          <b>✅ Google Analytics 4 연결됨</b> &nbsp;<code style="background:rgba(255,255,255,0.5);padding:2px 6px;border-radius:4px">${escapeHtml(gaId)}</code><br/>
+          위 카운터는 우리 Caddy 서버 로그 기반(봇 필터링 적용). 더 풍부한 분석(유입 경로, 디바이스, 지역, 실시간 등)은 위 <b>📊 GA4 대시보드 열기</b>를 이용하세요.
         </div>
       ` : `
-        <div class="admin-card" style="background:#fef3c7;border-color:#fcd34d;color:#92400e">
-          <b>⚠ Google Analytics 4 미설정</b><br/>
-          접속 통계를 보려면 GA4 측정 ID (<code>G-XXXXXXXXXX</code>)를 발급받아 <b>⚙️ 기본설정</b> 탭의 <b>GA4 측정 ID</b> 칸에 입력하세요.
-        </div>
-
-        <div class="admin-card" style="margin-top:1.5rem">
-          <h3 style="margin-top:0">📝 GA4 설정 방법 (5분)</h3>
-          <ol style="line-height:1.9;margin:0;padding-left:1.25rem">
-            <li><a href="https://analytics.google.com" target="_blank" rel="noopener"><b>analytics.google.com</b> ↗</a> 접속 (Google 계정 로그인)</li>
-            <li>좌측 하단 <b>관리(⚙️)</b> → <b>+ 계정 만들기</b> (이미 있으면 패스) → 계정 이름: <code>EEML Lab</code></li>
-            <li><b>+ 속성 만들기</b> → 속성 이름: <code>eeml.gachon.ac.kr</code>, 시간대: <b>대한민국</b>, 통화: <b>KRW</b></li>
-            <li>비즈니스 정보 입력 (선택) → <b>웹 스트림 추가</b>:
-              <ul style="margin-top:.5rem"><li>URL: <code>https://eeml.gachon.ac.kr</code></li><li>스트림 이름: <code>EEML Public Site</code></li></ul>
-            </li>
-            <li>표시된 <b>측정 ID <code>G-XXXXXXXXXX</code></b> 복사</li>
-            <li>이 admin 페이지의 <b>⚙️ 기본설정</b> 탭 → <b>GA4 측정 ID</b> 칸에 붙여넣기 → 저장</li>
-          </ol>
-          <p style="margin-top:1rem;color:var(--c-text-muted);font-size:.875rem">
-            💡 저장 후 2분 내로 사이트에 추적 코드가 자동 배포됩니다. 첫 방문이 GA4에 잡히는 데는 보통 5~30분 걸립니다.
-          </p>
+        <div class="admin-card" style="background:#fef3c7;border-color:#fcd34d;color:#92400e;margin-top:1.5rem">
+          <b>💡 더 풍부한 분석을 원하면 GA4 연결</b> — <b>⚙️ 기본설정</b> 탭에서 GA4 측정 ID(<code>G-XXXXXXXXXX</code>)를 입력하면 유입 경로, 디바이스, 지역, 실시간 분석을 외부 대시보드에서 볼 수 있습니다.
         </div>
       `}
+
+      <style>
+        .stats-cell { text-align: center; padding: var(--space-6) var(--space-4); }
+        .stats-label { font-size: var(--fs-xs); font-family: var(--font-mono); color: var(--c-text-light); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: var(--space-3); font-weight: 600; }
+        .stats-value { font-family: var(--font-sans); font-size: 2.5rem; font-weight: 800; color: var(--c-text); letter-spacing: -0.03em; line-height: 1; font-variant-numeric: tabular-nums; }
+        [data-stat-card="total"] { background: var(--c-text); color: var(--c-bg); border-color: var(--c-text); }
+        [data-stat-card="total"] .stats-label { color: rgba(255,255,255,0.7); }
+        [data-stat-card="total"] .stats-value { color: var(--c-bg); }
+        .stats-bar-row { display:grid; grid-template-columns: 80px 1fr 60px; gap: var(--space-3); align-items:center; padding: 4px 0; font-size: var(--fs-sm); }
+        .stats-bar-row .day { font-family: var(--font-mono); color: var(--c-text-muted); font-size: var(--fs-xs); }
+        .stats-bar { height: 18px; background: linear-gradient(90deg, #0ea5e9, #38bdf8); border-radius: 4px; min-width: 2px; }
+        .stats-bar.zero { background: rgba(0,0,0,0.04); height: 6px; }
+        .stats-bar-row .cnt { text-align: right; font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+        .stats-page-row { display:grid; grid-template-columns: 32px 1fr 60px 100px; gap: var(--space-3); align-items: center; padding: 6px 0; font-size: var(--fs-sm); border-bottom: 1px solid var(--c-border-soft, rgba(0,0,0,0.05)); }
+        .stats-page-row:last-child { border-bottom: none; }
+        .stats-page-row .rank { font-family: var(--font-mono); color: var(--c-text-muted); font-size: var(--fs-xs); }
+        .stats-page-row .path { font-family: var(--font-mono); color: var(--c-text); word-break: break-all; }
+        .stats-page-row .cnt { text-align: right; font-family: var(--font-mono); font-weight: 600; font-variant-numeric: tabular-nums; }
+        .stats-page-row .pct-bar { background: rgba(14,165,233,0.15); height: 6px; border-radius: 3px; overflow: hidden; }
+        .stats-page-row .pct-fill { background: #0ea5e9; height: 100%; }
+        .stats-empty { color: var(--c-text-light); text-align: center; padding: 1.5rem 0; font-size: .875rem; }
+      </style>
     `;
+
+    host.querySelector("#stats-refresh").onclick = () => loadStats();
+
+    await loadStats();
+
+    async function loadStats() {
+      let data = null;
+      try {
+        const r = await fetch("data/stats.json?t=" + Date.now());
+        if (r.ok) data = await r.json();
+      } catch {}
+
+      const banner = document.getElementById("stats-source-banner");
+      if (!data) {
+        banner.innerHTML = `
+          <div class="admin-card" style="background:#fef3c7;border-color:#fcd34d;color:#92400e">
+            <b>⚠ 통계 파일이 아직 생성되지 않았습니다</b> — 서버에서 <code>parse-stats.py</code>가 첫 실행을 마치면 자동으로 채워집니다. (보통 5분 이내)
+          </div>`;
+        return;
+      }
+
+      const fresh = new Date(data.generated_at);
+      const ago = Math.max(0, Math.round((Date.now() - fresh.getTime()) / 60000));
+      banner.innerHTML = `
+        <div style="font-size:.85em;color:var(--c-text-muted)">
+          📂 데이터 출처: Caddy access log (봇 자동 제외) · 마지막 갱신 <b>${ago}분 전</b> (${escapeHtml(data.generated_at)}) · 5분마다 자동 갱신
+        </div>`;
+
+      ["today","yesterday","this_month","last_month","total"].forEach(k => {
+        const el = host.querySelector(`[data-stat="${k}"]`);
+        if (el) el.textContent = (data[k] ?? 0).toLocaleString();
+      });
+
+      // 7-day chart
+      const days = data.last_7days || [];
+      const max = Math.max(1, ...days.map(d => d.count || 0));
+      const weekTotal = days.reduce((s, d) => s + (d.count || 0), 0);
+      document.getElementById("stats-week-total").textContent = `합계 ${weekTotal.toLocaleString()}`;
+      document.getElementById("stats-chart").innerHTML = days.length
+        ? days.map(d => {
+            const pct = max > 0 ? Math.max(2, Math.round((d.count / max) * 100)) : 2;
+            const cls = d.count > 0 ? "" : "zero";
+            const m = d.date.slice(5).replace("-", "/");
+            return `
+              <div class="stats-bar-row">
+                <div class="day">${escapeHtml(m)} (${weekday(d.date)})</div>
+                <div class="stats-bar ${cls}" style="width:${pct}%"></div>
+                <div class="cnt">${(d.count || 0).toLocaleString()}</div>
+              </div>`;
+          }).join("")
+        : `<div class="stats-empty">데이터 없음</div>`;
+
+      // Top pages
+      const pages = data.top_pages || [];
+      const pageMax = pages.length ? pages[0].count : 1;
+      document.getElementById("stats-toppages").innerHTML = pages.length
+        ? pages.map((p, i) => {
+            const pct = pageMax > 0 ? Math.round((p.count / pageMax) * 100) : 0;
+            return `
+              <div class="stats-page-row">
+                <div class="rank">${i + 1}.</div>
+                <div class="path">${escapeHtml(p.path || "/")}</div>
+                <div class="cnt">${p.count.toLocaleString()}</div>
+                <div class="pct-bar"><div class="pct-fill" style="width:${pct}%"></div></div>
+              </div>`;
+          }).join("")
+        : `<div class="stats-empty">데이터 없음 (페이지뷰 누적 후 표시)</div>`;
+    }
+
+    function weekday(isoDate) {
+      const names = ["일","월","화","수","목","금","토"];
+      const [y, mo, d] = isoDate.split("-").map(Number);
+      return names[new Date(y, mo - 1, d).getDay()];
+    }
   }
 
   /* =========================================================================
