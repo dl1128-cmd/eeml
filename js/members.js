@@ -88,8 +88,9 @@
     const isPI = role === "professor";
     const tag = isPI ? "a" : "div";
     const href = isPI ? `href="pi.html"` : "";
+    const posStyle = m.photo_pos ? ` style="object-position:${escapeAttr(m.photo_pos)}"` : "";
     const photoEl = m.photo
-      ? `<img class="photo" src="${escapeAttr(m.photo)}" alt="${escapeAttr(nameEn || nameKo)}" onerror="this.outerHTML='<div class=photo>${escapeAttr(initials(nameEn || nameKo))}</div>'" />`
+      ? `<img class="photo" src="${escapeAttr(m.photo)}" alt="${escapeAttr(nameEn || nameKo)}"${posStyle} onerror="this.outerHTML='<div class=photo>${escapeAttr(initials(nameEn || nameKo))}</div>'" />`
       : `<div class="photo">${escapeHtml(initials(nameEn || nameKo))}</div>`;
 
     const joinedLine = m.joined ? `<span class="joined">since ${escapeHtml(m.joined)}</span>` : "";

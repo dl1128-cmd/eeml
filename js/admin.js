@@ -75,10 +75,20 @@
    * @param {{maxW:number, maxH:number}} opts
    * @param {(dataUrl:string)=>void} onChange
    */
+  /**
+   * Mount an image picker. When opts.enableFocus is true, an interactive
+   * focal-point marker is overlaid on the preview — drag it to set the
+   * CSS object-position used by the public site. Optional initial position
+   * is passed via opts.initialPos ("X% Y%"). The default focal point is
+   * "50% 20%" (head/hair friendly).
+   */
   function mountImagePicker(host, currentSrc, opts, onChange) {
     const safeSrc = currentSrc || "";
     const isDataUrl = safeSrc.startsWith("data:");
     const hasRealImage = safeSrc && (isDataUrl || /\.(jpg|jpeg|png|webp|gif|svg)$/i.test(safeSrc));
+    const enableFocus = !!opts.enableFocus;
+    const DEFAULT_POS = "50% 20%";
+
     host.innerHTML = `
       <div class="admin-img-picker">
         <div class="admin-img-preview">
@@ -86,6 +96,7 @@
             ? `<img src="${escapeAttr(safeSrc)}" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" /><div class="admin-img-placeholder" style="display:none">이미지 없음</div>`
             : `<div class="admin-img-placeholder">사진을<br/>선택하세요</div>`}
         </div>
+        ${enableFocus ? `<div class="admin-img-focus-hint">사진 위 <b style="color:#ff6b35">+ 마커</b>를 드래그하여 얼굴·중심 위치를 맞추세요 <span class="admin-img-focus-reset" data-action="reset-pos">기본값으로</span></div>` : ""}
         <div class="admin-img-controls">
           <label class="btn btn-primary btn-sm" style="cursor:pointer">
             📁 사진 파일 선택
@@ -101,8 +112,100 @@
       </div>
     `;
     let value = safeSrc;
+    let pos = (opts.initialPos || "").trim(); // empty = use CSS default; non-empty = override
     const input = host.querySelector('input[type=file]');
     const preview = host.querySelector('.admin-img-preview');
+
+    /* ---------- focal-point marker (only if enableFocus) ---------- */
+    let marker = null;
+
+    function parsePos(s) {
+      // accept "X% Y%" or "X%" -> treat as "X% 50%"
+      const parts = (s || "").trim().split(/\s+/);
+      const x = parseFloat(parts[0]);
+      const y = parts.length >= 2 ? parseFloat(parts[1]) : 50;
+      if (isNaN(x) || isNaN(y)) return null;
+      return { x: Math.max(0, Math.min(100, x)), y: Math.max(0, Math.min(100, y)) };
+    }
+
+    function updateMarkerVisualOnly(xPct, yPct) {
+      if (!marker) return;
+      marker.style.left = xPct + "%";
+      marker.style.top = yPct + "%";
+    }
+
+    function applyPosToPreview() {
+      const img = preview.querySelector('img');
+      if (!img) return;
+      img.style.objectFit = "cover";
+      img.style.objectPosition = pos || DEFAULT_POS;
+    }
+
+    function mountMarker() {
+      if (!enableFocus) return;
+      const img = preview.querySelector('img');
+      if (!img) return;
+      // Remove any prior marker
+      const old = preview.querySelector('.admin-img-focus-marker');
+      if (old) old.remove();
+      // Ensure preview shows the image as the public site would (cover crop)
+      // so the focal point reflects what users will see.
+      img.style.width = "100%";
+      img.style.height = "100%";
+      preview.style.aspectRatio = preview.style.aspectRatio || "1 / 1";
+      applyPosToPreview();
+
+      marker = document.createElement('div');
+      marker.className = 'admin-img-focus-marker';
+      marker.title = '드래그하여 사진 중심 이동';
+      const init = parsePos(pos) || parsePos(DEFAULT_POS);
+      updateMarkerVisualOnly(init.x, init.y);
+      preview.appendChild(marker);
+
+      let dragging = false;
+      function setPosFromEvent(ev) {
+        const rect = preview.getBoundingClientRect();
+        const cx = (ev.touches ? ev.touches[0].clientX : ev.clientX) - rect.left;
+        const cy = (ev.touches ? ev.touches[0].clientY : ev.clientY) - rect.top;
+        const xPct = Math.max(0, Math.min(100, Math.round((cx / rect.width) * 100)));
+        const yPct = Math.max(0, Math.min(100, Math.round((cy / rect.height) * 100)));
+        pos = `${xPct}% ${yPct}%`;
+        updateMarkerVisualOnly(xPct, yPct);
+        applyPosToPreview();
+      }
+      function onDown(ev) {
+        ev.preventDefault();
+        dragging = true;
+        setPosFromEvent(ev);
+        document.addEventListener('mousemove', onMove);
+        document.addEventListener('mouseup', onUp);
+        document.addEventListener('touchmove', onMove, { passive: false });
+        document.addEventListener('touchend', onUp);
+      }
+      function onMove(ev) {
+        if (!dragging) return;
+        ev.preventDefault();
+        setPosFromEvent(ev);
+      }
+      function onUp() {
+        dragging = false;
+        document.removeEventListener('mousemove', onMove);
+        document.removeEventListener('mouseup', onUp);
+        document.removeEventListener('touchmove', onMove);
+        document.removeEventListener('touchend', onUp);
+      }
+      marker.addEventListener('mousedown', onDown);
+      marker.addEventListener('touchstart', onDown, { passive: false });
+      // Click anywhere in preview to jump
+      preview.addEventListener('mousedown', (ev) => {
+        if (ev.target === marker) return;
+        if (!preview.querySelector('img')) return;
+        onDown(ev);
+      });
+    }
+
+    if (hasRealImage && enableFocus) mountMarker();
+
     input.onchange = async (e) => {
       const file = e.target.files[0];
       if (!file) return;
@@ -110,6 +213,12 @@
         const dataUrl = await resizeImageFile(file, opts.maxW, opts.maxH, 0.85);
         value = dataUrl;
         preview.innerHTML = `<img src="${dataUrl}" alt="" /><div style="position:absolute;bottom:4px;right:4px;background:rgba(0,0,0,0.6);color:#fff;padding:2px 6px;border-radius:3px;font-size:10px">${Math.round(dataUrl.length / 1024)}KB</div>`;
+        if (enableFocus) {
+          // new image — reset position to default
+          pos = "";
+          // Wait for the <img> to be in DOM, then mount marker
+          requestAnimationFrame(() => mountMarker());
+        }
         onChange(value);
       } catch (err) {
         toast(err.message || "이미지 처리 실패", "error");
@@ -118,10 +227,24 @@
     };
     host.querySelector('[data-action=clear]').onclick = () => {
       value = "";
+      pos = "";
+      marker = null;
       preview.innerHTML = `<div class="admin-img-placeholder">이미지 없음</div>`;
       onChange("");
     };
-    return { getValue: () => value };
+    if (enableFocus) {
+      const resetBtn = host.querySelector('[data-action=reset-pos]');
+      if (resetBtn) resetBtn.onclick = () => {
+        pos = "";
+        applyPosToPreview();
+        const init = parsePos(DEFAULT_POS);
+        updateMarkerVisualOnly(init.x, init.y);
+      };
+    }
+    return {
+      getValue: () => value,
+      getPos: () => pos, // "" means use CSS default
+    };
   }
 
   /* =========================================================================
@@ -810,12 +933,16 @@
         id: m.id, role: val("f-role"),
         name_ko: val("f-name-ko"), name_en: val("f-name-en"),
         title_ko: val("f-title-ko"), title_en: val("f-title-en"),
-        email: val("f-email"), photo: photoPicker.getValue() || "",
+        email: val("f-email"),
+        photo: photoPicker.getValue() || "",
+        photo_pos: photoPicker.getPos() || "",
         interests_ko: val("f-int-ko"), interests_en: val("f-int-en")
       };
+      // Don't write photo_pos at all when empty (cleaner JSON)
+      if (!updated.photo_pos) delete updated.photo_pos;
       if (!updated.name_ko || !updated.name_en) return toast("한글/영문 이름은 필수입니다", "error");
       if (isNew) STATE.data.members.push(updated);
-      else STATE.data.members[idx] = updated;
+      else STATE.data.members[idx] = { ...STATE.data.members[idx], ...updated };
       closeModal();
       renderMembers();
       saveJSON("members.json", STATE.data.members);
@@ -823,7 +950,7 @@
     photoPicker = mountImagePicker(
       document.getElementById("f-photo-host"),
       m.photo && !m.photo.includes("placeholder") ? m.photo : "",
-      { maxW: 400, maxH: 400 },
+      { maxW: 400, maxH: 400, enableFocus: true, initialPos: m.photo_pos || "" },
       () => {}
     );
   }
@@ -907,7 +1034,7 @@
     const photoPicker = mountImagePicker(
       document.getElementById("pi-photo-host"),
       p.photo || "",
-      { maxW: 600, maxH: 800 },
+      { maxW: 600, maxH: 800, enableFocus: true, initialPos: p.photo_pos || "" },
       () => {}
     );
 
@@ -931,6 +1058,7 @@
         interests_ko: val("pi-int-ko").split("\n").map(s => s.trim()).filter(Boolean),
         interests_en: val("pi-int-en").split("\n").map(s => s.trim()).filter(Boolean),
         photo: photoPicker.getValue() || p.photo || "",
+        photo_pos: photoPicker.getPos() || "",
         education: collectEduList(),
         experience: collectExpList(),
         awards: collectAwardList(),

@@ -541,3 +541,54 @@
   outline: none;
   border-color: var(--color-primary, #0ea5e9);
 }
+
+/* ---- Photo focal-point picker (PI / Member) ---- */
+.admin-img-preview { position: relative; }
+.admin-img-preview img { display: block; }
+.admin-img-focus-marker {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  margin-left: -16px;
+  margin-top: -16px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px rgba(255, 107, 53, 0.95), 0 2px 10px rgba(0, 0, 0, 0.45);
+  background: rgba(255, 107, 53, 0.25);
+  cursor: grab;
+  z-index: 5;
+  touch-action: none;
+  transition: transform 0.08s ease;
+}
+.admin-img-focus-marker:hover { transform: scale(1.1); }
+.admin-img-focus-marker:active { cursor: grabbing; transform: scale(1.15); }
+.admin-img-focus-marker::before,
+.admin-img-focus-marker::after {
+  content: "";
+  position: absolute;
+  background: #fff;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+}
+.admin-img-focus-marker::before {
+  left: 50%; top: 5px; bottom: 5px;
+  width: 2px; margin-left: -1px;
+}
+.admin-img-focus-marker::after {
+  top: 50%; left: 5px; right: 5px;
+  height: 2px; margin-top: -1px;
+}
+.admin-img-focus-hint {
+  font-size: 11px;
+  color: var(--color-text-light, #6b7280);
+  margin-top: 6px;
+  text-align: center;
+  opacity: 0.85;
+  user-select: none;
+}
+.admin-img-focus-reset {
+  display: inline-block;
+  margin-left: 6px;
+  color: var(--color-primary, #0ea5e9);
+  cursor: pointer;
+  text-decoration: underline;
+}

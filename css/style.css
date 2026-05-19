@@ -695,7 +695,7 @@ p { margin: 0 0 var(--space-4); color: var(--c-text-muted); }
   letter-spacing: -0.03em;
   position: relative;
 }
-.member-card img.photo { object-fit: cover; }
+.member-card img.photo { object-fit: cover; object-position: 50% 20%; }
 .member-card .photo::after {
   content: "";
   position: absolute; inset: 0;
@@ -1071,7 +1071,7 @@ p { margin: 0 0 var(--space-4); color: var(--c-text-muted); }
   position: sticky;
   top: 100px;
 }
-.pi-photo img { width: 100%; height: 100%; object-fit: cover; }
+.pi-photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 20%; }
 .pi-info h1 { margin-bottom: var(--space-2); }
 .pi-info .role { font-family: var(--font-mono); font-size: var(--fs-sm); color: var(--c-highlight); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: var(--space-3); font-weight: 600; }
 .pi-info .affiliation { color: var(--c-text-muted); margin-bottom: var(--space-6); }

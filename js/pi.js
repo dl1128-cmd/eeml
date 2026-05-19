@@ -18,8 +18,9 @@
     const bio = lang === "ko" ? pi.bio_ko : pi.bio_en;
     const interests = lang === "ko" ? pi.interests_ko : pi.interests_en;
 
+    const posStyle = pi.photo_pos ? ` style="object-position:${escapeAttr(pi.photo_pos)}"` : "";
     const photoEl = pi.photo
-      ? `<img src="${escapeAttr(pi.photo)}" alt="${escapeAttr(name)}" />`
+      ? `<img src="${escapeAttr(pi.photo)}" alt="${escapeAttr(name)}"${posStyle} />`
       : escapeHtml(initials(name));
 
     const links = (pi.links || []).map(l => `<a href="${l.url}" target="_blank" rel="noopener" class="btn btn-outline btn-sm">${escapeHtml(l.label)} ↗</a>`).join("");
