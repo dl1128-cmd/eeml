@@ -52,16 +52,16 @@
 
       <section class="section" style="padding-top: var(--space-12);">
         <div class="container-narrow">
-          ${images.length ? `
-            <div class="research-hero-images">
-              ${images.map(src => `<figure><img src="${escapeAttr(src)}" alt="${escapeAttr(name)}" loading="lazy" /></figure>`).join("")}
-            </div>` : `<div class="topic-hero-svg">${topic.svg || ""}</div>`}
-
           ${heading ? `
             <div class="research-heading-block">
               <h2 class="research-heading">${escapeHtml(heading)}</h2>
               ${subheading ? `<p class="research-subheading">${escapeHtml(subheading)}</p>` : ""}
             </div>` : ""}
+
+          ${images.length ? `
+            <div class="research-hero-images">
+              ${images.map(src => `<figure><img src="${escapeAttr(src)}" alt="${escapeAttr(name)}" loading="lazy" /></figure>`).join("")}
+            </div>` : `<div class="topic-hero-svg">${topic.svg || ""}</div>`}
 
           ${(topic.keywords || []).length ? `
             <div class="keywords" style="margin: var(--space-8) 0;">
