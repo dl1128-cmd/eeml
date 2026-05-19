@@ -2218,6 +2218,17 @@
           <div class="admin-form-row"><label>기준 (YYYY-MM)</label><input id="c-asof" value="${escapeAttr(c.metrics?.as_of || '')}" /></div>
         </div>
       </div>
+
+      <div class="admin-card">
+        <h3>📊 Google Analytics 4 (접속 통계)</h3>
+        <p class="card-sub">
+          <a href="https://analytics.google.com" target="_blank" rel="noopener">analytics.google.com</a> 에서 측정 ID를 발급받아 입력하세요.
+          비워두면 추적 코드가 사이트에 삽입되지 않습니다.
+        </p>
+        <div class="admin-form">
+          <div class="admin-form-row"><label>GA4 측정 ID</label><input id="c-ga4" value="${escapeAttr(c.analytics?.ga4_id || '')}" placeholder="G-XXXXXXXXXX" /></div>
+        </div>
+      </div>
     `;
     const heroImgPicker = mountImagePicker(
       document.getElementById("c-hero-img-host"),
@@ -2247,6 +2258,10 @@
         i10_index: parseInt(val("c-i10")) || 0,
         as_of: val("c-asof")
       };
+      // Sanitize GA4 ID: only allow G- followed by [A-Z0-9]+ (strip whitespace)
+      const ga4Raw = val("c-ga4").trim().toUpperCase();
+      const ga4 = /^G-[A-Z0-9]+$/.test(ga4Raw) ? ga4Raw : "";
+      c2.analytics = { ...c2.analytics, ga4_id: ga4 };
       STATE.data.config = c2;
       saveJSON("config.json", c2);
     };
