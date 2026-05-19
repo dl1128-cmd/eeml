@@ -1,5 +1,28 @@
 [
   {
+    "id": "g-1779154220963",
+    "date": "2026-05-07",
+    "title_ko": "충남대학교 세미나",
+    "title_en": "",
+    "summary_ko": "충남대학교 류훈희교수님 초청으로 대학원생 대상 이차전지 세미나를 진행했습니다.",
+    "summary_en": "",
+    "body_ko": "",
+    "body_en": "",
+    "cover": "assets/images/gallery/9142d695223ecd91.jpg",
+    "images": [
+      {
+        "src": "assets/images/gallery/9142d695223ecd91.jpg",
+        "caption_ko": "",
+        "caption_en": ""
+      },
+      {
+        "src": "assets/images/gallery/a09871fbef211c31.jpg",
+        "caption_ko": "",
+        "caption_en": ""
+      }
+    ]
+  },
+  {
     "id": "g-40",
     "date": "2026-05-06",
     "title_ko": "Welcome to EEML! 신입 연구생 환영회",
