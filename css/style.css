@@ -552,8 +552,8 @@ p { margin: 0 0 var(--space-4); color: var(--c-text-muted); }
 .topic-cover img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  object-position: center 20%; /* biased up so hair/head stays visible; JS may override with face centroid */
+  object-fit: contain;
+  object-position: center !important; /* full image, no crop (overrides main.js inline focal position) */
   display: block;
   transition: transform 0.35s ease;
 }
@@ -1892,7 +1892,7 @@ p { margin: 0 0 var(--space-4); color: var(--c-text-muted); }
 }
 .jc-card-imgwrap img {
   width: 100%; height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   display: block;
   transition: transform var(--transition);
 }
