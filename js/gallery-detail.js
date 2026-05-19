@@ -28,7 +28,7 @@
       root.innerHTML = `
         <section class="section">
           <div class="container-narrow">
-            <div class="eyebrow"><a href="gallery.html" style="color:inherit">${(i18n?.gallery?.back) || "← Gallery"}</a></div>
+            <div class="eyebrow"><a href="gallery" style="color:inherit">${(i18n?.gallery?.back) || "← Gallery"}</a></div>
             <h1>Not Found</h1>
             <p style="color:var(--c-text-muted)">${(i18n?.gallery?.empty) || "No photos yet."}</p>
           </div>
@@ -50,7 +50,7 @@
     root.innerHTML = `
       <section class="page-header">
         <div class="container-narrow">
-          <div class="eyebrow"><a href="gallery.html" style="color:inherit">${(i18n?.gallery?.back) || "← Gallery"}</a></div>
+          <div class="eyebrow"><a href="gallery" style="color:inherit">${(i18n?.gallery?.back) || "← Gallery"}</a></div>
           <h1>${escapeHtml(title || "")}</h1>
           ${entry.date ? `<div class="gallery-date" style="margin-top:var(--space-2);">${escapeHtml(entry.date)}</div>` : ""}
           ${summary ? `<p style="max-width:680px;margin-top:var(--space-4);">${escapeHtml(summary)}</p>` : ""}
@@ -75,11 +75,11 @@
 
           <hr class="divider" />
           <div class="topic-nav">
-            <a class="topic-nav-link prev" href="gallery-detail.html?id=${encodeURIComponent(prev.id)}">
+            <a class="topic-nav-link prev" href="gallery-detail?id=${encodeURIComponent(prev.id)}">
               <span class="topic-nav-dir">${(i18n?.gallery?.prev) || "← Previous"}</span>
               <span class="topic-nav-name">${escapeHtml(lang === "ko" ? (prev.title_ko || prev.title_en) : (prev.title_en || prev.title_ko))}</span>
             </a>
-            <a class="topic-nav-link next" href="gallery-detail.html?id=${encodeURIComponent(next.id)}">
+            <a class="topic-nav-link next" href="gallery-detail?id=${encodeURIComponent(next.id)}">
               <span class="topic-nav-dir">${(i18n?.gallery?.next) || "Next →"}</span>
               <span class="topic-nav-name">${escapeHtml(lang === "ko" ? (next.title_ko || next.title_en) : (next.title_en || next.title_ko))}</span>
             </a>

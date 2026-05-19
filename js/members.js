@@ -87,7 +87,7 @@
 
     const isPI = role === "professor";
     const tag = isPI ? "a" : "div";
-    const href = isPI ? `href="pi.html"` : "";
+    const href = isPI ? `href="pi"` : "";
     const posStyle = m.photo_pos ? ` style="object-position:${escapeAttr(m.photo_pos)}"` : "";
     const photoEl = m.photo
       ? `<img class="photo" src="${escapeAttr(m.photo)}" alt="${escapeAttr(nameEn || nameKo)}"${posStyle} onerror="this.outerHTML='<div class=photo>${escapeAttr(initials(nameEn || nameKo))}</div>'" />`
@@ -126,7 +126,7 @@
     const lbl = labels[role][lang];
     const dsc = desc[role][lang];
     return `
-      <a class="member-card-open" href="contact.html">
+      <a class="member-card-open" href="contact">
         <div class="icon">+</div>
         <h4>${lbl}</h4>
         <p>${dsc}</p>

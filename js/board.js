@@ -81,7 +81,7 @@
       <li class="news-item">
         <div class="date">${escapeHtml(n.date || "")}</div>
         <div class="body">
-          <a class="news-link" href="board-detail.html?id=${encodeURIComponent(n.id)}">
+          <a class="news-link" href="board-detail?id=${encodeURIComponent(n.id)}">
             <div class="news-head">
               <div class="title">${title}</div>
               ${showBadge ? `<span class="news-cat">${escapeHtml(n.category)}</span>` : ""}

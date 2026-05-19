@@ -53,7 +53,7 @@
     const summary = lang === "ko" ? (g.summary_ko || g.summary_en) : (g.summary_en || g.summary_ko);
     const cover = g.cover || ((g.images && g.images[0] && g.images[0].src) || "");
     return `
-      <a class="gallery-card" href="gallery-detail.html?id=${encodeURIComponent(g.id)}">
+      <a class="gallery-card" href="gallery-detail?id=${encodeURIComponent(g.id)}">
         <div class="gallery-cover">
           ${cover ? `<img src="${escapeAttr(cover)}" alt="${escapeAttr(title || "")}" loading="lazy" />` : `<div class="gallery-cover-placeholder">EEML</div>`}
         </div>

@@ -44,7 +44,7 @@
     root.innerHTML = `
       <section class="page-header">
         <div class="container-narrow">
-          <div class="eyebrow"><a href="research.html" style="color:inherit">← Research</a></div>
+          <div class="eyebrow"><a href="research" style="color:inherit">← Research</a></div>
           <h1>${escapeHtml(name)}</h1>
           <p style="max-width: 680px;">${escapeHtml(summary)}</p>
         </div>
@@ -78,11 +78,11 @@
 
           <hr class="divider" />
           <div class="topic-nav">
-            <a class="topic-nav-link prev" href="research-detail.html?id=${prev.id}">
+            <a class="topic-nav-link prev" href="research-detail?id=${prev.id}">
               <span class="topic-nav-dir">${lang === "ko" ? "← 이전" : "← Previous"}</span>
               <span class="topic-nav-name">${escapeHtml(lang === "ko" ? prev.title_ko : prev.title_en)}</span>
             </a>
-            <a class="topic-nav-link next" href="research-detail.html?id=${next.id}">
+            <a class="topic-nav-link next" href="research-detail?id=${next.id}">
               <span class="topic-nav-dir">${lang === "ko" ? "다음 →" : "Next →"}</span>
               <span class="topic-nav-name">${escapeHtml(lang === "ko" ? next.title_ko : next.title_en)}</span>
             </a>
@@ -103,11 +103,11 @@
   }
 
   function renderNotFound(topics, lang) {
-    const items = topics.map(t => `<li><a href="research-detail.html?id=${t.id}">${escapeHtml(lang === "ko" ? t.title_ko : t.title_en)}</a></li>`).join("");
+    const items = topics.map(t => `<li><a href="research-detail?id=${t.id}">${escapeHtml(lang === "ko" ? t.title_ko : t.title_en)}</a></li>`).join("");
     return `
       <section class="section">
         <div class="container-narrow">
-          <div class="eyebrow"><a href="research.html" style="color:inherit">← Research</a></div>
+          <div class="eyebrow"><a href="research" style="color:inherit">← Research</a></div>
           <h1>Not Found</h1>
           <p>Available topics:</p>
           <ul>${items}</ul>

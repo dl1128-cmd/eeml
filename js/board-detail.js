@@ -23,7 +23,7 @@
       root.innerHTML = `
         <section class="section">
           <div class="container-narrow">
-            <div class="eyebrow"><a href="board.html" style="color:inherit">${lang === "ko" ? "← News" : "← News"}</a></div>
+            <div class="eyebrow"><a href="board" style="color:inherit">${lang === "ko" ? "← News" : "← News"}</a></div>
             <h1>Not Found</h1>
             <p style="color:var(--c-text-muted)">${lang === "ko" ? "뉴스를 찾을 수 없습니다." : "News item not found."}</p>
           </div>
@@ -43,7 +43,7 @@
     root.innerHTML = `
       <section class="page-header">
         <div class="container-narrow">
-          <div class="eyebrow"><a href="board.html" style="color:inherit">${lang === "ko" ? "← News" : "← News"}</a></div>
+          <div class="eyebrow"><a href="board" style="color:inherit">${lang === "ko" ? "← News" : "← News"}</a></div>
           <h1>${escapeHtml(title || "")}</h1>
           <div class="news-detail-meta">
             ${entry.date ? `<span class="news-detail-date">${escapeHtml(entry.date)}</span>` : ""}
@@ -67,11 +67,11 @@
 
           <hr class="divider" />
           <div class="topic-nav">
-            <a class="topic-nav-link prev" href="board-detail.html?id=${encodeURIComponent(prev.id)}">
+            <a class="topic-nav-link prev" href="board-detail?id=${encodeURIComponent(prev.id)}">
               <span class="topic-nav-dir">${lang === "ko" ? "← 이전" : "← Previous"}</span>
               <span class="topic-nav-name">${escapeHtml(lang === "ko" ? (prev.title_ko || prev.title_en) : (prev.title_en || prev.title_ko))}</span>
             </a>
-            <a class="topic-nav-link next" href="board-detail.html?id=${encodeURIComponent(next.id)}">
+            <a class="topic-nav-link next" href="board-detail?id=${encodeURIComponent(next.id)}">
               <span class="topic-nav-dir">${lang === "ko" ? "다음 →" : "Next →"}</span>
               <span class="topic-nav-name">${escapeHtml(lang === "ko" ? (next.title_ko || next.title_en) : (next.title_en || next.title_ko))}</span>
             </a>

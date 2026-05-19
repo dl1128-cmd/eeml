@@ -32,7 +32,7 @@
       const desc = lang === "ko" ? t.summary_ko : t.summary_en;
       const cover = (t.images && t.images[0]) || "";
       return `
-        <a class="topic-card" href="research-detail.html?id=${t.id}">
+        <a class="topic-card" href="research-detail?id=${t.id}">
           ${cover ? `<div class="topic-cover"><img src="${escapeAttr(cover)}" alt="${escapeAttr(name)}" loading="lazy" /></div>` : `<div class="topic-svg">${t.svg || ""}</div>`}
           <h3>${escapeHtml(name)}</h3>
           <p>${escapeHtml(desc)}</p>
@@ -61,7 +61,7 @@
         <button type="button" class="featured-scroll-btn prev" aria-label="Previous publications">‹</button>
         <div class="featured-scroll" role="region" aria-label="Selected publications">
           ${top.map(p => `
-            <a class="featured-card" href="publications.html">
+            <a class="featured-card" href="publications">
               <div class="meta-top"><span>${escapeHtml(p.venue)}</span><span class="year">${p.year}</span></div>
               <h3>${escapeHtml(p.title)}</h3>
               <div class="authors">${escapeHtml(truncate(p.authors, 110))}</div>
@@ -102,7 +102,7 @@
       const title = lang === "ko" ? (n.title_ko || n.title_en) : (n.title_en || n.title_ko);
       return `
         <li>
-          <a href="board.html">
+          <a href="board">
             <span class="date">${n.date}</span>
             <span class="title">${escapeHtml(title || "")}</span>
           </a>
@@ -126,7 +126,7 @@
       const summary = lang === "ko" ? (g.summary_ko || g.summary_en) : (g.summary_en || g.summary_ko);
       const cover = g.cover || ((g.images && g.images[0] && g.images[0].src) || "");
       return `
-        <a class="gallery-quick-item" href="gallery-detail.html?id=${encodeURIComponent(g.id)}">
+        <a class="gallery-quick-item" href="gallery-detail?id=${encodeURIComponent(g.id)}">
           <div class="gallery-quick-thumb">
             ${cover ? `<img src="${escapeAttr(cover)}" alt="${escapeAttr(title || "")}" loading="lazy" />` : `<div class="gallery-quick-placeholder">EEML</div>`}
           </div>

@@ -326,10 +326,10 @@
     if (toggle && links) {
       toggle.addEventListener("click", () => links.classList.toggle("open"));
     }
-    const path = location.pathname.split("/").pop() || "index.html";
+    const path = location.pathname.split("/").pop() || "/";
     document.querySelectorAll(".nav-links a").forEach(a => {
       const href = a.getAttribute("href");
-      if (href === path || (path === "" && href === "index.html")) a.classList.add("active");
+      if (href === path || (path === "" && href === "/")) a.classList.add("active");
     });
 
     // Scrolled state
