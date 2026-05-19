@@ -2063,10 +2063,8 @@ body.jc-modal-open { overflow: hidden; }
   list-style: none;
   padding: 0;
   margin: 0;
-  counter-reset: patent;
 }
 .patent-item {
-  counter-increment: patent;
   padding: var(--space-5) 0;
   border-bottom: 1px solid var(--c-border-soft, rgba(0,0,0,0.06));
 }
@@ -2086,13 +2084,13 @@ body.jc-modal-open { overflow: hidden; }
   flex: 1 1 auto;
   min-width: 0;
 }
-.patent-title::before {
-  content: counter(patent) ". ";
+.patent-num {
+  display: inline-block;
   font-family: var(--font-mono);
   font-weight: 400;
   color: var(--c-text-muted);
   font-variant-numeric: tabular-nums;
-  margin-right: 2px;
+  margin-right: 6px;
 }
 .patent-year {
   font-family: var(--font-mono);

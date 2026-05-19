@@ -55,17 +55,20 @@
     if (intl.length) groups.push({ label: lang === "ko" ? "국제 특허" : "International", items: intl });
     if (dom.length)  groups.push({ label: lang === "ko" ? "국내 특허" : "Domestic", items: dom });
 
-    root.innerHTML = groups.map(g => `
-      <div class="patent-group">
-        <h3 class="patent-group-title">${escapeHtml(g.label)} <span class="patent-group-count">${g.items.length}</span></h3>
-        <ol class="patent-list">
-          ${g.items.map(p => renderPatentItem(p, lang)).join("")}
-        </ol>
-      </div>
-    `).join("");
+    root.innerHTML = groups.map(g => {
+      // Descending numbering within each group: top entry (newest) = N,
+      // bottom entry (oldest) = 1.
+      let counter = g.items.length;
+      const items = g.items.map(p => renderPatentItem(p, counter--, lang)).join("");
+      return `
+        <div class="patent-group">
+          <h3 class="patent-group-title">${escapeHtml(g.label)} <span class="patent-group-count">${g.items.length}</span></h3>
+          <ol class="patent-list">${items}</ol>
+        </div>`;
+    }).join("");
   }
 
-  function renderPatentItem(p, lang) {
+  function renderPatentItem(p, displayNum, lang) {
     const inventors = Array.isArray(p.inventors) ? p.inventors.join(", ") : (p.inventors || "");
     const year = p.year ? `<span class="patent-year">${escapeHtml(String(p.year))}</span>` : "";
     const badges = [];
@@ -83,7 +86,7 @@
     return `
       <li class="patent-item">
         <div class="patent-row">
-          <span class="patent-title">${escapeHtml(p.title)}</span>
+          <span class="patent-title"><span class="patent-num">${displayNum}.</span>${escapeHtml(p.title)}</span>
           ${badges.length ? `<span class="patent-badges">${badges.join("")}</span>` : ""}
           ${year}
         </div>
