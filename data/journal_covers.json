@@ -24,5 +24,18 @@
     "doi": "doi.org/10.1002/celc.202400612Digital Object Identifier (DOI)",
     "link": "https://chemistry-europe.onlinelibrary.wiley.com/doi/abs/10.1002/celc.202400612",
     "order": 2
+  },
+  {
+    "id": "cov-1779166783623",
+    "image": "assets/images/covers/9892c377eb5f70ee.jpg",
+    "journal": "Advanced Functional Materials",
+    "year": 2025,
+    "title_ko": "",
+    "title_en": "Anode SHIELD: A Surface Hybrid Interlayer for High-Capacity Anodes Toward Safe and Stable Lithium-Ion Batteries",
+    "description_ko": "Front Cover",
+    "description_en": "",
+    "doi": "doi.org/10.1002/adfm.202513744",
+    "link": "https://advanced.onlinelibrary.wiley.com/doi/abs/10.1002/adfm.202513744",
+    "order": 3
   }
 ]
