@@ -37,5 +37,18 @@
     "doi": "doi.org/10.1002/adfm.202513744",
     "link": "https://advanced.onlinelibrary.wiley.com/doi/abs/10.1002/adfm.202513744",
     "order": 3
+  },
+  {
+    "id": "cov-1779166867193",
+    "image": "assets/images/covers/60b1a280571b121d.jpg",
+    "journal": "Journal of Materials Chemistry A",
+    "year": 2026,
+    "title_ko": "",
+    "title_en": "A uniform lithium ion flux and robust interphase enabled by an anion anchoring additive for high energy density Si-based anodes",
+    "description_ko": "Front Cover",
+    "description_en": "",
+    "doi": "DOI: 10.1039/D6TA01386D",
+    "link": "https://pubs.rsc.org/en/content/articlehtml/2026/ta/d6ta01386d",
+    "order": 4
   }
 ]
