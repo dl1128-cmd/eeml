@@ -1,5 +1,33 @@
 [
   {
+    "id": "g-40",
+    "date": "2026-05-06",
+    "title_ko": "Welcome to EEML! 신입 연구생 환영회",
+    "title_en": "",
+    "summary_ko": "11pt;\">편안한 분위기 속에서 연구실 생활과 연구에 대한 이야기를 나누며",
+    "summary_en": "",
+    "body_ko": "최근 우리 연구실에 새롭게 합류한 학부 연구생 친구들을 환영하는 자리를 가졌습니다.\n\n교수님의 지원으로 외부 식사 자리를 마련하여,\n편안한 분위기 속에서 연구실 생활과 연구에 대한 이야기를 나누며\n서로를 알아가는 뜻 깊은 시간을 보냈습니다.",
+    "body_en": "",
+    "cover": "assets/images/gallery/40-202605061826221794440217.jpg",
+    "images": [
+      {
+        "src": "assets/images/gallery/40-202605061826221794440217.jpg",
+        "caption_ko": "",
+        "caption_en": ""
+      },
+      {
+        "src": "assets/images/gallery/40-202605061828051637391102.jpg",
+        "caption_ko": "",
+        "caption_en": ""
+      },
+      {
+        "src": "assets/images/gallery/40-20260506182919415499478.jpg",
+        "caption_ko": "",
+        "caption_en": ""
+      }
+    ]
+  },
+  {
     "id": "g-39",
     "date": "2026-04-08",
     "title_ko": "2026 춘계 전기화학회 후기 (4/1 ~ 4/3)",
