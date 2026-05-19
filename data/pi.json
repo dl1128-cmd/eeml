@@ -9,12 +9,30 @@
   "photo": "assets/images/members/pi-dongsoo-lee.png",
   "cv": "",
   "links": [
-    { "label": "Google Scholar", "url": "https://scholar.google.com/citations?user=d8lQYgwAAAAJ" },
-    { "label": "ResearchGate", "url": "https://www.researchgate.net/profile/Dongsoo-Lee-4" },
-    { "label": "ORCID", "url": "https://orcid.org/0000-0003-3777-6366" },
-    { "label": "Scopus", "url": "https://www.scopus.com/authid/detail.uri?authorId=57201799820" },
-    { "label": "LinkedIn", "url": "https://www.linkedin.com/in/dongsoo-lee-2837501b4/" },
-    { "label": "Gachon Profile", "url": "https://www.gachon.ac.kr/batteng/8903/subview.do" }
+    {
+      "label": "Google Scholar",
+      "url": "https://scholar.google.com/citations?user=d8lQYgwAAAAJ"
+    },
+    {
+      "label": "ResearchGate",
+      "url": "https://www.researchgate.net/profile/Dongsoo-Lee-4"
+    },
+    {
+      "label": "ORCID",
+      "url": "https://orcid.org/0000-0003-3777-6366"
+    },
+    {
+      "label": "Scopus",
+      "url": "https://www.scopus.com/authid/detail.uri?authorId=57201799820"
+    },
+    {
+      "label": "LinkedIn",
+      "url": "https://www.linkedin.com/in/dongsoo-lee-2837501b4/"
+    },
+    {
+      "label": "Gachon Profile",
+      "url": "https://www.gachon.ac.kr/batteng/8903/subview.do"
+    }
   ],
   "bio_short_ko": "Li 금속 음극 · 전고체 전지 · 수자원 기반 전기화학 디바이스 연구.",
   "bio_short_en": "Li metal anodes, solid-state batteries, and electrochemical devices for water-related applications.",
@@ -28,11 +46,10 @@
     "Energy Conversion (F-CapMix)"
   ],
   "interests_ko": [
-    "Li 금속 음극",
-    "전고체 전지",
-    "전기화학 계면",
-    "할라이드 고체 전해질",
-    "에너지 변환 (F-CapMix)"
+    "Li Metal Batteries",
+    "Solid-state Batteries",
+    "Interfaces & Interphases",
+    "Renewable Energy Conversion (F-CapMix)"
   ],
   "education": [
     {
@@ -89,9 +106,27 @@
     }
   ],
   "awards": [
-    { "year": 2022, "title_ko": "BK21 사업 우수논문상 (한양대학교 에너지공학)", "title_en": "Best Paper Award, BK21 Program (Energy Engineering, Hanyang University)", "org_ko": "한양대학교", "org_en": "Hanyang University" },
-    { "year": 2020, "title_ko": "전액 장학금 (한양대학교 대학원, 2016–2020)", "title_en": "Full-tuition Scholarship, Graduate School, Hanyang University (2016–2020)", "org_ko": "한양대학교", "org_en": "Hanyang University" },
-    { "year": 2016, "title_ko": "전액 장학금 (한양대학교 학부, 2012–2016)", "title_en": "Full-tuition Scholarship, Undergraduate Program, Hanyang University (2012–2016)", "org_ko": "한양대학교", "org_en": "Hanyang University" }
+    {
+      "year": 2022,
+      "title_ko": "BK21 사업 우수논문상 (한양대학교 에너지공학)",
+      "title_en": "Best Paper Award, BK21 Program (Energy Engineering, Hanyang University)",
+      "org_ko": "한양대학교",
+      "org_en": "Hanyang University"
+    },
+    {
+      "year": 2020,
+      "title_ko": "전액 장학금 (한양대학교 대학원, 2016–2020)",
+      "title_en": "Full-tuition Scholarship, Graduate School, Hanyang University (2016–2020)",
+      "org_ko": "한양대학교",
+      "org_en": "Hanyang University"
+    },
+    {
+      "year": 2016,
+      "title_ko": "전액 장학금 (한양대학교 학부, 2012–2016)",
+      "title_en": "Full-tuition Scholarship, Undergraduate Program, Hanyang University (2012–2016)",
+      "org_ko": "한양대학교",
+      "org_en": "Hanyang University"
+    }
   ],
   "grants": [],
   "selected_publications": [
