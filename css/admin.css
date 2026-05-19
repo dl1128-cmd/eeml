@@ -543,52 +543,89 @@
 }
 
 /* ---- Photo focal-point picker (PI / Member) ---- */
-.admin-img-preview { position: relative; }
+.admin-img-preview {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius, 8px);
+}
 .admin-img-preview img { display: block; }
+.admin-img-preview.focus-enabled {
+  cursor: crosshair;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+}
+.admin-img-preview.focus-enabled::before {
+  content: "📍 클릭 또는 드래그";
+  position: absolute;
+  top: 8px; left: 8px;
+  background: rgba(0, 0, 0, 0.65);
+  color: #fff;
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 12px;
+  pointer-events: none;
+  z-index: 4;
+  opacity: 0.85;
+  transition: opacity 0.2s;
+}
+.admin-img-preview.focus-enabled:hover::before { opacity: 1; }
 .admin-img-focus-marker {
   position: absolute;
-  width: 32px;
-  height: 32px;
-  margin-left: -16px;
-  margin-top: -16px;
-  border: 2px solid #fff;
+  width: 44px;
+  height: 44px;
+  margin-left: -22px;
+  margin-top: -22px;
+  border: 3px solid #fff;
   border-radius: 50%;
-  box-shadow: 0 0 0 2px rgba(255, 107, 53, 0.95), 0 2px 10px rgba(0, 0, 0, 0.45);
-  background: rgba(255, 107, 53, 0.25);
+  box-shadow: 0 0 0 3px rgba(255, 107, 53, 1), 0 4px 14px rgba(0, 0, 0, 0.5);
+  background: rgba(255, 107, 53, 0.3);
   cursor: grab;
   z-index: 5;
   touch-action: none;
-  transition: transform 0.08s ease;
+  transition: transform 0.1s ease, box-shadow 0.15s ease;
+  animation: focus-marker-pulse 2s ease-in-out infinite;
 }
-.admin-img-focus-marker:hover { transform: scale(1.1); }
-.admin-img-focus-marker:active { cursor: grabbing; transform: scale(1.15); }
+@keyframes focus-marker-pulse {
+  0%, 100% { box-shadow: 0 0 0 3px rgba(255, 107, 53, 1), 0 4px 14px rgba(0,0,0,0.5), 0 0 0 0 rgba(255, 107, 53, 0.4); }
+  50%      { box-shadow: 0 0 0 3px rgba(255, 107, 53, 1), 0 4px 14px rgba(0,0,0,0.5), 0 0 0 14px rgba(255, 107, 53, 0); }
+}
+.admin-img-focus-marker:hover { transform: scale(1.12); animation: none; }
+.admin-img-focus-marker:active {
+  cursor: grabbing; transform: scale(1.2);
+  box-shadow: 0 0 0 3px rgba(255, 107, 53, 1), 0 6px 20px rgba(0,0,0,0.6);
+  animation: none;
+}
 .admin-img-focus-marker::before,
 .admin-img-focus-marker::after {
   content: "";
   position: absolute;
   background: #fff;
-  box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.7);
 }
 .admin-img-focus-marker::before {
-  left: 50%; top: 5px; bottom: 5px;
+  left: 50%; top: 6px; bottom: 6px;
   width: 2px; margin-left: -1px;
 }
 .admin-img-focus-marker::after {
-  top: 50%; left: 5px; right: 5px;
+  top: 50%; left: 6px; right: 6px;
   height: 2px; margin-top: -1px;
 }
 .admin-img-focus-hint {
-  font-size: 11px;
+  font-size: 12px;
   color: var(--color-text-light, #6b7280);
-  margin-top: 6px;
+  margin-top: 8px;
   text-align: center;
-  opacity: 0.85;
   user-select: none;
+  line-height: 1.5;
 }
+.admin-img-focus-hint b { color: #ff6b35; }
 .admin-img-focus-reset {
   display: inline-block;
-  margin-left: 6px;
+  margin-left: 8px;
   color: var(--color-primary, #0ea5e9);
   cursor: pointer;
   text-decoration: underline;
+  font-weight: 600;
 }
+.admin-img-focus-reset:hover { color: #ff6b35; }

@@ -96,7 +96,7 @@
             ? `<img src="${escapeAttr(safeSrc)}" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" /><div class="admin-img-placeholder" style="display:none">이미지 없음</div>`
             : `<div class="admin-img-placeholder">사진을<br/>선택하세요</div>`}
         </div>
-        ${enableFocus ? `<div class="admin-img-focus-hint">사진 위 <b style="color:#ff6b35">+ 마커</b>를 드래그하여 얼굴·중심 위치를 맞추세요 <span class="admin-img-focus-reset" data-action="reset-pos">기본값으로</span></div>` : ""}
+        ${enableFocus ? `<div class="admin-img-focus-hint">사진 위 <b>아무 곳이나 클릭</b>하거나 <b>+ 마커를 드래그</b>해서 얼굴/중심 위치를 맞추세요 <span class="admin-img-focus-reset" data-action="reset-pos">기본값으로 ↺</span></div>` : ""}
         <div class="admin-img-controls">
           <label class="btn btn-primary btn-sm" style="cursor:pointer">
             📁 사진 파일 선택
@@ -152,7 +152,14 @@
       // so the focal point reflects what users will see.
       img.style.width = "100%";
       img.style.height = "100%";
-      preview.style.aspectRatio = preview.style.aspectRatio || "1 / 1";
+      img.style.objectFit = "cover";
+      img.draggable = false;  // disable native HTML5 drag-image ghost
+      // Match the public-site aspect ratio for accurate focal positioning:
+      //   PI photo card = 4 / 5, Member card = 1 / 1
+      // opts.previewAspect lets the caller override (e.g. "4 / 5").
+      const aspect = opts.previewAspect || "1 / 1";
+      preview.style.aspectRatio = aspect;
+      preview.classList.add("focus-enabled");
       applyPosToPreview();
 
       marker = document.createElement('div');
@@ -204,7 +211,20 @@
       });
     }
 
-    if (hasRealImage && enableFocus) mountMarker();
+    function mountMarkerAfterImageReady() {
+      if (!enableFocus) return;
+      const img = preview.querySelector('img');
+      if (!img) return;
+      if (img.complete && img.naturalWidth > 0) {
+        mountMarker();
+      } else {
+        img.addEventListener('load', () => mountMarker(), { once: true });
+        // Failsafe: if load never fires within 1s, still attempt mount
+        setTimeout(() => mountMarker(), 1000);
+      }
+    }
+
+    if (hasRealImage && enableFocus) mountMarkerAfterImageReady();
 
     input.onchange = async (e) => {
       const file = e.target.files[0];
@@ -212,12 +232,10 @@
       try {
         const dataUrl = await resizeImageFile(file, opts.maxW, opts.maxH, 0.85);
         value = dataUrl;
-        preview.innerHTML = `<img src="${dataUrl}" alt="" /><div style="position:absolute;bottom:4px;right:4px;background:rgba(0,0,0,0.6);color:#fff;padding:2px 6px;border-radius:3px;font-size:10px">${Math.round(dataUrl.length / 1024)}KB</div>`;
+        preview.innerHTML = `<img src="${dataUrl}" alt="" draggable="false" /><div style="position:absolute;bottom:4px;right:4px;background:rgba(0,0,0,0.6);color:#fff;padding:2px 6px;border-radius:3px;font-size:10px;pointer-events:none;z-index:3">${Math.round(dataUrl.length / 1024)}KB</div>`;
         if (enableFocus) {
-          // new image — reset position to default
-          pos = "";
-          // Wait for the <img> to be in DOM, then mount marker
-          requestAnimationFrame(() => mountMarker());
+          pos = "";  // new image — reset to default
+          mountMarkerAfterImageReady();
         }
         onChange(value);
       } catch (err) {
@@ -229,6 +247,8 @@
       value = "";
       pos = "";
       marker = null;
+      preview.classList.remove("focus-enabled");
+      preview.style.aspectRatio = "";
       preview.innerHTML = `<div class="admin-img-placeholder">이미지 없음</div>`;
       onChange("");
     };
@@ -950,7 +970,7 @@
     photoPicker = mountImagePicker(
       document.getElementById("f-photo-host"),
       m.photo && !m.photo.includes("placeholder") ? m.photo : "",
-      { maxW: 400, maxH: 400, enableFocus: true, initialPos: m.photo_pos || "" },
+      { maxW: 400, maxH: 400, enableFocus: true, initialPos: m.photo_pos || "", previewAspect: "1 / 1" },
       () => {}
     );
   }
@@ -1034,7 +1054,7 @@
     const photoPicker = mountImagePicker(
       document.getElementById("pi-photo-host"),
       p.photo || "",
-      { maxW: 600, maxH: 800, enableFocus: true, initialPos: p.photo_pos || "" },
+      { maxW: 600, maxH: 800, enableFocus: true, initialPos: p.photo_pos || "", previewAspect: "4 / 5" },
       () => {}
     );
 
