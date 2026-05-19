@@ -83,11 +83,11 @@
     return `
       <li class="patent-item">
         <div class="patent-row">
-          <div class="patent-title">${escapeHtml(p.title)}</div>
+          <span class="patent-title">${escapeHtml(p.title)}</span>
+          ${badges.length ? `<span class="patent-badges">${badges.join("")}</span>` : ""}
           ${year}
         </div>
         ${inventors ? `<div class="patent-inventors">${escapeHtml(inventors)}</div>` : ""}
-        ${badges.length ? `<div class="patent-badges">${badges.join("")}</div>` : ""}
       </li>`;
   }
 

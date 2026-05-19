@@ -2096,73 +2096,69 @@
   }
 
   /* =========================================================================
-   * Visitor stats (counterapi.dev)
+   * Visitor stats — now powered by Google Analytics 4
+   * The old counterapi.dev backend was discontinued (record-not-found 400);
+   * we open the GA4 dashboard in a new tab where the full report lives.
    * ========================================================================= */
   function renderStats() {
     const host = document.getElementById("tab-stats");
+    const cfg = (STATE.data && STATE.data.config) || {};
+    const gaId = (cfg.analytics && cfg.analytics.ga4_id) || "";
+    const configured = /^G-[A-Z0-9]+$/i.test(gaId);
+
+    const dashboardUrl = configured
+      ? "https://analytics.google.com/analytics/web/#/"
+      : "https://analytics.google.com/";
+
     host.innerHTML = `
       <div class="admin-section-head">
         <h2>접속 통계</h2>
         <div class="admin-section-actions">
-          <button class="btn btn-outline" id="stats-refresh">🔄 새로고침</button>
+          <a href="${dashboardUrl}" target="_blank" rel="noopener" class="btn btn-primary">📊 GA4 대시보드 열기 ↗</a>
         </div>
       </div>
 
-      <div class="admin-card" style="background:#E5EDFB;border-color:#B8C8E0;color:#0F47B8;font-size:.875rem">
-        <b>ℹ️ 데이터 출처</b> — counterapi.dev (무료 익명 카운터). 같은 사용자가 새 탭/세션으로 들어오면 별도 카운트.
-        브라우저 종료 후 다시 들어오면 카운트됩니다. 정확한 unique visitor 가 아닌 <b>방문 세션 수</b>입니다.
-      </div>
+      ${configured ? `
+        <div class="admin-card" style="background:#dcfce7;border-color:#86efac;color:#166534">
+          <b>✅ Google Analytics 4 연결됨</b> &nbsp;<code style="background:rgba(255,255,255,0.5);padding:2px 6px;border-radius:4px">${escapeHtml(gaId)}</code><br/>
+          모든 페이지에 GA4 추적 코드가 자동으로 삽입됩니다. 위 <b>📊 GA4 대시보드 열기</b> 버튼을 눌러 실시간/일별/주별/월별 방문 통계, 인기 페이지, 유입 경로, 디바이스/지역 분포 등을 확인하세요.
+        </div>
 
-      <div id="stats-grid" style="display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:1.5rem;margin-top:1.5rem">
-        <div class="admin-card stats-cell"><div class="stats-label">오늘 (Today)</div><div class="stats-value" data-stat="today">···</div></div>
-        <div class="admin-card stats-cell"><div class="stats-label">어제 (Yesterday)</div><div class="stats-value" data-stat="yesterday">···</div></div>
-        <div class="admin-card stats-cell"><div class="stats-label">이번 달 (This Month)</div><div class="stats-value" data-stat="month">···</div></div>
-        <div class="admin-card stats-cell"><div class="stats-label">지난 달 (Last Month)</div><div class="stats-value" data-stat="lastmonth">···</div></div>
-        <div class="admin-card stats-cell" style="background:var(--c-text);color:var(--c-bg);border-color:var(--c-text)"><div class="stats-label" style="color:rgba(255,255,255,0.7)">전체 (Total)</div><div class="stats-value" data-stat="total" style="color:var(--c-bg)">···</div></div>
-      </div>
+        <div class="admin-card" style="margin-top:1.5rem">
+          <h3 style="margin-top:0">📌 GA4 에서 볼 수 있는 통계</h3>
+          <ul style="line-height:1.9;margin:0;padding-left:1.25rem">
+            <li><b>실시간</b> — 지금 사이트 보고 있는 사용자 수, 활동 중인 페이지</li>
+            <li><b>방문자</b> — 일/주/월별 활성 사용자, 신규 vs 재방문</li>
+            <li><b>인기 페이지</b> — 가장 많이 본 페이지 (예: /pi, /publications, /research)</li>
+            <li><b>유입 경로</b> — 검색엔진/직접/추천/소셜 등 어디서 들어오는지</li>
+            <li><b>지역 / 언어 / 디바이스</b> — 방문자 분포</li>
+            <li><b>참여도</b> — 평균 체류 시간, 이탈률, 페이지/세션</li>
+          </ul>
+        </div>
+      ` : `
+        <div class="admin-card" style="background:#fef3c7;border-color:#fcd34d;color:#92400e">
+          <b>⚠ Google Analytics 4 미설정</b><br/>
+          접속 통계를 보려면 GA4 측정 ID (<code>G-XXXXXXXXXX</code>)를 발급받아 <b>⚙️ 기본설정</b> 탭의 <b>GA4 측정 ID</b> 칸에 입력하세요.
+        </div>
 
-      <style>
-        .stats-cell { text-align: center; padding: var(--space-8) var(--space-4); }
-        .stats-label { font-size: var(--fs-xs); font-family: var(--font-mono); color: var(--c-text-light); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: var(--space-3); font-weight: 600; }
-        .stats-value { font-family: var(--font-sans); font-size: 2.75rem; font-weight: 800; color: var(--c-text); letter-spacing: -0.03em; line-height: 1; }
-      </style>
+        <div class="admin-card" style="margin-top:1.5rem">
+          <h3 style="margin-top:0">📝 GA4 설정 방법 (5분)</h3>
+          <ol style="line-height:1.9;margin:0;padding-left:1.25rem">
+            <li><a href="https://analytics.google.com" target="_blank" rel="noopener"><b>analytics.google.com</b> ↗</a> 접속 (Google 계정 로그인)</li>
+            <li>좌측 하단 <b>관리(⚙️)</b> → <b>+ 계정 만들기</b> (이미 있으면 패스) → 계정 이름: <code>EEML Lab</code></li>
+            <li><b>+ 속성 만들기</b> → 속성 이름: <code>eeml.gachon.ac.kr</code>, 시간대: <b>대한민국</b>, 통화: <b>KRW</b></li>
+            <li>비즈니스 정보 입력 (선택) → <b>웹 스트림 추가</b>:
+              <ul style="margin-top:.5rem"><li>URL: <code>https://eeml.gachon.ac.kr</code></li><li>스트림 이름: <code>EEML Public Site</code></li></ul>
+            </li>
+            <li>표시된 <b>측정 ID <code>G-XXXXXXXXXX</code></b> 복사</li>
+            <li>이 admin 페이지의 <b>⚙️ 기본설정</b> 탭 → <b>GA4 측정 ID</b> 칸에 붙여넣기 → 저장</li>
+          </ol>
+          <p style="margin-top:1rem;color:var(--c-text-muted);font-size:.875rem">
+            💡 저장 후 2분 내로 사이트에 추적 코드가 자동 배포됩니다. 첫 방문이 GA4에 잡히는 데는 보통 5~30분 걸립니다.
+          </p>
+        </div>
+      `}
     `;
-
-    const loadStats = async () => {
-      const today = new Date();
-      const yesterday = new Date(today.getTime() - 86400000);
-      const thisMonth = today.toISOString().slice(0, 7);
-      const lastMonthDate = new Date(today.getFullYear(), today.getMonth() - 1, 1);
-      const lastMonth = lastMonthDate.toISOString().slice(0, 7);
-      const todayKey = "day-" + today.toISOString().slice(0, 10);
-      const yesterdayKey = "day-" + yesterday.toISOString().slice(0, 10);
-
-      const fetchCount = async (key) => {
-        try {
-          const r = await fetch(`${STATS_BASE}/${key}`, { mode: "cors" });
-          if (!r.ok) return 0;
-          const j = await r.json();
-          return j.count ?? j.value ?? 0;
-        } catch { return 0; }
-      };
-
-      const [t, y, m, lm, tot] = await Promise.all([
-        fetchCount(todayKey),
-        fetchCount(yesterdayKey),
-        fetchCount("month-" + thisMonth),
-        fetchCount("month-" + lastMonth),
-        fetchCount("total")
-      ]);
-
-      document.querySelector('[data-stat="today"]').textContent = t.toLocaleString();
-      document.querySelector('[data-stat="yesterday"]').textContent = y.toLocaleString();
-      document.querySelector('[data-stat="month"]').textContent = m.toLocaleString();
-      document.querySelector('[data-stat="lastmonth"]').textContent = lm.toLocaleString();
-      document.querySelector('[data-stat="total"]').textContent = tot.toLocaleString();
-    };
-
-    host.querySelector("#stats-refresh").onclick = loadStats;
-    loadStats();
   }
 
   /* =========================================================================

@@ -49,7 +49,7 @@
       setupAutoFocus();
       document.dispatchEvent(new CustomEvent("site:ready", { detail: state }));
       // Non-blocking
-      trackVisit().catch(() => {});
+      loadGA4(config?.analytics?.ga4_id || "");
       showAnnouncement().catch(() => {});
       autoUpdateScholarMetrics().catch(() => {});
     } catch (err) {
@@ -58,20 +58,28 @@
   }
 
   /* =========================================================================
-   * Visitor counter — uses counterapi.dev (free, no signup, anonymous)
-   * Increments per-day, per-month, and total counters once per session.
+   * Visitor analytics — Google Analytics 4 (gtag.js)
+   * Lazy-loaded only when config.analytics.ga4_id is set, so the site has
+   * zero external requests if the admin hasn't configured GA4.
    * ========================================================================= */
-  const STATS_NS = "eeml-dongsoo-lee-2026"; // unique namespace for this site
-  const STATS_BASE = "https://api.counterapi.dev/v1/" + STATS_NS;
-
-  async function trackVisit() {
-    if (sessionStorage.getItem("eeml:visit:tracked")) return;
-    sessionStorage.setItem("eeml:visit:tracked", "1");
-    const today = new Date().toISOString().slice(0, 10);  // 2026-04-15
-    const month = today.slice(0, 7);                       // 2026-04
-    const keys = ["total", "day-" + today, "month-" + month];
-    await Promise.allSettled(keys.map(k => fetch(`${STATS_BASE}/${k}/up`, { mode: "cors" })));
+  function loadGA4(measurementId) {
+    if (!measurementId || !/^G-[A-Z0-9]+$/i.test(measurementId)) return;
+    if (window.__ga4Loaded) return;
+    window.__ga4Loaded = true;
+    const s = document.createElement("script");
+    s.async = true;
+    s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(measurementId);
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { window.dataLayer.push(arguments); }
+    window.gtag = gtag;
+    gtag("js", new Date());
+    gtag("config", measurementId, { anonymize_ip: true });
   }
+
+  // Back-compat shim: old trackVisit() callers become no-ops (counterapi.dev
+  // returned 400 "record not found" after the service tightened its API).
+  async function trackVisit() { /* replaced by GA4 */ }
 
   /* =========================================================================
    * Scholar metrics auto-fetch

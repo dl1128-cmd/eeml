@@ -47,5 +47,8 @@
     "message_en": "I'm looking for highly motivated graduate students and undergraduates passionate about battery science.",
     "message_ko": "배터리 소재 연구에 열정이 있는 대학원생과 학부연구원을 상시 모집합니다."
   },
-  "citations_history": []
+  "citations_history": [],
+  "analytics": {
+    "ga4_id": ""
+  }
 }

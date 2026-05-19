@@ -314,13 +314,13 @@ p { margin: 0 0 var(--space-4); color: var(--c-text-muted); }
 }
 .hero h1 {
   font-family: var(--font-sans);
-  font-size: clamp(3rem, 9vw, 7.5rem);
+  font-size: clamp(2.25rem, 6vw, 4.75rem);
   font-weight: 800;
-  line-height: 0.96;
-  letter-spacing: -0.045em;
+  line-height: 1;
+  letter-spacing: -0.035em;
   margin-bottom: var(--space-12);
   color: var(--c-text);
-  max-width: 16ch;
+  max-width: 18ch;
 }
 .hero h1 .accent { color: var(--c-accent); }
 .hero h1 .line { display: block; }
@@ -2069,28 +2069,30 @@ body.jc-modal-open { overflow: hidden; }
   counter-increment: patent;
   padding: var(--space-5) 0;
   border-bottom: 1px solid var(--c-border-soft, rgba(0,0,0,0.06));
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: var(--space-4);
-  align-items: start;
 }
 .patent-item:last-child { border-bottom: none; }
-.patent-item::before {
-  content: counter(patent);
-  font-family: var(--font-mono);
-  font-size: var(--fs-xs);
-  color: var(--c-text-muted);
-  min-width: 1.75rem;
-  padding-top: 4px;
-  font-variant-numeric: tabular-nums;
+.patent-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px var(--space-3);
 }
-.patent-row { display: flex; justify-content: space-between; gap: var(--space-3); align-items: baseline; flex-wrap: wrap; }
 .patent-title {
   font-size: var(--fs-base);
   font-weight: 600;
   color: var(--c-text);
   line-height: 1.45;
   word-break: keep-all;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.patent-title::before {
+  content: counter(patent) ". ";
+  font-family: var(--font-mono);
+  font-weight: 400;
+  color: var(--c-text-muted);
+  font-variant-numeric: tabular-nums;
+  margin-right: 2px;
 }
 .patent-year {
   font-family: var(--font-mono);
@@ -2098,6 +2100,7 @@ body.jc-modal-open { overflow: hidden; }
   color: var(--c-text-muted);
   font-variant-numeric: tabular-nums;
   flex-shrink: 0;
+  margin-left: auto;
 }
 .patent-inventors {
   font-size: var(--fs-sm);
@@ -2105,7 +2108,13 @@ body.jc-modal-open { overflow: hidden; }
   margin-top: 4px;
   line-height: 1.5;
 }
-.patent-badges { margin-top: var(--space-2); display: flex; flex-wrap: wrap; gap: 6px; }
+.patent-badges {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  flex-shrink: 0;
+}
 .patent-badge {
   font-family: var(--font-mono);
   font-size: 11px;
