@@ -22,15 +22,18 @@
   <div class="admin-login-box">
     <div class="admin-login-icon">🔒</div>
     <h1>EEML Admin</h1>
-    <p class="admin-login-sub">관리자 비밀번호를 입력하세요</p>
-    <form id="login-form" autocomplete="off">
-      <input type="password" id="password-input" placeholder="비밀번호" autofocus />
+    <p class="admin-login-sub">관리자 아이디 / 비밀번호를 입력하세요</p>
+    <form id="login-form" action="#" method="post" autocomplete="on">
+      <input type="text" id="username-input" name="username" placeholder="아이디 (admin)" value="admin" autocomplete="username" style="margin-bottom:.5rem" />
+      <input type="password" id="password-input" name="password" placeholder="비밀번호" autocomplete="current-password" autofocus />
       <button type="submit" class="btn btn-primary">로그인</button>
     </form>
     <div id="login-error" class="admin-login-error"></div>
     <div class="admin-login-hint">
       첫 접속 시 기본 비밀번호는 <code>eeml2026</code> 입니다.<br />
-      로그인 후 <b>관리자 설정</b> 탭에서 반드시 변경하세요.
+      로그인 후 <b>관리자 설정</b> 탭에서 반드시 변경하세요.<br />
+      <span style="opacity:.7;font-size:.85em">아이디는 자동저장용 필드이며, 어떤 값이든 무관합니다 (검증은 비밀번호만).</span><br />
+      <span style="opacity:.7;font-size:.85em">비밀번호 분실 시 F12 → Console 에서 <code>localStorage.removeItem('eeml:admin:pwhash')</code> 실행 후 <code>eeml2026</code> 으로 재로그인.</span>
     </div>
     <a href="index.html" class="admin-login-back">← 공개 사이트로 돌아가기</a>
   </div>
