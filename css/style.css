@@ -497,16 +497,12 @@ p { margin: 0 0 var(--space-4); color: var(--c-text-muted); }
 }
 .topic-hero-svg svg { max-width: 420px; width: 100%; height: auto; color: var(--c-accent); }
 
-/* Research: hero images on detail page (matches old site's stacked images) */
+/* Research: hero images on detail page — always single-column, stacked vertically, full width */
 .research-hero-images {
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--space-4);
+  gap: var(--space-6);
   margin-bottom: var(--space-10);
-}
-@media (min-width: 900px) {
-  .research-hero-images { grid-template-columns: 1fr 1fr; }
-  .research-hero-images figure:first-child:nth-last-child(odd) { grid-column: span 2; }
 }
 .research-hero-images figure {
   margin: 0;
