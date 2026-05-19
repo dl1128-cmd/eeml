@@ -1803,29 +1803,58 @@
       <div class="admin-section-head">
         <h2>연구 주제 <span class="count">${items.length}개</span></h2>
         <div class="admin-section-actions">
-          <button class="btn btn-primary" id="topic-save">💾 research_topics.json 저장</button>
+          <button class="btn btn-primary" id="topic-add">+ 연구 주제 추가</button>
+          <button class="btn btn-outline" id="topic-save">💾 research_topics.json 저장</button>
         </div>
       </div>
       <div class="admin-card" style="color:var(--color-text-muted);font-size:var(--fs-sm)">
-        💡 SVG 도해는 코드 직접 수정이 필요합니다. 여기서는 제목/설명/키워드/대표논문만 편집 가능합니다.
+        💡 SVG 도해는 코드 직접 수정이 필요합니다. 여기서는 제목/설명/키워드/사진/대표논문만 편집 가능합니다.
       </div>
-      ${items.map((t, i) => `
-        <div class="admin-card">
-          <div class="admin-section-head">
-            <h3>${escapeHtml(t.title_ko)} <span class="td-dim">— ${escapeHtml(t.title_en)}</span></h3>
-            <button class="btn btn-ghost btn-sm" data-action="edit-topic" data-idx="${i}">편집</button>
-          </div>
-          <p style="color:var(--color-text-muted);font-size:var(--fs-sm)">${escapeHtml(t.summary_ko)}</p>
-          <div style="font-size:var(--fs-xs);color:var(--color-text-light);margin-top:.5rem">키워드: ${(t.keywords || []).join(", ")}</div>
-        </div>
-      `).join("")}
+      ${items.length === 0
+        ? `<p style="color:var(--color-text-light);padding:2rem 0;text-align:center">등록된 연구 주제가 없습니다. <b>+ 연구 주제 추가</b> 버튼을 누르세요.</p>`
+        : items.map((t, i) => `
+            <div class="admin-card">
+              <div class="admin-section-head">
+                <h3>${escapeHtml(t.title_ko || "(제목 없음)")} <span class="td-dim">— ${escapeHtml(t.title_en || "")}</span></h3>
+                <div class="admin-section-actions">
+                  <button class="btn btn-ghost btn-sm" data-action="edit-topic" data-idx="${i}">편집</button>
+                  <button class="btn btn-ghost btn-sm" data-action="del-topic" data-idx="${i}" style="color:#dc2626">삭제</button>
+                </div>
+              </div>
+              <p style="color:var(--color-text-muted);font-size:var(--fs-sm)">${escapeHtml(t.summary_ko || "")}</p>
+              <div style="font-size:var(--fs-xs);color:var(--color-text-light);margin-top:.5rem">키워드: ${(t.keywords || []).join(", ")}</div>
+            </div>
+          `).join("")}
     `;
     host.querySelector("#topic-save").onclick = () => saveJSON("research_topics.json", STATE.data.topics);
+    host.querySelector("#topic-add").onclick = () => editTopic(-1);
     host.querySelectorAll("[data-action=edit-topic]").forEach(b => b.onclick = () => editTopic(+b.dataset.idx));
+    host.querySelectorAll("[data-action=del-topic]").forEach(b => b.onclick = () => {
+      const idx = +b.dataset.idx;
+      const name = STATE.data.topics[idx]?.title_ko || STATE.data.topics[idx]?.title_en || "이 항목";
+      if (!confirm(`'${name}' 연구 주제를 삭제하시겠습니까?`)) return;
+      STATE.data.topics.splice(idx, 1);
+      renderTopics();
+      saveJSON("research_topics.json", STATE.data.topics);
+    });
   }
 
   function editTopic(idx) {
-    const t = { ...STATE.data.topics[idx] };
+    const isNew = idx === -1;
+    const t = isNew
+      ? {
+          id: "topic-" + Date.now(),
+          title_ko: "", title_en: "",
+          summary_ko: "", summary_en: "",
+          heading_ko: "", heading_en: "",
+          subheading_ko: "", subheading_en: "",
+          detail_body_ko: "", detail_body_en: "",
+          keywords: [],
+          images: [],
+          representative_papers: [],
+          order: ((STATE.data.topics || []).reduce((m, x) => Math.max(m, Number(x.order) || 0), 0)) + 1
+        }
+      : { ...STATE.data.topics[idx] };
     if (!Array.isArray(t.images)) t.images = [];
     const papersText = (t.representative_papers || []).map(p => {
       if (typeof p === "string") return p;
@@ -1882,7 +1911,13 @@
         }
         return line;
       });
-      STATE.data.topics[idx] = t;
+      if (!t.title_ko && !t.title_en) {
+        toast("제목(한글 또는 영문)은 필수입니다", "error");
+        return;
+      }
+      if (!STATE.data.topics) STATE.data.topics = [];
+      if (isNew) STATE.data.topics.push(t);
+      else STATE.data.topics[idx] = t;
       closeModal();
       renderTopics();
       saveJSON("research_topics.json", STATE.data.topics);

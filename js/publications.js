@@ -6,11 +6,18 @@
     { id: "top", lk: "Selected", lk_ko: "대표 논문", test: p => p.top_pick === true },
     { id: "journal", lk: "Journal", lk_ko: "저널", test: p => p.type === "journal" },
     { id: "conference", lk: "Conference", lk_ko: "학회", test: p => p.type === "conference" },
-    { id: "book", lk: "Book / Patent", lk_ko: "저서·특허", test: p => p.type === "book" || p.type === "patent" },
+    // "저서·특허" includes both publication entries of type book/patent
+    // AND all entries from data/patents.json (separate file). Clicking
+    // this filter also scrolls to the Patents section below.
+    { id: "book", lk: "Book / Patent", lk_ko: "저서·특허",
+      test: p => p.type === "book" || p.type === "patent",
+      extraCount: () => patentsCount,
+      scrollTo: "patents-section" },
     { id: "all", lk: "All", lk_ko: "전체", test: () => true }
   ];
 
   let pubs = [];
+  let patentsCount = 0;
   let curType = "all";
   let curYear = "all";  // "all" or a year number
 
@@ -18,16 +25,17 @@
     const root = document.getElementById("publications-root");
     if (!root) return;
     try {
-      pubs = await SiteUtils.loadJSON("data/publications.json");
+      const [pubsData, covers, patents] = await Promise.all([
+        SiteUtils.loadJSON("data/publications.json"),
+        SiteUtils.loadJSON("data/journal_covers.json").catch(() => []),
+        SiteUtils.loadJSON("data/patents.json").catch(() => [])
+      ]);
+      pubs = pubsData || [];
+      const patentsList = patents || [];
+      patentsCount = patentsList.filter(p => p && p.title).length;
       renderAll(root);
-    } catch (err) { console.error(err); }
-    try {
-      const covers = await SiteUtils.loadJSON("data/journal_covers.json").catch(() => []);
       renderJournalCovers(covers || []);
-    } catch (err) { console.error(err); }
-    try {
-      const patents = await SiteUtils.loadJSON("data/patents.json").catch(() => []);
-      renderPatents(patents || []);
+      renderPatents(patentsList);
     } catch (err) { console.error(err); }
   });
 
@@ -230,13 +238,21 @@
     const typeWrap = document.createElement("div");
     typeWrap.className = "pub-filters";
     TYPE_FILTERS.forEach(f => {
-      const count = pubs.filter(f.test).length;
+      const count = pubs.filter(f.test).length + (f.extraCount ? f.extraCount() : 0);
       const btn = document.createElement("button");
       btn.className = "pub-filter" + (f.id === curType ? " active" : "");
       btn.innerHTML = `${lang === "ko" ? f.lk_ko : f.lk} <span class="pub-filter-count">${count}</span>`;
       btn.onclick = () => {
         curType = f.id;
         renderAll(root);
+        if (f.scrollTo) {
+          setTimeout(() => {
+            const target = document.getElementById(f.scrollTo);
+            if (target && !target.hidden) {
+              target.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
+          }, 120);
+        }
       };
       typeWrap.appendChild(btn);
     });
