@@ -280,9 +280,14 @@
     if (!filtered.length) {
       host.innerHTML = countHeader + `<p style="text-align:center;color:var(--c-text-light);padding:3rem 0">No publications match. Click <b>Clear filters</b>.</p>`;
     } else {
+      // Cumulative descending numbering across all groups: the newest
+      // publication on top gets the largest number, the oldest at the
+      // bottom gets 1. Counter is shared across year groups.
+      let counter = filtered.length;
       const byYear = filtered.reduce((acc, p) => { (acc[p.year] ||= []).push(p); return acc; }, {});
       host.innerHTML = countHeader + Object.keys(byYear).sort((a, b) => b - a).map(year => {
-        return `<section class="pub-year-group"><h3>${year}</h3><ul class="pub-list">${byYear[year].map((p, i) => itemHTML(p, i + 1)).join("")}</ul></section>`;
+        const items = byYear[year].map(p => itemHTML(p, counter--)).join("");
+        return `<section class="pub-year-group"><h3>${year}</h3><ul class="pub-list">${items}</ul></section>`;
       }).join("");
     }
 

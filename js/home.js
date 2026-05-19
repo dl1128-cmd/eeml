@@ -15,8 +15,20 @@
       renderNews(news);
       renderGallery(gallery);
       renderCitationsChart(SiteUtils.getConfig().citations_history || []);
+      setRecentPapersMetric(pubs);
     } catch (err) { console.error(err); }
   });
+
+  // Hero stats: recent papers = publications from the last 3 calendar years
+  // (this year + previous two). Updates the #metric-pubs span on the home page.
+  function setRecentPapersMetric(pubs) {
+    const el = document.getElementById("metric-pubs");
+    if (!el || !Array.isArray(pubs)) return;
+    const currentYear = new Date().getFullYear();
+    const cutoff = currentYear - 2; // last 3 years inclusive
+    const count = pubs.filter(p => Number(p.year) >= cutoff).length;
+    el.textContent = count.toLocaleString();
+  }
 
   // Scholar 비동기 fetch 완료 시 차트 다시 그림
   document.addEventListener("scholar:history", (e) => {
