@@ -885,7 +885,10 @@
    * ========================================================================= */
   const TAB_GROUPS = {
     pi:           { tabs: [{ id: "pi",           label: "🎓 PI 프로필" }] },
-    member:       { tabs: [{ id: "members",      label: "👥 구성원" }] },
+    member:       { tabs: [
+                    { id: "members-current", label: "👥 현재 구성원" },
+                    { id: "members-alumni",  label: "🎓 Alumni" }
+                  ] },
     research:     { tabs: [{ id: "topics",       label: "🔬 연구 주제" }] },
     publications: { tabs: [
                     { id: "publications", label: "📄 논문" },
@@ -959,7 +962,16 @@
     );
     // Panel visibility
     document.querySelectorAll(".admin-tab-panel").forEach(p => p.classList.toggle("active", p.id === "tab-" + name));
-    const renderer = { publications: renderPubs, patents: renderPatents, members: renderMembers, pi: renderPI, news: renderNews, topics: renderTopics, gallery: renderGallery, covers: renderCovers, announcement: renderAnnouncement, stats: renderStats, config: renderConfig, settings: renderSettings }[name];
+    const renderer = {
+      publications: renderPubs, patents: renderPatents,
+      "members-current": () => renderMembers("current"),
+      "members-alumni":  () => renderMembers("alumni"),
+      members: renderMembers,  // legacy alias
+      pi: renderPI, news: renderNews, topics: renderTopics,
+      gallery: renderGallery, covers: renderCovers,
+      announcement: renderAnnouncement, stats: renderStats,
+      config: renderConfig, settings: renderSettings
+    }[name];
     if (renderer) renderer();
   }
 
@@ -1201,71 +1213,116 @@
    * Members editor
    * ========================================================================= */
   const ROLE_LABELS = { professor: "교수", postdoc: "박사후", phd: "박사과정", ms: "석사과정", undergraduate: "학부연구원", alumni: "졸업생" };
+  const CURRENT_ROLES = ["professor", "postdoc", "phd", "ms", "undergraduate"];
 
-  function renderMembers() {
-    const host = document.getElementById("tab-members");
-    const items = STATE.data.members || [];
+  function renderMembers(group) {
+    group = group || "current"; // "current" | "alumni"
+    const isAlumni = group === "alumni";
+    const hostId = isAlumni ? "tab-members-alumni" : "tab-members-current";
+    const host = document.getElementById(hostId);
+    if (!host) return;
+    const all = STATE.data.members || [];
+    const items = all.filter(m => isAlumni ? m.role === "alumni" : CURRENT_ROLES.includes(m.role));
+    const headerLabel = isAlumni ? "🎓 Alumni" : "👥 현재 구성원";
+    const addLabel    = isAlumni ? "+ Alumni 추가" : "+ 구성원 추가";
+
+    const extraCol = isAlumni ? `<th>현재 직장</th>` : "";
+
     host.innerHTML = `
       <div class="admin-section-head">
-        <h2>구성원 <span class="count">${items.length}명</span></h2>
+        <h2>${headerLabel} <span class="count">${items.length}명</span></h2>
         <div class="admin-section-actions">
-          <button class="btn btn-outline" id="mem-add">+ 구성원 추가</button>
+          <button class="btn btn-outline" id="mem-add">${addLabel}</button>
           <button class="btn btn-primary" id="mem-save">💾 members.json 저장</button>
         </div>
       </div>
-      <table class="admin-table">
-        <thead><tr><th>이름 (한/영)</th><th>구분</th><th>직함</th><th>이메일</th><th style="width:160px">작업</th></tr></thead>
-        <tbody>
-          ${items.map((m, i) => `
-            <tr>
-              <td><div class="td-title">${escapeHtml(m.name_ko || "")}</div><div class="td-dim">${escapeHtml(m.name_en || "")}</div></td>
-              <td><span class="admin-badge">${ROLE_LABELS[m.role] || m.role}</span></td>
-              <td class="td-dim">${escapeHtml(m.title_ko || m.title_en || "")}</td>
-              <td class="td-dim">${escapeHtml(m.email || "")}</td>
-              <td class="row-actions">
-                <button class="btn btn-ghost btn-sm" data-action="edit-mem" data-idx="${i}">편집</button>
-                <button class="btn btn-ghost btn-sm" data-action="del-mem" data-idx="${i}" style="color:#cc0033">삭제</button>
-              </td>
-            </tr>
-          `).join("")}
-        </tbody>
-      </table>
+      ${items.length === 0
+        ? `<p style="color:var(--color-text-light);padding:2rem 0;text-align:center">등록된 ${isAlumni ? "Alumni" : "구성원"}이 없습니다. <b>${addLabel}</b> 버튼을 누르세요.</p>`
+        : `<table class="admin-table">
+            <thead><tr>
+              <th>이름 (한/영)</th>
+              <th>구분</th>
+              <th>직함${isAlumni ? " (재학시)" : ""}</th>
+              ${extraCol}
+              <th>이메일</th>
+              <th style="width:160px">작업</th>
+            </tr></thead>
+            <tbody>
+              ${items.map(m => {
+                const realIdx = all.findIndex(x => x.id === m.id);
+                return `
+                  <tr>
+                    <td><div class="td-title">${escapeHtml(m.name_ko || "")}</div><div class="td-dim">${escapeHtml(m.name_en || "")}</div></td>
+                    <td><span class="admin-badge">${ROLE_LABELS[m.role] || m.role}</span></td>
+                    <td class="td-dim">${escapeHtml(m.title_ko || m.title_en || "")}</td>
+                    ${isAlumni ? `<td class="td-dim">${escapeHtml(m.current_position || "")}</td>` : ""}
+                    <td class="td-dim">${escapeHtml(m.email || "")}</td>
+                    <td class="row-actions">
+                      <button class="btn btn-ghost btn-sm" data-action="edit-mem" data-idx="${realIdx}">편집</button>
+                      <button class="btn btn-ghost btn-sm" data-action="del-mem" data-idx="${realIdx}" style="color:#cc0033">삭제</button>
+                    </td>
+                  </tr>`;
+              }).join("")}
+            </tbody>
+          </table>`}
     `;
-    host.querySelector("#mem-add").onclick = () => editMember(-1);
+    host.querySelector("#mem-add").onclick = () => editMember(-1, group);
     host.querySelector("#mem-save").onclick = () => saveJSON("members.json", STATE.data.members);
-    host.querySelectorAll("[data-action=edit-mem]").forEach(b => b.onclick = () => editMember(+b.dataset.idx));
+    host.querySelectorAll("[data-action=edit-mem]").forEach(b => b.onclick = () => editMember(+b.dataset.idx, group));
     host.querySelectorAll("[data-action=del-mem]").forEach(b => b.onclick = () => {
       if (!confirm("이 구성원을 삭제하시겠습니까?")) return;
       STATE.data.members.splice(+b.dataset.idx, 1);
-      renderMembers();
+      renderMembers(group);
       queueSave("members.json", STATE.data.members);
     });
   }
 
-  function editMember(idx) {
+  function editMember(idx, group) {
     const isNew = idx === -1;
-    const m = isNew ? { id: "m-" + Date.now(), role: "ms", name_ko: "", name_en: "", title_ko: "", title_en: "", photo: "assets/images/members/placeholder.jpg", email: "", interests_ko: "", interests_en: "" } : { ...STATE.data.members[idx] };
+    const defaultRole = group === "alumni" ? "alumni" : "ms";
+    const m = isNew
+      ? { id: "m-" + Date.now(), role: defaultRole, name_ko: "", name_en: "",
+          title_ko: "", title_en: "", photo: "assets/images/members/placeholder.jpg",
+          email: "", interests_ko: "", interests_en: "" }
+      : { ...STATE.data.members[idx] };
+    const isAlumni = m.role === "alumni";
+
     const body = `
       <div class="admin-form">
         <div class="admin-form-row"><label>구분<span class="req">*</span></label>
           <select id="f-role">
             ${Object.entries(ROLE_LABELS).map(([k, v]) => `<option value="${k}" ${m.role===k?'selected':''}>${v}</option>`).join("")}
           </select>
+          <div class="hint" style="color:var(--color-text-light);font-size:.8em;margin-top:.25rem">
+            💡 'alumni'로 바꾸면 <b>현재 직장 / 대표 업적</b> 입력란이 나타납니다.
+          </div>
         </div>
         <div class="admin-form-row"><label>한글 이름<span class="req">*</span></label><input id="f-name-ko" value="${escapeAttr(m.name_ko)}" /></div>
         <div class="admin-form-row"><label>영문 이름<span class="req">*</span></label><input id="f-name-en" value="${escapeAttr(m.name_en)}" /></div>
-        <div class="admin-form-row"><label>한글 직함</label><input id="f-title-ko" value="${escapeAttr(m.title_ko || '')}" placeholder="석사과정 (2026.03 – )" /></div>
-        <div class="admin-form-row"><label>영문 직함</label><input id="f-title-en" value="${escapeAttr(m.title_en || '')}" placeholder="M.S. Student (2026.03 – )" /></div>
+        <div class="admin-form-row"><label>한글 직함${isAlumni ? " (재학시)" : ""}</label><input id="f-title-ko" value="${escapeAttr(m.title_ko || '')}" placeholder="${isAlumni ? '석사 (2020.03–2022.02)' : '석사과정 (2026.03 – )'}" /></div>
+        <div class="admin-form-row"><label>영문 직함${isAlumni ? " (during studies)" : ""}</label><input id="f-title-en" value="${escapeAttr(m.title_en || '')}" placeholder="${isAlumni ? 'M.S. (2020.03–2022.02)' : 'M.S. Student (2026.03 – )'}" /></div>
         <div class="admin-form-row"><label>이메일</label><input id="f-email" type="email" value="${escapeAttr(m.email || '')}" /></div>
         <div class="admin-form-row"><label>사진</label><div id="f-photo-host"></div></div>
         <div class="admin-form-row"><label>한글 관심분야</label><input id="f-int-ko" value="${escapeAttr(m.interests_ko || '')}" /></div>
         <div class="admin-form-row"><label>영문 관심분야</label><input id="f-int-en" value="${escapeAttr(m.interests_en || '')}" /></div>
+
+        <!-- Alumni-only fields -->
+        <div id="alumni-fields-host" style="display:${isAlumni ? 'contents' : 'none'}">
+          <div class="admin-form-row full" style="border-top:1px dashed var(--color-border);padding-top:1rem;margin-top:.5rem">
+            <label style="color:var(--color-primary);font-weight:600">🎓 Alumni 정보</label>
+          </div>
+          <div class="admin-form-row"><label>한글 현재 직장/직위</label><input id="f-cur-ko" value="${escapeAttr(m.current_position_ko || m.current_position || '')}" placeholder="예: 삼성SDI 책임연구원" /></div>
+          <div class="admin-form-row"><label>영문 현재 직장/직위</label><input id="f-cur-en" value="${escapeAttr(m.current_position_en || '')}" placeholder="e.g., Senior Engineer, Samsung SDI" /></div>
+          <div class="admin-form-row full"><label>한글 대표 업적 <span class="td-dim" style="font-weight:400">(한 줄에 하나)</span></label><textarea id="f-ach-ko" rows="4" placeholder="예시:&#10;Nature Energy 2024 1저자&#10;삼성휴먼테크 동상 (2023)&#10;한국전기화학회 우수학생논문상">${escapeHtml((Array.isArray(m.achievements_ko) ? m.achievements_ko.join('\n') : (m.achievements_ko || '')))}</textarea></div>
+          <div class="admin-form-row full"><label>영문 대표 업적 (one per line)</label><textarea id="f-ach-en" rows="4">${escapeHtml((Array.isArray(m.achievements_en) ? m.achievements_en.join('\n') : (m.achievements_en || '')))}</textarea></div>
+        </div>
       </div>
     `;
     let photoPicker;
-    openModal(isNew ? "구성원 추가" : "구성원 편집", body, () => {
+    openModal(isNew ? (group === "alumni" ? "Alumni 추가" : "구성원 추가") : "구성원 편집", body, () => {
+      const newRole = val("f-role");
       const updated = {
-        id: m.id, role: val("f-role"),
+        id: m.id, role: newRole,
         name_ko: val("f-name-ko"), name_en: val("f-name-en"),
         title_ko: val("f-title-ko"), title_en: val("f-title-en"),
         email: val("f-email"),
@@ -1273,15 +1330,35 @@
         photo_pos: photoPicker.getPos() || "",
         interests_ko: val("f-int-ko"), interests_en: val("f-int-en")
       };
-      // Don't write photo_pos at all when empty (cleaner JSON)
+      // Alumni-only fields
+      if (newRole === "alumni") {
+        const curKo = val("f-cur-ko");
+        const curEn = val("f-cur-en");
+        const achKoRaw = val("f-ach-ko");
+        const achEnRaw = val("f-ach-en");
+        const achKo = achKoRaw.split("\n").map(s => s.trim()).filter(Boolean);
+        const achEn = achEnRaw.split("\n").map(s => s.trim()).filter(Boolean);
+        if (curKo) updated.current_position_ko = curKo;
+        if (curEn) updated.current_position_en = curEn;
+        if (achKo.length) updated.achievements_ko = achKo;
+        if (achEn.length) updated.achievements_en = achEn;
+      }
       if (!updated.photo_pos) delete updated.photo_pos;
       if (!updated.name_ko || !updated.name_en) return toast("한글/영문 이름은 필수입니다", "error");
       if (isNew) STATE.data.members.push(updated);
       else STATE.data.members[idx] = { ...STATE.data.members[idx], ...updated };
       closeModal();
-      renderMembers();
+      renderMembers(updated.role === "alumni" ? "alumni" : "current");
       saveJSON("members.json", STATE.data.members);
     });
+
+    // Toggle alumni-only fields when role select changes
+    const roleSel = document.getElementById("f-role");
+    const alumniHost = document.getElementById("alumni-fields-host");
+    roleSel.addEventListener("change", () => {
+      alumniHost.style.display = roleSel.value === "alumni" ? "contents" : "none";
+    });
+
     photoPicker = mountImagePicker(
       document.getElementById("f-photo-host"),
       m.photo && !m.photo.includes("placeholder") ? m.photo : "",

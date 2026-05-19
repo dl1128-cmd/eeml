@@ -86,6 +86,7 @@
     const tags = lang === "ko" ? (m.tags_ko || []) : (m.tags_en || []);
 
     const isPI = role === "professor";
+    const isAlumni = role === "alumni";
     const tag = isPI ? "a" : "div";
     const href = isPI ? `href="pi"` : "";
     const posStyle = m.photo_pos ? ` style="object-position:${escapeAttr(m.photo_pos)}"` : "";
@@ -94,6 +95,23 @@
       : `<div class="photo">${escapeHtml(initials(nameEn || nameKo))}</div>`;
 
     const joinedLine = m.joined ? `<span class="joined">since ${escapeHtml(m.joined)}</span>` : "";
+
+    // Alumni-specific: current position + achievements
+    let alumniBlock = "";
+    if (isAlumni) {
+      const curPos = lang === "ko"
+        ? (m.current_position_ko || m.current_position || "")
+        : (m.current_position_en || m.current_position_ko || m.current_position || "");
+      const achievements = lang === "ko"
+        ? (Array.isArray(m.achievements_ko) ? m.achievements_ko : (m.achievements_ko ? [m.achievements_ko] : []))
+        : (Array.isArray(m.achievements_en) ? m.achievements_en : (m.achievements_en ? [m.achievements_en] : []));
+      if (curPos) {
+        alumniBlock += `<div class="alumni-current"><span class="alumni-current-label">${lang === "ko" ? "현재" : "Now"}</span> ${escapeHtml(curPos)}</div>`;
+      }
+      if (achievements.length) {
+        alumniBlock += `<ul class="alumni-achievements">${achievements.map(a => `<li>${escapeHtml(a)}</li>`).join("")}</ul>`;
+      }
+    }
 
     return `
       <${tag} class="member-card" data-role="${role}" ${href}>
@@ -107,6 +125,7 @@
           ${m.joined ? `<span class="dot">·</span>${joinedLine}` : ""}
         </div>
         ${summary ? `<div class="summary">${escapeHtml(summary)}</div>` : ""}
+        ${alumniBlock}
         ${tags.length ? `<div class="tags">${tags.map(t => `<span class="tag-mini">${escapeHtml(t)}</span>`).join("")}</div>` : ""}
         ${m.email ? `<div class="email-row"><a href="mailto:${m.email}">✉ ${m.email}</a></div>` : ""}
       </${tag}>`;

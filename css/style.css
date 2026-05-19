@@ -2038,6 +2038,47 @@ p { margin: 0 0 var(--space-4); color: var(--c-text-muted); }
 
 body.jc-modal-open { overflow: hidden; }
 
+/* ============ Alumni card extras (current position + achievements) ============ */
+.member-card[data-role="alumni"] .alumni-current {
+  margin-top: var(--space-2);
+  font-size: var(--fs-sm);
+  color: var(--c-text);
+  line-height: 1.5;
+  border-left: 3px solid var(--c-accent, #0ea5e9);
+  padding: 4px 0 4px 10px;
+  background: var(--c-accent-soft, rgba(14, 165, 233, 0.06));
+  border-radius: 0 4px 4px 0;
+}
+.member-card[data-role="alumni"] .alumni-current-label {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  color: var(--c-accent, #0ea5e9);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-right: 4px;
+}
+.member-card[data-role="alumni"] .alumni-achievements {
+  margin: var(--space-3) 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--fs-sm);
+  color: var(--c-text-muted);
+  line-height: 1.55;
+}
+.member-card[data-role="alumni"] .alumni-achievements li {
+  padding-left: 1em;
+  position: relative;
+  margin-bottom: 3px;
+}
+.member-card[data-role="alumni"] .alumni-achievements li::before {
+  content: "▪";
+  position: absolute;
+  left: 0;
+  color: var(--c-accent, #0ea5e9);
+  font-size: 0.85em;
+}
+
 /* ============ Patents ============ */
 .patent-group { margin-bottom: var(--space-12); }
 .patent-group-title {
