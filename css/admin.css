@@ -659,3 +659,78 @@
   font-weight: 600;
 }
 .admin-img-focus-reset:hover { color: #ff6b35; }
+
+/* ---- Rich-text editor (News / Gallery body) ---- */
+.rte {
+  border: 1px solid var(--color-border, #d1d5db);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+}
+.rte-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  padding: 4px;
+  background: var(--color-bg-soft, #f7f8fa);
+  border-bottom: 1px solid var(--color-border, #d1d5db);
+  align-items: center;
+}
+.rte-toolbar button {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  padding: 6px 10px;
+  font-size: var(--fs-sm, 0.875rem);
+  color: var(--color-text, #1f2937);
+  cursor: pointer;
+  font-family: inherit;
+  white-space: nowrap;
+  line-height: 1.2;
+}
+.rte-toolbar button:hover {
+  background: #fff;
+  border-color: var(--color-border, #d1d5db);
+}
+.rte-toolbar button:active { background: #e5e7eb; }
+.rte-toolbar [data-act="bold"] b { font-weight: 800; }
+.rte-toolbar [data-act="italic"] i { font-style: italic; font-family: serif; font-weight: 600; }
+.rte-sep {
+  width: 1px;
+  height: 20px;
+  background: var(--color-border, #d1d5db);
+  margin: 0 4px;
+}
+.rte-spacer { flex: 1; }
+.rte-textarea {
+  width: 100%;
+  border: none;
+  outline: none;
+  padding: 10px 12px;
+  font-family: var(--font-mono, ui-monospace, "SFMono-Regular", monospace);
+  font-size: 13px;
+  line-height: 1.55;
+  resize: vertical;
+  min-height: 100px;
+  background: #fff;
+  color: var(--color-text, #1f2937);
+}
+.rte-preview {
+  padding: 12px 14px;
+  background: #fff;
+  min-height: 100px;
+  line-height: 1.6;
+  color: var(--color-text, #1f2937);
+  border-top: 1px dashed var(--color-border, #d1d5db);
+}
+.rte-preview img { max-width: 100%; height: auto; }
+.rte-preview a { color: var(--color-primary, #0ea5e9); text-decoration: underline; }
+.rte-preview p { margin: 0 0 .75em; }
+.rte-hint {
+  padding: 6px 10px;
+  font-size: 11px;
+  color: var(--color-text-light, #6b7280);
+  background: var(--color-bg-soft, #f7f8fa);
+  border-top: 1px solid var(--color-border, #d1d5db);
+  line-height: 1.5;
+}

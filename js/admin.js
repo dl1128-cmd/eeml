@@ -299,6 +299,132 @@
    * @param {{accept:string, maxSizeMB:number, label:string}} opts
    * @param {(value)=>void} onChange
    */
+
+  /* =========================================================================
+   * Rich-text editor (textarea + toolbar)
+   * Lightweight inline-style editor for HTML body fields in News, Gallery,
+   * etc. Inserts simple <b>, <i>, <a>, <img>, <br>, <p> via selection wrap
+   * or caret insert. Image uploads go to GitHub (assets/images/news/<hash>)
+   * when a token is configured, otherwise inline base64.
+   * ========================================================================= */
+  function mountRichEditor(host, initialHtml, opts) {
+    opts = opts || {};
+    const rows = opts.rows || 8;
+    const folder = opts.imageFolder || "news"; // assets/images/<folder>/
+    host.innerHTML = `
+      <div class="rte">
+        <div class="rte-toolbar">
+          <button type="button" data-act="bold" title="굵게 (Ctrl+B)"><b>B</b></button>
+          <button type="button" data-act="italic" title="기울임 (Ctrl+I)"><i>I</i></button>
+          <button type="button" data-act="para" title="문단으로 감싸기">¶ 문단</button>
+          <button type="button" data-act="br" title="줄바꿈">↵ &lt;br&gt;</button>
+          <span class="rte-sep"></span>
+          <button type="button" data-act="link" title="링크 삽입">🔗 링크</button>
+          <button type="button" data-act="image" title="이미지 삽입">🖼 이미지</button>
+          <span class="rte-spacer"></span>
+          <button type="button" data-act="preview" title="HTML 미리보기 토글">👁 미리보기</button>
+        </div>
+        <textarea class="rte-textarea" rows="${rows}"></textarea>
+        <div class="rte-preview" hidden></div>
+        <div class="rte-hint">
+          ⌨ 텍스트 선택 후 버튼 클릭 → 그 부분에 태그 적용.
+          🔗/🖼 버튼은 선택 없이도 동작.
+          Ctrl+B / Ctrl+I 단축키 지원.
+        </div>
+      </div>
+    `;
+    const root = host.querySelector(".rte");
+    const ta = host.querySelector("textarea");
+    const preview = host.querySelector(".rte-preview");
+    const previewBtn = host.querySelector('[data-act="preview"]');
+    ta.value = initialHtml || "";
+
+    function wrap(open, close) {
+      const s = ta.selectionStart, e = ta.selectionEnd;
+      const sel = ta.value.slice(s, e);
+      ta.value = ta.value.slice(0, s) + open + sel + close + ta.value.slice(e);
+      ta.selectionStart = s + open.length;
+      ta.selectionEnd = s + open.length + sel.length;
+      ta.focus();
+    }
+    function insert(text) {
+      const s = ta.selectionStart;
+      ta.value = ta.value.slice(0, s) + text + ta.value.slice(ta.selectionEnd);
+      ta.selectionStart = ta.selectionEnd = s + text.length;
+      ta.focus();
+    }
+
+    host.querySelector('[data-act="bold"]').onclick   = () => wrap("<b>", "</b>");
+    host.querySelector('[data-act="italic"]').onclick = () => wrap("<i>", "</i>");
+    host.querySelector('[data-act="br"]').onclick     = () => insert("<br>\n");
+    host.querySelector('[data-act="para"]').onclick   = () => wrap("<p>", "</p>\n");
+
+    host.querySelector('[data-act="link"]').onclick = () => {
+      const sel = ta.value.slice(ta.selectionStart, ta.selectionEnd);
+      const url = prompt("링크 URL을 입력하세요 (https://... 또는 mailto:...)", "https://");
+      if (!url || url === "https://") return;
+      const text = sel || prompt("표시할 텍스트 (비우면 URL 그대로):", url) || url;
+      insert(`<a href="${escapeAttr(url)}" target="_blank" rel="noopener">${escapeHtml(text)}</a>`);
+    };
+
+    host.querySelector('[data-act="image"]').onclick = () => {
+      const input = document.createElement("input");
+      input.type = "file";
+      input.accept = "image/jpeg,image/png,image/webp,image/gif";
+      input.onchange = async () => {
+        const file = input.files && input.files[0];
+        if (!file) return;
+        try {
+          // Resize to ~1200x900 for body images
+          const dataUrl = await resizeImageFile(file, 1200, 900, 0.85);
+          const { token } = getGH();
+          if (token) {
+            // Upload to GitHub for a clean asset path
+            const b64 = dataUrl.split(",", 2)[1];
+            const buf = new TextEncoder().encode(b64);
+            const hashBuf = await crypto.subtle.digest("SHA-256", buf);
+            const hex = Array.from(new Uint8Array(hashBuf))
+              .map(b => b.toString(16).padStart(2, "0")).join("").slice(0, 16);
+            const ext = (file.type.split("/")[1] || "jpg").replace("jpeg", "jpg");
+            const path = `assets/images/${folder}/${hex}.${ext}`;
+            await githubPutFile(path, b64, `chore(admin): upload ${folder} image ${hex}.${ext}`, 0, { preEncoded: true });
+            insert(`<img src="${path}" alt="" style="max-width:100%;height:auto" />`);
+            toast("✅ 이미지 업로드 완료 (GitHub 커밋)", "success");
+          } else {
+            // Fallback: inline base64 (bloats JSON but works without token)
+            insert(`<img src="${dataUrl}" alt="" style="max-width:100%;height:auto" />`);
+            toast("⚠ GitHub 토큰 미설정 — 이미지를 base64 로 인라인 (용량 증가)", "warning");
+          }
+        } catch (err) {
+          toast("이미지 처리 실패: " + (err.message || err), "error");
+        }
+      };
+      input.click();
+    };
+
+    previewBtn.onclick = () => {
+      if (preview.hidden) {
+        preview.innerHTML = ta.value || `<i style="color:var(--c-text-light)">(본문 없음)</i>`;
+        preview.hidden = false;
+        ta.style.display = "none";
+        previewBtn.innerHTML = "✎ 편집으로";
+      } else {
+        preview.hidden = true;
+        ta.style.display = "";
+        previewBtn.innerHTML = "👁 미리보기";
+      }
+    };
+
+    // Keyboard shortcuts
+    ta.addEventListener("keydown", (e) => {
+      if (!(e.ctrlKey || e.metaKey)) return;
+      if (e.key === "b" || e.key === "B") { e.preventDefault(); wrap("<b>", "</b>"); }
+      else if (e.key === "i" || e.key === "I") { e.preventDefault(); wrap("<i>", "</i>"); }
+    });
+
+    return { getValue: () => ta.value };
+  }
+
   function mountFilePicker(host, current, opts, onChange) {
     opts = Object.assign({ accept: "application/pdf", maxSizeMB: 5, label: "PDF 파일" }, opts);
 
@@ -1461,15 +1587,16 @@
         </div>
         <div class="admin-form-row"><label>한글 제목<span class="req">*</span></label><input id="f-t-ko" value="${escapeAttr(n.title_ko)}" /></div>
         <div class="admin-form-row"><label>영문 제목</label><input id="f-t-en" value="${escapeAttr(n.title_en)}" /></div>
-        <div class="admin-form-row full"><label>한글 본문</label><textarea id="f-b-ko">${escapeHtml(n.body_ko || "")}</textarea></div>
-        <div class="admin-form-row full"><label>영문 본문</label><textarea id="f-b-en">${escapeHtml(n.body_en || "")}</textarea></div>
+        <div class="admin-form-row full"><label>한글 본문</label><div id="f-b-ko-host"></div></div>
+        <div class="admin-form-row full"><label>영문 본문</label><div id="f-b-en-host"></div></div>
       </div>
     `;
+    let editorKo, editorEn;
     openModal(isNew ? "소식 추가" : "소식 편집", body, () => {
       const updated = {
         id: n.id, date: val("f-date"), category: val("f-cat"),
         title_ko: val("f-t-ko"), title_en: val("f-t-en"),
-        body_ko: val("f-b-ko"), body_en: val("f-b-en")
+        body_ko: editorKo.getValue(), body_en: editorEn.getValue()
       };
       if (!updated.date || !updated.title_ko) return toast("날짜와 한글 제목은 필수입니다", "error");
       if (isNew) STATE.data.news.unshift(updated);
@@ -1478,6 +1605,8 @@
       renderNews();
       saveJSON("news.json", STATE.data.news);
     });
+    editorKo = mountRichEditor(document.getElementById("f-b-ko-host"), n.body_ko, { rows: 10, imageFolder: "news" });
+    editorEn = mountRichEditor(document.getElementById("f-b-en-host"), n.body_en, { rows: 8, imageFolder: "news" });
   }
 
   /* =========================================================================
@@ -1540,6 +1669,7 @@
       : JSON.parse(JSON.stringify(STATE.data.gallery[idx]));
     if (!Array.isArray(g.images)) g.images = [];
 
+    let galEditorKo, galEditorEn;
     const body = `
       <div class="admin-form">
         <div class="admin-form-row"><label>날짜<span class="req">*</span></label><input id="g-date" type="date" value="${g.date || today}" /></div>
@@ -1547,8 +1677,8 @@
         <div class="admin-form-row"><label>영문 제목</label><input id="g-t-en" value="${escapeAttr(g.title_en || "")}" /></div>
         <div class="admin-form-row full"><label>한글 요약 (카드에 표시)</label><textarea id="g-s-ko" rows="2">${escapeHtml(g.summary_ko || "")}</textarea></div>
         <div class="admin-form-row full"><label>영문 요약</label><textarea id="g-s-en" rows="2">${escapeHtml(g.summary_en || "")}</textarea></div>
-        <div class="admin-form-row full"><label>한글 본문 (상세 페이지)</label><textarea id="g-b-ko" rows="4">${escapeHtml(g.body_ko || "")}</textarea></div>
-        <div class="admin-form-row full"><label>영문 본문</label><textarea id="g-b-en" rows="4">${escapeHtml(g.body_en || "")}</textarea></div>
+        <div class="admin-form-row full"><label>한글 본문 (상세 페이지)</label><div id="g-b-ko-host"></div></div>
+        <div class="admin-form-row full"><label>영문 본문</label><div id="g-b-en-host"></div></div>
         <div class="admin-form-row full">
           <label>사진 업로드 <span class="td-dim" style="font-weight:400">(여러 장 선택 가능 · ⭐ 버튼으로 배너 지정)</span></label>
           <div class="admin-card" style="padding:var(--space-3);background:var(--color-surface);border:1px dashed var(--color-border);display:flex;flex-wrap:wrap;gap:var(--space-2);align-items:center;justify-content:space-between">
@@ -1578,8 +1708,8 @@
         title_en: val("g-t-en"),
         summary_ko: val("g-s-ko"),
         summary_en: val("g-s-en"),
-        body_ko: val("g-b-ko"),
-        body_en: val("g-b-en"),
+        body_ko: galEditorKo.getValue(),
+        body_en: galEditorEn.getValue(),
         cover: g.cover || "",
         images: g.images || []
       };
@@ -1590,6 +1720,9 @@
       renderGallery();
       saveJSON("gallery.json", STATE.data.gallery);
     });
+
+    galEditorKo = mountRichEditor(document.getElementById("g-b-ko-host"), g.body_ko, { rows: 6, imageFolder: "gallery" });
+    galEditorEn = mountRichEditor(document.getElementById("g-b-en-host"), g.body_en, { rows: 4, imageFolder: "gallery" });
 
     const listHost = document.getElementById("g-images-list");
     const progressHost = document.getElementById("g-upload-progress");
