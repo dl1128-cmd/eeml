@@ -1,1 +1,15 @@
-[]
+[
+  {
+    "id": "cov-1779166604506",
+    "image": "assets/images/covers/b9644aa4b93faae0.jpg",
+    "journal": "ACS Sustainable Chemistry & Engineering",
+    "year": 2021,
+    "title_ko": "",
+    "title_en": "Cross Effect of Surface Area and Electrical Conductivity for Carbonaceous Materials in Flow-electrode Capacitive Mixing (F-CapMix) and Flow-electrode Capacitive Deionization (FCDI): Solid-like Behavior of Flow-electrode",
+    "description_ko": "",
+    "description_en": "",
+    "doi": "doi.org/10.1021/acssuschemeng.1c04419",
+    "link": "https://pubs.acs.org/doi/full/10.1021/acssuschemeng.1c04419",
+    "order": 1
+  }
+]
