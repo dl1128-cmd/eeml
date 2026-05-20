@@ -187,8 +187,8 @@ p { margin: 0 0 var(--space-4); color: var(--c-text-muted); }
 .site-header .nav-toggle span::after { background: #fff; }
 /* nav-brand 로고 이미지 */
 .nav-brand { display: inline-flex; align-items: center; }
-.nav-brand img { height: 36px; width: auto; display: block; }
-@media (max-width: 720px) { .nav-brand img { height: 30px; } }
+.nav-brand img { height: 48px; width: auto; display: block; }
+@media (max-width: 720px) { .nav-brand img { height: 40px; } }
 
 .nav {
   display: flex;
