@@ -158,21 +158,37 @@ p { margin: 0 0 var(--space-4); color: var(--c-text-muted); }
 }
 
 /* ---- Header ---- */
+/* 상단 헤더: 짙은 네이비 고정 — 라이트/다크 토글에 영향받지 않음 */
 .site-header {
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 100;
-  background: rgba(251, 250, 247, 0.85);
-  backdrop-filter: saturate(180%) blur(20px);
-  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  background: #0b1e3a;
   border-bottom: 1px solid transparent;
-  transition: background var(--transition), border-color var(--transition);
+  transition: border-color var(--transition);
 }
-[data-theme="dark"] .site-header { background: rgba(11, 14, 20, 0.8); }
+[data-theme="dark"] .site-header,
+[data-theme="light"] .site-header { background: #0b1e3a; }
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .site-header { background: rgba(11, 14, 20, 0.8); }
+  :root:not([data-theme="light"]) .site-header { background: #0b1e3a; }
 }
-.site-header.scrolled { border-bottom-color: var(--c-border); }
+.site-header.scrolled { border-bottom-color: rgba(255,255,255,0.12); }
+/* 헤더 내부 텍스트·버튼 흰색 고정 */
+.site-header .nav-brand,
+.site-header .nav-links a,
+.site-header .nav-links a:hover,
+.site-header .nav-links a.active,
+.site-header .icon-btn,
+.site-header .lang-toggle { color: #fff; }
+.site-header .icon-btn:hover,
+.site-header .lang-toggle:hover { background: rgba(255,255,255,0.10); color: #fff; }
+.site-header .nav-toggle span,
+.site-header .nav-toggle span::before,
+.site-header .nav-toggle span::after { background: #fff; }
+/* nav-brand 로고 이미지 */
+.nav-brand { display: inline-flex; align-items: center; }
+.nav-brand img { height: 36px; width: auto; display: block; }
+@media (max-width: 720px) { .nav-brand img { height: 30px; } }
 
 .nav {
   display: flex;
