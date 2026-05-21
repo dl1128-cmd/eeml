@@ -312,6 +312,15 @@
 
     const resetBtn = host.querySelector("#pub-reset");
     if (resetBtn) resetBtn.onclick = () => { curType = "all"; curYear = "all"; renderAll(root); };
+
+    if (window.ViewsAPI) ViewsAPI.populate(host, "publications");
+
+    host.addEventListener("click", e => {
+      const a = e.target.closest("a[data-pub-id]");
+      if (!a || !window.ViewsAPI) return;
+      const pid = a.getAttribute("data-pub-id");
+      if (pid) ViewsAPI.bumpAndGet("publications", pid);
+    }, { once: false });
   }
 
   function itemHTML(p, n) {
@@ -320,7 +329,9 @@
     const attrs = href.startsWith("data:")
       ? `download="${escapeHtml((typeof p.link === "object" && p.link.name) || "paper.pdf")}"`
       : `target="_blank" rel="noopener"`;
-    const titleEl = href ? `<a href="${href}" ${attrs}>${escapeHtml(p.title)}</a>` : escapeHtml(p.title);
+    const pid = escapeHtml(p.id || "");
+    const linkAttr = pid ? ` data-pub-id="${pid}"` : "";
+    const titleEl = href ? `<a href="${href}" ${attrs}${linkAttr}>${escapeHtml(p.title)}</a>` : escapeHtml(p.title);
     return `
       <li class="pub-item">
         <div class="pub-num">${String(n).padStart(2, "0")}</div>
@@ -328,7 +339,10 @@
           <div class="title">${titleEl}${top}</div>
           <div class="meta">${escapeHtml(p.authors)} · <span class="venue">${escapeHtml(p.venue)}</span>${p.volume ? ", " + escapeHtml(p.volume) : ""} (${p.year})</div>
         </div>
-        <div class="cite-count"><span class="n">${p.citations ?? 0}</span><span class="lbl">cites</span></div>
+        <div class="cite-count">
+          <span class="n">${p.citations ?? 0}</span><span class="lbl">cites</span>
+          ${pid ? `<span class="view-count" data-views-publications="${pid}" hidden></span>` : ""}
+        </div>
       </li>`;
   }
 
