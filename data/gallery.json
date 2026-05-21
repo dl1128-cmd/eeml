@@ -1,5 +1,23 @@
 [
   {
+    "id": "g-1779342099972",
+    "date": "2026-05-19",
+    "title_ko": "치킨 번개",
+    "title_en": "",
+    "summary_ko": "퇴근 전 치킨 번개~",
+    "summary_en": "",
+    "body_ko": "퇴근 전 치킨 번개~",
+    "body_en": "",
+    "cover": "assets/images/gallery/ea278ac81d5d5b0f.jpg",
+    "images": [
+      {
+        "src": "assets/images/gallery/ea278ac81d5d5b0f.jpg",
+        "caption_ko": "",
+        "caption_en": ""
+      }
+    ]
+  },
+  {
     "id": "g-1779327676421",
     "date": "2026-05-20",
     "title_ko": "DIGIST 김운혁 교수님 세미나",
