@@ -1,5 +1,28 @@
 [
   {
+    "id": "g-1779327634378",
+    "date": "2026-05-21",
+    "title_ko": "한양대학교 임희대 교수님 세미나",
+    "title_en": "Research Talk from Prof. Hee-Dae Lim (Hanyang Univ.)",
+    "summary_ko": "",
+    "summary_en": "",
+    "body_ko": "Research Talk from Prof. Hee-Dae Lim\n- 상변이 리튬 전도체를 활용한 전극 계면 제어 기술",
+    "body_en": "Research Talk from Prof. Hee-Dae Lim\n- 상변이 리튬 전도체를 활용한 전극 계면 제어 기술",
+    "cover": "assets/images/gallery/aed0c89cbfeb55f7.jpg",
+    "images": [
+      {
+        "src": "assets/images/gallery/aed0c89cbfeb55f7.jpg",
+        "caption_ko": "",
+        "caption_en": ""
+      },
+      {
+        "src": "assets/images/gallery/6c552b37338233e9.jpg",
+        "caption_ko": "",
+        "caption_en": ""
+      }
+    ]
+  },
+  {
     "id": "g-1779154220963",
     "date": "2026-05-07",
     "title_ko": "충남대학교 세미나",
