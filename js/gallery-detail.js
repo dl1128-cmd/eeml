@@ -52,7 +52,10 @@
         <div class="container-narrow">
           <div class="eyebrow"><a href="gallery" style="color:inherit">${(i18n?.gallery?.back) || "← Gallery"}</a></div>
           <h1>${escapeHtml(title || "")}</h1>
-          ${entry.date ? `<div class="gallery-date" style="margin-top:var(--space-2);">${escapeHtml(entry.date)}</div>` : ""}
+          <div class="news-detail-meta" style="margin-top:var(--space-2);">
+            ${entry.date ? `<span class="news-detail-date">${escapeHtml(entry.date)}</span>` : ""}
+            <span class="view-count" data-views-gallery="${escapeHtml(entry.id)}" hidden></span>
+          </div>
           ${summary ? `<p style="max-width:680px;margin-top:var(--space-4);">${escapeHtml(summary)}</p>` : ""}
         </div>
       </section>
@@ -91,6 +94,8 @@
     root.querySelectorAll(".gallery-detail-item").forEach(el => {
       el.addEventListener("click", () => openLightbox(parseInt(el.dataset.idx, 10)));
     });
+
+    if (window.ViewsAPI) ViewsAPI.bumpInto(root.querySelector(".view-count[data-views-gallery]"), "gallery", entry.id);
   }
 
   function setupLightbox() {

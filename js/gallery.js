@@ -46,6 +46,7 @@
       }</div>
       ${totalPages > 1 ? paginationHtml(page, totalPages, i18n) : ""}
     `;
+    if (window.ViewsAPI) ViewsAPI.populate(root, "gallery");
   }
 
   function cardHtml(g, lang, i18n) {
@@ -61,7 +62,10 @@
           ${g.date ? `<div class="gallery-date">${escapeHtml(g.date)}</div>` : ""}
           <h3 class="gallery-title">${escapeHtml(title || "")}</h3>
           ${summary ? `<p class="gallery-summary">${escapeHtml(summary)}</p>` : ""}
-          <div class="gallery-cta">${(i18n?.gallery?.read_more) || "Read more →"}</div>
+          <div class="gallery-card-foot">
+            <span class="view-count" data-views-gallery="${escapeHtml(g.id)}" hidden></span>
+            <span class="gallery-cta">${(i18n?.gallery?.read_more) || "Read more →"}</span>
+          </div>
         </div>
       </a>`;
   }

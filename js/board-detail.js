@@ -48,6 +48,7 @@
           <div class="news-detail-meta">
             ${entry.date ? `<span class="news-detail-date">${escapeHtml(entry.date)}</span>` : ""}
             ${entry.category ? `<span class="news-cat">${escapeHtml(entry.category)}</span>` : ""}
+            <span class="view-count" data-views-news="${escapeHtml(entry.id)}" hidden></span>
           </div>
         </div>
       </section>
@@ -78,6 +79,8 @@
           </div>
         </div>
       </section>`;
+
+    if (window.ViewsAPI) ViewsAPI.bumpInto(root.querySelector(".view-count[data-views-news]"), "news", entry.id);
   }
 
   function escapeHtml(s) { return String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]); }

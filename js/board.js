@@ -60,6 +60,7 @@
     host.innerHTML = `<ul class="news-list">${filtered
       .map((n) => renderItem(n, lang))
       .join("")}</ul>`;
+    if (window.ViewsAPI) ViewsAPI.populate(host, "news");
   }
 
   function daysSince(dateStr) {
@@ -85,6 +86,7 @@
             <div class="news-head">
               <div class="title">${title}</div>
               ${showBadge ? `<span class="news-cat">${escapeHtml(n.category)}</span>` : ""}
+              <span class="view-count" data-views-news="${escapeHtml(n.id)}" hidden></span>
             </div>
             ${excerpt ? `<div class="excerpt">${escapeHtml(excerpt)}</div>` : ""}
           </a>
