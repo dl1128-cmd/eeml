@@ -264,6 +264,9 @@ p { margin: 0 0 var(--space-4); color: var(--c-text-muted); }
   }
   .nav-links.open li { padding: var(--space-3) 0; border-bottom: 1px solid var(--c-border); }
   .nav-links.open li:last-child { border-bottom: 0; }
+  .site-header .nav-links.open a,
+  .site-header .nav-links.open a:hover,
+  .site-header .nav-links.open a.active { color: var(--c-text); }
   .nav-toggle {
     display: inline-flex; align-items: center; justify-content: center;
     width: 36px; height: 36px;
