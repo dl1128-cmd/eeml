@@ -8,7 +8,7 @@
     "authors": "J. Kim, S.E. Yu, H. Park, J. Yoon, C. Lee, R. Kang, K. Park, S. Moon, P.J. Kim, S. Sun, K. Roh, I. Jeong, D. Lee*, J. Choi*",
     "venue": "Journal of Materials Chemistry A",
     "volume": "2026",
-    "citations": 0,
+    "citations": 1,
     "doi": "10.1039/d6ta01386d",
     "link": ""
   },
@@ -125,7 +125,7 @@
     "authors": "S. Kim, T. Kim, W. Oh, D. Lee",
     "venue": "Industrial & Engineering Chemistry Research",
     "volume": "64(40), 19322-19331",
-    "citations": 1,
+    "citations": 2,
     "doi": "10.1021/acs.iecr.5c02132",
     "link": ""
   },
@@ -151,7 +151,7 @@
     "authors": "S. Yang, S. Lee, M.S. Kang, K.C. Roh, J. Seo, D. Lee, K. Kim, S. Lee, S.B. Cho*, P.J. Kim*, J. Choi*",
     "venue": "Carbon Energy",
     "volume": "7(11), e70053",
-    "citations": 13,
+    "citations": 12,
     "doi": "10.1002/cey2.70053",
     "link": ""
   },
@@ -242,7 +242,7 @@
     "authors": "M. Yoon, J. Park, W. Chen, Y. Huang, T. Dai, Y. Lee, J. Shin, S. Lee, Y. Kim, D. Lee, D. Shin, J. Cho, Y. Dong, J. Li",
     "venue": "Energy & Environmental Science",
     "volume": "18, 5902",
-    "citations": 8,
+    "citations": 7,
     "doi": "10.1039/d5ee01086a",
     "link": ""
   },
@@ -346,7 +346,7 @@
     "authors": "S. Sun, L. Su, S. Kim, D. Lee",
     "venue": "Journal of Electrochemical Science and Technology",
     "volume": "16(1), 1",
-    "citations": 11,
+    "citations": 10,
     "doi": "10.33961/jecst.2024.00759",
     "link": ""
   },
@@ -515,7 +515,7 @@
     "authors": "D. Lee, A. Manthiram*",
     "venue": "Small Methods",
     "volume": "7(7), 2201680",
-    "citations": 28,
+    "citations": 29,
     "doi": "10.1002/smtd.202201680",
     "link": ""
   },
@@ -723,7 +723,7 @@
     "authors": "C. Kim, J. Kim, J. Park, J. Kim, S. Lee, S. Sun, S. Myung, D. Lee, K. Park, I. Jang, S. Kim, H. Lee, H. Jung, U. Paik*, T. Song*",
     "venue": "Advanced Energy Materials",
     "volume": "11(40), 2102045",
-    "citations": 48,
+    "citations": 47,
     "doi": "10.1002/aenm.202102045",
     "link": ""
   },
