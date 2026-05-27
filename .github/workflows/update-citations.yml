@@ -5,6 +5,15 @@ on:
     # Daily at 03:00 UTC (= 12:00 KST). Scholar changes are gradual so once a day is plenty.
     - cron: "0 3 * * *"
   workflow_dispatch: {}
+  push:
+    branches: [main]
+    paths:
+      # When a new paper is added via admin (or any publications.json edit),
+      # run the matcher right away so the new entry gets its citation count
+      # without waiting for the next daily cron. Safe from infinite loops:
+      # the job's own commit uses GITHUB_TOKEN, which by default does NOT
+      # re-trigger workflows.
+      - "data/publications.json"
 
 permissions:
   contents: write
