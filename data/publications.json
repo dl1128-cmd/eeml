@@ -1,5 +1,18 @@
 [
   {
+    "id": "p-1779924794681",
+    "type": "journal",
+    "top_pick": false,
+    "year": 2026,
+    "title": "Bridging silicon materials and electrode engineering for high energy density lithium ion battery anodes",
+    "authors": "M. Kim† , J. Lee† , C, Lee, J. Kim, W. Jo, D. Lee*, J. Choi*",
+    "venue": "Frontiers in Batteries and Electrochemistry",
+    "volume": "5",
+    "citations": 0,
+    "doi": "doi.org/10.3389/fbael.2026.1848415",
+    "link": "https://www.frontiersin.org/journals/batteries-and-electrochemistry/articles/10.3389/fbael.2026.1848415/full"
+  },
+  {
     "id": "p2026-065",
     "type": "journal",
     "top_pick": false,
