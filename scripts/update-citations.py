@@ -81,15 +81,23 @@ GREEK_TO_LATIN = str.maketrans({
 })
 
 
+# English articles & stop words that Scholar sometimes adds/removes from
+# titles ("Uniform Lithium Ion Flux..." vs "A uniform lithium ion flux...").
+# Conservative list — only words that are nearly meaningless for paper
+# disambiguation. Don't strip "for/in/of" etc. because real titles like
+# "Method for X" vs "Method X" should remain distinct.
+TITLE_STOP_WORDS = frozenset({"a", "an", "the"})
+
+
 def normalize(s: str) -> str:
     """Lowercase, decode HTML entities, transliterate Greek → Latin, strip
     punctuation (incl. Unicode hyphens like U+2010 and middle dots U+00B7
-    that Scholar uses), collapse whitespace."""
+    that Scholar uses), drop English articles, collapse whitespace."""
     s = unescape(s)
     s = s.lower().translate(GREEK_TO_LATIN)
     s = re.sub(r"[^\w\s]", " ", s)
-    s = re.sub(r"\s+", " ", s).strip()
-    return s
+    tokens = [t for t in s.split() if t not in TITLE_STOP_WORDS]
+    return " ".join(tokens)
 
 
 def match_scholar(pub_title: str, scholar_index: dict) -> dict | None:
@@ -248,9 +256,11 @@ def main() -> int:
     scholar_by_title = {normalize(sp["title"]): sp for sp in papers}
 
     updated = 0
+    unmatched = []
     for p in pubs:
         sp = match_scholar(p.get("title", ""), scholar_by_title)
         if not sp:
+            unmatched.append(p)
             continue
         new_cites = sp["citations"]
         if new_cites > 0 and new_cites != p.get("citations", 0):
@@ -262,6 +272,22 @@ def main() -> int:
             updated += 1
         if sp["scholar_link"] and sp["scholar_link"] != p.get("scholar_link"):
             p["scholar_link"] = sp["scholar_link"]
+
+    # Surface unmatched papers prominently so the workflow log makes it
+    # obvious when a newly-added paper isn't found on Scholar yet (or has a
+    # title divergence that needs fixing in publications.json).
+    if unmatched:
+        print(
+            f"\n  ⚠️ {len(unmatched)} paper(s) in publications.json did NOT match any "
+            f"Scholar entry — they keep their current citation count "
+            f"(usually 0 for very new papers not yet indexed):",
+            file=sys.stderr,
+        )
+        for p in unmatched:
+            print(
+                f"     [{p.get('year','?')}] {p.get('title','')[:90]}",
+                file=sys.stderr,
+            )
 
     # Also update aggregate metrics in config.json
     stats = re.findall(r'<td class="gsc_rsb_std">(\d+)</td>', html)
