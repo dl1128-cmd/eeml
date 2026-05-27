@@ -1,5 +1,18 @@
 [
   {
+    "id": "p-1779924925825",
+    "type": "journal",
+    "top_pick": false,
+    "year": 2026,
+    "title": "Solid-State Batteries: A New Frontier for Robotics",
+    "authors": "D. Lee",
+    "venue": "Frontiers in Batteries and Electrochemistry",
+    "volume": "",
+    "citations": 0,
+    "doi": "",
+    "link": "https://www.frontiersin.org/journals/batteries-and-electrochemistry/articles/10.3389/fbael.2026.1873385/abstract"
+  },
+  {
     "id": "p-1779924794681",
     "type": "journal",
     "top_pick": false,
