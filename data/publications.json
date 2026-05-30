@@ -34,7 +34,7 @@
     "authors": "J. Kim, S.E. Yu, H. Park, J. Yoon, C. Lee, R. Kang, K. Park, S. Moon, P.J. Kim, S. Sun, K. Roh, I. Jeong, D. Lee*, J. Choi*",
     "venue": "Journal of Materials Chemistry A",
     "volume": "2026",
-    "citations": 1,
+    "citations": 3,
     "doi": "10.1039/d6ta01386d",
     "link": ""
   },
@@ -60,7 +60,7 @@
     "authors": "C. Lee, Y. Nam, I. Jeong, D. Lee, M. Yoon, J. Lim, S. Sun, J. Choi*, C.H. Park*",
     "venue": "Advanced Science",
     "volume": "e00022",
-    "citations": 1,
+    "citations": 2,
     "doi": "10.1002/advs.202600022",
     "link": ""
   },
@@ -86,7 +86,7 @@
     "authors": "H.W. Lee, W. Jeong, S. Park, H.J. Ji, J.S. Woo, J. Lee, Y.J. An, Y.C. Hwang, D.H. Kim, H. Chang, M. Kim, M. Jeong, M. Yoon, D. Lee, J. Kim, Z.L. Xu, T. Song, J. Moon*, J. Choi*, W.J. Kwak*",
     "venue": "Energy & Environmental Science",
     "volume": "19(6), 1944-1953",
-    "citations": 0,
+    "citations": 1,
     "doi": "10.1039/d5ee05739f",
     "link": ""
   },
@@ -99,7 +99,7 @@
     "authors": "M. Beltran, B. Wang, Y. Tan, J. Choi, D. Lee, L. Su",
     "venue": "ACS Materials Letters",
     "volume": "8(2), 614-620",
-    "citations": 3,
+    "citations": 4,
     "doi": "10.1021/acsmaterialslett.5c01492",
     "link": ""
   },
@@ -190,7 +190,7 @@
     "authors": "S. Lee, D. Lee, J. Kang, M.S. Kang, D. Lee, J. Seo, S.B. Cho*, P.J. Kim*, J. Choi*",
     "venue": "Advanced Functional Materials",
     "volume": "35(48), e13744",
-    "citations": 2,
+    "citations": 4,
     "doi": "10.1002/adfm.202513744",
     "link": ""
   },
@@ -203,7 +203,7 @@
     "authors": "S. Han, W. Jeong, D. Lee, M. Kim, M. Jeong, H.W. Lee, Y.J. An, H.J. Ji, M. Yoon, P.J. Kim, S. Sun, T. Song, D. Lee*, W.J. Kwak*, J. Choi*",
     "venue": "EES Batteries",
     "volume": "1, 1267-1278",
-    "citations": 5,
+    "citations": 6,
     "doi": "10.1039/d5eb00100e",
     "link": ""
   },
@@ -229,7 +229,7 @@
     "authors": "D. Lee, W. Jeong, J. Lee, H.E. Yoo, S. Sun, D. Lee, Y. Kim, M. Yoon, P.J. Kim, U. Paik, J.W. Lee, T. Song*, J. Choi*",
     "venue": "International Journal of Energy Research",
     "volume": "1, 1198001",
-    "citations": 3,
+    "citations": 4,
     "doi": "10.1155/er/1198001",
     "link": ""
   },
@@ -255,7 +255,7 @@
     "authors": "J. Choi, S. Moon, D. Lee, S. Han, S. Yang, D.S. Jung, J. Joo, P.J. Kim",
     "venue": "Chemical Engineering Journal",
     "volume": "519, 165044",
-    "citations": 17,
+    "citations": 18,
     "doi": "10.1016/j.cej.2025.165044",
     "link": ""
   },
@@ -320,7 +320,7 @@
     "authors": "J. Kim, J. Jeong, D. Lee, J. Kim, M. Naito, H. Park*, T. Song*, U. Paik*",
     "venue": "Chemical Engineering Journal",
     "volume": "505, 159328",
-    "citations": 14,
+    "citations": 15,
     "doi": "10.2139/ssrn.5024476",
     "link": ""
   },
@@ -346,7 +346,7 @@
     "authors": "Y. Tan, M. Beltran, J. Ke, J. Zhang, J. Choi, Y. Zhou, K. Cho, D. Lee",
     "venue": "Advanced Energy Materials",
     "volume": "15(13), 2403986",
-    "citations": 39,
+    "citations": 40,
     "doi": "10.1002/aenm.202403986",
     "link": ""
   },
@@ -411,7 +411,7 @@
     "authors": "H. Choi, D. Kim, D.G. Kim, Y. Kim, J.G. Park, M.G. Kim, Y.G. Jung, J. Yoo, J. Baek, S. Kang, B. Kim, J.H. Bang, D. Lee, B.G. Kim*, S.C. Yang*",
     "venue": "Desalination",
     "volume": "581, 117591",
-    "citations": 19,
+    "citations": 20,
     "doi": "10.1016/j.desal.2024.117591",
     "link": ""
   },
@@ -476,7 +476,7 @@
     "authors": "K. Park, M. Ryu, Y. Jung, H.E. Yoo, S. Myeong, D. Lee, S.C. Kim, C. Kim, J. Kim, J. Kwon, K. Lee, C.W. Cho, U. Paik*, T. Song*",
     "venue": "Batteries & Supercaps",
     "volume": "e202300170",
-    "citations": 14,
+    "citations": 15,
     "doi": "10.1002/batt.202300170",
     "link": ""
   },
@@ -593,7 +593,7 @@
     "authors": "D. Lee, H. Lee, T. Song*, U. Paik*",
     "venue": "Advanced Energy Materials",
     "volume": "12(27), 2200948",
-    "citations": 86,
+    "citations": 87,
     "doi": "10.1002/aenm.202200948",
     "link": ""
   },
