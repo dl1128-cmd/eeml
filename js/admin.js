@@ -1159,7 +1159,11 @@
     const body = `
       <div class="admin-form">
         <div class="admin-form-row"><label>제목<span class="req">*</span></label><input id="f-title" value="${escapeAttr(p.title)}" /></div>
-        <div class="admin-form-row"><label>저자<span class="req">*</span></label><input id="f-authors" value="${escapeAttr(p.authors)}" placeholder="J. Choi, P.J. Kim" /></div>
+        <div class="admin-form-row"><label>저자<span class="req">*</span></label>
+          <input id="f-authors" value="${escapeAttr(p.authors)}" placeholder="J. Kim, J. Lee, D. Lee" />
+          <div id="f-authors-chips" class="pub-authors-chips" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px"></div>
+          <div class="hint" style="margin-top:.25rem">칩에서 <b>✱</b> = 교신저자, <b>†</b> = 공동 1저자. 첫 저자(또는 † 표시된 저자)는 자동으로 강조됩니다. <b>밑줄·굵게</b> 미리보기로 표시되는 저자가 라이브 사이트에서도 동일하게 보입니다.</div>
+        </div>
         <div class="admin-form-row"><label>게재지<span class="req">*</span></label><input id="f-venue" value="${escapeAttr(p.venue)}" placeholder="Advanced Energy Materials" /></div>
         <div class="admin-form-row"><label>권(호)</label><input id="f-volume" value="${escapeAttr(p.volume || '')}" placeholder="14(10)" /></div>
         <div class="admin-form-row"><label>연도<span class="req">*</span></label><input id="f-year" type="number" value="${p.year}" /></div>
@@ -1207,6 +1211,55 @@
       { accept: "application/pdf,.pdf", maxSizeMB: 5, label: "논문 PDF" },
       () => {}
     );
+    // Authors chip toggles — sync with the text input both ways.
+    (function setupAuthorChips() {
+      const input = document.getElementById("f-authors");
+      const host = document.getElementById("f-authors-chips");
+      if (!input || !host) return;
+      const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" })[c]);
+      function render() {
+        const parts = input.value.split(",").map(t => t.trim()).filter(Boolean);
+        const hasDagger = parts.some(t => /†\s*$/.test(t));
+        host.innerHTML = parts.length
+          ? parts.map((tok, i) => {
+              const corr = /\*\s*$/.test(tok);
+              const dag = /†\s*$/.test(tok);
+              const name = tok.replace(/[\*†]+\s*$/g, "").trim();
+              const isFirst = dag || (!hasDagger && i === 0);
+              const keyStyle = (corr || isFirst) ? "font-weight:700;text-decoration:underline;text-underline-offset:2px" : "";
+              const activeStyle = "background:#1B5BD9;color:#fff;border-color:#1B5BD9";
+              const baseBtn = "background:none;border:1px solid #ccc;border-radius:3px;padding:1px 6px;cursor:pointer;font-size:0.85em;line-height:1.4";
+              return `<span class="pub-author-chip" style="display:inline-flex;align-items:center;gap:4px;background:#f5f5f5;border:1px solid #ddd;border-radius:4px;padding:2px 6px;font-size:0.85em">
+                <span class="name" style="${keyStyle}">${esc(name)}</span>
+                <button type="button" data-idx="${i}" data-flag="corr" title="교신저자 토글" style="${baseBtn};${corr?activeStyle:''}">✱</button>
+                <button type="button" data-idx="${i}" data-flag="dag" title="공동 1저자 토글" style="${baseBtn};${dag?activeStyle:''}">†</button>
+              </span>`;
+            }).join("")
+          : `<span style="color:#999;font-size:0.85em">저자 입력 시 칩이 자동 표시됩니다</span>`;
+      }
+      host.addEventListener("click", e => {
+        const btn = e.target.closest("button[data-idx]");
+        if (!btn) return;
+        e.preventDefault();
+        const i = +btn.dataset.idx;
+        const flag = btn.dataset.flag;
+        const parts = input.value.split(",").map(t => t.trim()).filter(Boolean);
+        if (i < 0 || i >= parts.length) return;
+        let tok = parts[i];
+        const hasCorr = /\*\s*$/.test(tok);
+        const hasDag = /†\s*$/.test(tok);
+        tok = tok.replace(/[\*†]+\s*$/g, "").trim();
+        const newCorr = flag === "corr" ? !hasCorr : hasCorr;
+        const newDag  = flag === "dag"  ? !hasDag  : hasDag;
+        if (newDag)  tok += "†";
+        if (newCorr) tok += "*";
+        parts[i] = tok;
+        input.value = parts.join(", ");
+        render();
+      });
+      input.addEventListener("input", render);
+      render();
+    })();
   }
 
   /* =========================================================================

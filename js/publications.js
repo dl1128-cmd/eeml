@@ -337,7 +337,7 @@
         <div class="pub-num">${String(n).padStart(2, "0")}</div>
         <div class="pub-body">
           <div class="title">${titleEl}${top}</div>
-          <div class="meta">${escapeHtml(p.authors)} · <span class="venue">${escapeHtml(p.venue)}</span>${p.volume ? ", " + escapeHtml(p.volume) : ""} (${p.year})</div>
+          <div class="meta">${formatAuthors(p.authors)} · <span class="venue">${escapeHtml(p.venue)}</span>${p.volume ? ", " + escapeHtml(p.volume) : ""} (${p.year})</div>
         </div>
         <div class="cite-count">
           <span class="n">${p.citations ?? 0}</span><span class="lbl">cites</span>
@@ -359,6 +359,25 @@
     if (p.scholar_link) return p.scholar_link;
     // Fallback — search by title on Scholar
     return `https://scholar.google.com/scholar?q=${encodeURIComponent(p.title)}`;
+  }
+
+  // Parse authors string with EEML convention:
+  //   * suffix  → corresponding author
+  //   † suffix  → co-first author
+  //   first entry (when no †) → first author by default
+  // First authors and corresponding authors both get bold + underline.
+  function formatAuthors(raw) {
+    const s = String(raw || "").trim();
+    if (!s) return "";
+    const parts = s.split(",").map(t => t.trim()).filter(Boolean);
+    const hasDagger = parts.some(p => /†\s*$/.test(p));
+    return parts.map((tok, i) => {
+      const corr = /\*\s*$/.test(tok);
+      const dag = /†\s*$/.test(tok);
+      const isFirst = dag || (!hasDagger && i === 0);
+      const isKey = corr || isFirst;
+      return isKey ? `<span class="pub-author-key">${escapeHtml(tok)}</span>` : escapeHtml(tok);
+    }).join(", ");
   }
 
   function normalize(s) {

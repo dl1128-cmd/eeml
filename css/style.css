@@ -946,6 +946,8 @@ p { margin: 0 0 var(--space-4); color: var(--c-text-muted); }
 .pub-item .title a:hover { color: var(--c-accent); }
 .pub-item .meta { font-size: var(--fs-sm); color: var(--c-text-muted); }
 .pub-item .venue { font-style: italic; color: var(--c-accent); font-weight: 600; }
+/* First-author (incl. † co-first) and *corresponding authors stand out */
+.pub-item .meta .pub-author-key { font-weight: 700; text-decoration: underline; text-underline-offset: 2px; color: var(--c-text); }
 .pub-item .badge-top {
   display: inline-block;
   font-size: 10px;
