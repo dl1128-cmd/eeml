@@ -1217,6 +1217,23 @@
       const host = document.getElementById("f-authors-chips");
       if (!input || !host) return;
       const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" })[c]);
+      // Owner author list — mirrors publications.js so the chip preview
+      // matches what the live site renders.
+      const cfg = (STATE.data && STATE.data.config) || {};
+      const baseOwners = (cfg.lab && Array.isArray(cfg.lab.owner_authors))
+        ? cfg.lab.owner_authors
+        : (cfg.pi && (cfg.pi.name_en || cfg.pi.name_ko))
+          ? [cfg.pi.name_en, cfg.pi.name_ko].filter(Boolean)
+          : ["D. Lee"];
+      const ownerSet = new Set(baseOwners.map(s => String(s).trim().toLowerCase()));
+      baseOwners.forEach(n => {
+        const ps = String(n).trim().split(/\s+/);
+        if (ps.length >= 2) {
+          ownerSet.add(`${ps[0][0]}. ${ps[ps.length-1]}`.toLowerCase());
+          ownerSet.add(`${ps[0][0]} ${ps[ps.length-1]}`.toLowerCase());
+        }
+      });
+      const isOwner = name => ownerSet.has(String(name || "").replace(/[\*†]+\s*$/g, "").trim().toLowerCase());
       function render() {
         const parts = input.value.split(",").map(t => t.trim()).filter(Boolean);
         const hasDagger = parts.some(t => /†\s*$/.test(t));
@@ -1226,7 +1243,8 @@
               const dag = /†\s*$/.test(tok);
               const name = tok.replace(/[\*†]+\s*$/g, "").trim();
               const isFirst = dag || (!hasDagger && i === 0);
-              const keyStyle = (corr || isFirst) ? "font-weight:700;text-decoration:underline;text-underline-offset:2px" : "";
+              const owner = isOwner(name);
+              const keyStyle = (corr || isFirst || owner) ? "font-weight:700;text-decoration:underline;text-underline-offset:2px" : "";
               const activeStyle = "background:#1B5BD9;color:#fff;border-color:#1B5BD9";
               const baseBtn = "background:none;border:1px solid #ccc;border-radius:3px;padding:1px 6px;cursor:pointer;font-size:0.85em;line-height:1.4";
               return `<span class="pub-author-chip" style="display:inline-flex;align-items:center;gap:4px;background:#f5f5f5;border:1px solid #ddd;border-radius:4px;padding:2px 6px;font-size:0.85em">
