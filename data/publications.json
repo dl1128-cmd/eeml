@@ -60,7 +60,7 @@
     "authors": "C. Lee, Y. Nam, I. Jeong, M. Yoon, J. Lim, S. Sun, J. Choi*, C.H. Park*, D. Lee*",
     "venue": "Advanced Science",
     "volume": "e00022",
-    "citations": 3,
+    "citations": 2,
     "doi": "10.1002/advs.202600022",
     "link": ""
   },
@@ -333,7 +333,7 @@
     "authors": "A.K. Kakarla, D. Lee, S. Sun, P.J. Kim*, J. Choi*",
     "venue": "ChemElectroChem",
     "volume": "12(3), e202400612",
-    "citations": 30,
+    "citations": 29,
     "doi": "10.1002/celc.202400612",
     "link": ""
   },
@@ -346,7 +346,7 @@
     "authors": "Y. Tan, M. Beltran, J. Ke, J. Zhang, J. Choi, Y. Zhou, K. Cho, D. Lee",
     "venue": "Advanced Energy Materials",
     "volume": "15(13), 2403986",
-    "citations": 41,
+    "citations": 40,
     "doi": "10.1002/aenm.202403986",
     "link": ""
   },
@@ -398,7 +398,7 @@
     "authors": "D. Lee, S. Lee, D.S. Jung, K.C. Roh, J. Seo, J. Kim, K. Kim, P.J. Kim*, J. Choi*",
     "venue": "Applied Surface Science",
     "volume": "661, 160023",
-    "citations": 22,
+    "citations": 21,
     "doi": "10.1016/j.apsusc.2024.160023",
     "link": ""
   },
@@ -457,7 +457,7 @@
   {
     "id": "p2024-032",
     "type": "journal",
-    "top_pick": true,
+    "top_pick": false,
     "year": 2024,
     "title": "Interphase Stabilization of LiNi0.5Mn1.5O4 Cathode for 5 V-Class All-Solid-State Batteries",
     "authors": "D. Lee, Z. Cui, J.B. Goodenough, A. Manthiram*",
@@ -645,7 +645,7 @@
     "authors": "I. Hwang, D. Lee, Y. Jung, J. Kim, J. Kim, C. Kim, D. Kim, S.C. Yang, T. Song*, U. Paik*",
     "venue": "ACS Materials Letters",
     "volume": "4(4), 618-625",
-    "citations": 13,
+    "citations": 12,
     "doi": "10.1021/acsmaterialslett.2c00154",
     "link": ""
   },
@@ -697,7 +697,7 @@
     "authors": "D. Lee, S. Sun, C. Kim, J. Kim, D. Song, K. Lee, J. Kim, T. Song*, U. Paik*",
     "venue": "Electrochimica Acta",
     "volume": "401, 139535",
-    "citations": 8,
+    "citations": 7,
     "doi": "10.1016/j.electacta.2021.139535",
     "link": ""
   },
@@ -736,7 +736,7 @@
     "authors": "D. Lee, S. Sun, H. Park, J. Kim, K. Park, I. Hwang, Y. Jung, T. Song*, U. Paik*",
     "venue": "Journal of Power Sources",
     "volume": "506, 230158",
-    "citations": 36,
+    "citations": 35,
     "doi": "10.1016/j.jpowsour.2021.230158",
     "link": ""
   },
@@ -775,7 +775,7 @@
     "authors": "S. Sun, S. Myung, G. Kim, D. Lee, H. Son, M. Jang, E. Park, B. Son, Y.G. Jung, U. Paik*, T. Song*",
     "venue": "Journal of Materials Chemistry A",
     "volume": "8(33), 17229-17237",
-    "citations": 104,
+    "citations": 103,
     "doi": "10.1039/d0ta05372d",
     "link": ""
   },
