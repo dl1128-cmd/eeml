@@ -79,6 +79,19 @@
     }).join(", ");
   }
 
+  // Home page variant — only PI + lab members are highlighted. First-author
+  // and *corresponding markers are NOT emphasized, because the home card is
+  // a quick "where is our group?" glance, not a credit breakdown.
+  function formatAuthorsOwnerOnly(raw) {
+    const s = String(raw || "").trim();
+    if (!s) return "";
+    return s.split(",").map(t => t.trim()).filter(Boolean).map(tok =>
+      isOwner(tok)
+        ? `<span class="pub-author-key">${escapeHtml(tok)}</span>`
+        : escapeHtml(tok)
+    ).join(", ");
+  }
+
   // Cached promise so multiple consumers (publications.js, home.js) share
   // a single fetch of config + members.
   let ownerLoadPromise = null;
@@ -117,5 +130,5 @@
     return ownerLoadPromise;
   }
 
-  window.AuthorsAPI = { setOwnerAuthors, isOwner, formatAuthors, loadOwners };
+  window.AuthorsAPI = { setOwnerAuthors, isOwner, formatAuthors, formatAuthorsOwnerOnly, loadOwners };
 })();

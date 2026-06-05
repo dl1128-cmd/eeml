@@ -79,7 +79,7 @@
             <a class="featured-card" href="publications">
               <div class="meta-top"><span>${escapeHtml(p.venue)}</span><span class="year">${p.year}</span></div>
               <h3>${escapeHtml(p.title)}</h3>
-              <div class="authors">${(window.AuthorsAPI && AuthorsAPI.formatAuthors) ? AuthorsAPI.formatAuthors(truncate(p.authors, 110)) : escapeHtml(truncate(p.authors, 110))}</div>
+              <div class="authors">${(window.AuthorsAPI && AuthorsAPI.formatAuthorsOwnerOnly) ? AuthorsAPI.formatAuthorsOwnerOnly(truncate(p.authors, 110)) : escapeHtml(truncate(p.authors, 110))}</div>
             </a>
           `).join("")}
         </div>
