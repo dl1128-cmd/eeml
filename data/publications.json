@@ -93,7 +93,7 @@
   {
     "id": "p2026-060",
     "type": "journal",
-    "top_pick": false,
+    "top_pick": true,
     "year": 2026,
     "title": "Mechanochemistry-Driven Optimization of Halide-Based Solid-State Electrolytes via Orthogonal Design of Experiments and Regression Modeling",
     "authors": "M. Beltran, B. Wang, Y. Tan, J. Choi, D. Lee, L. Su",
