@@ -4,6 +4,9 @@
 
   document.addEventListener("site:ready", async () => {
     try {
+      // Load author-highlight rules (PI + lab members) before rendering the
+      // featured cards so the first/corresponding/owner emphasis is applied.
+      if (window.AuthorsAPI) await AuthorsAPI.loadOwners();
       const [topics, pubs, news, gallery] = await Promise.all([
         SiteUtils.loadJSON("data/research_topics.json"),
         SiteUtils.loadJSON("data/publications.json"),
@@ -76,7 +79,7 @@
             <a class="featured-card" href="publications">
               <div class="meta-top"><span>${escapeHtml(p.venue)}</span><span class="year">${p.year}</span></div>
               <h3>${escapeHtml(p.title)}</h3>
-              <div class="authors">${escapeHtml(truncate(p.authors, 110))}</div>
+              <div class="authors">${(window.AuthorsAPI && AuthorsAPI.formatAuthors) ? AuthorsAPI.formatAuthors(truncate(p.authors, 110)) : escapeHtml(truncate(p.authors, 110))}</div>
             </a>
           `).join("")}
         </div>

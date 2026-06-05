@@ -25,29 +25,14 @@
     const root = document.getElementById("publications-root");
     if (!root) return;
     try {
-      const [pubsData, covers, patents, cfg] = await Promise.all([
+      // AuthorsAPI loads PI + lab member names once and caches; safe to
+      // call from both publications.js and home.js.
+      if (window.AuthorsAPI) await AuthorsAPI.loadOwners();
+      const [pubsData, covers, patents] = await Promise.all([
         SiteUtils.loadJSON("data/publications.json"),
         SiteUtils.loadJSON("data/journal_covers.json").catch(() => []),
-        SiteUtils.loadJSON("data/patents.json").catch(() => []),
-        SiteUtils.loadJSON("data/config.json").catch(() => ({}))
+        SiteUtils.loadJSON("data/patents.json").catch(() => [])
       ]);
-      const owners = (cfg && cfg.lab && Array.isArray(cfg.lab.owner_authors))
-        ? cfg.lab.owner_authors
-        : (cfg && cfg.pi && (cfg.pi.name_en || cfg.pi.name_ko))
-          ? [cfg.pi.name_en, cfg.pi.name_ko].filter(Boolean)
-          : ["D. Lee"];
-      // Also accept common abbreviations of the PI's English name.
-      const expanded = new Set(owners);
-      owners.forEach(n => {
-        const parts = String(n).trim().split(/\s+/);
-        if (parts.length >= 2) {
-          const last = parts[parts.length - 1];
-          const first = parts[0];
-          expanded.add(`${first[0]}. ${last}`);
-          expanded.add(`${first[0]} ${last}`);
-        }
-      });
-      setOwnerAuthors([...expanded]);
       pubs = pubsData || [];
       const patentsList = patents || [];
       patentsCount = patentsList.filter(p => p && p.title).length;
@@ -379,37 +364,12 @@
     return `https://scholar.google.com/scholar?q=${encodeURIComponent(p.title)}`;
   }
 
-  // Parse authors string with EEML convention:
-  //   * suffix  → corresponding author
-  //   † suffix  → co-first author
-  //   first entry (when no †) → first author by default
-  //   PI's own name (any form listed in config.lab.owner_authors)
-  //     → always highlighted, regardless of position/markers
-  // First authors, corresponding authors, and PI all get bold + underline.
-  let OWNER_PATTERNS = ["d. lee"]; // fallback; refined from config when available
-  function setOwnerAuthors(list) {
-    const arr = (list || []).map(s => String(s || "").trim().toLowerCase()).filter(Boolean);
-    if (arr.length) OWNER_PATTERNS = arr;
-  }
-  function isOwner(name) {
-    const norm = String(name || "")
-      .replace(/[\*†]+\s*$/g, "")
-      .trim()
-      .toLowerCase();
-    return OWNER_PATTERNS.some(p => norm === p);
-  }
+  // Delegate to shared AuthorsAPI (js/authors.js). Keeps the rendering
+  // rules identical to home.js Recent publications cards.
   function formatAuthors(raw) {
-    const s = String(raw || "").trim();
-    if (!s) return "";
-    const parts = s.split(",").map(t => t.trim()).filter(Boolean);
-    const hasDagger = parts.some(p => /†\s*$/.test(p));
-    return parts.map((tok, i) => {
-      const corr = /\*\s*$/.test(tok);
-      const dag = /†\s*$/.test(tok);
-      const isFirst = dag || (!hasDagger && i === 0);
-      const isKey = corr || isFirst || isOwner(tok);
-      return isKey ? `<span class="pub-author-key">${escapeHtml(tok)}</span>` : escapeHtml(tok);
-    }).join(", ");
+    return (window.AuthorsAPI && window.AuthorsAPI.formatAuthors)
+      ? AuthorsAPI.formatAuthors(raw)
+      : escapeHtml(String(raw || ""));
   }
 
   function normalize(s) {
