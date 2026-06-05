@@ -28,7 +28,7 @@
   {
     "id": "p2026-065",
     "type": "journal",
-    "top_pick": false,
+    "top_pick": true,
     "year": 2026,
     "title": "Uniform Lithium Ion Flux and Robust Interphase Enabled by Anion Anchoring Additive for High Energy Density Si-based Anodes",
     "authors": "J. Kim, S.E. Yu, H. Park, J. Yoon, C. Lee, R. Kang, K. Park, S. Moon, P.J. Kim, S. Sun, K. Roh, I. Jeong, D. Lee*, J. Choi*",
