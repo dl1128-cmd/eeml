@@ -20,7 +20,7 @@
     "title": "Bridging silicon materials and electrode engineering for high energy density lithium ion battery anodes",
     "authors": "M. Kim† , J. Lee† , C, Lee, J. Kim, W. Jo, D. Lee*, J. Choi*",
     "venue": "Frontiers in Batteries and Electrochemistry",
-    "volume": "5",
+    "volume": "5, 1848415",
     "citations": 0,
     "doi": "doi.org/10.3389/fbael.2026.1848415",
     "link": "https://www.frontiersin.org/journals/batteries-and-electrochemistry/articles/10.3389/fbael.2026.1848415/full"
@@ -33,7 +33,7 @@
     "title": "Uniform Lithium Ion Flux and Robust Interphase Enabled by Anion Anchoring Additive for High Energy Density Si-based Anodes",
     "authors": "J. Kim, S.E. Yu, H. Park, J. Yoon, C. Lee, R. Kang, K. Park, S. Moon, P.J. Kim, S. Sun, K. Roh, I. Jeong, D. Lee*, J. Choi*",
     "venue": "Journal of Materials Chemistry A",
-    "volume": "2026",
+    "volume": "14(28), 17831-17845",
     "citations": 3,
     "doi": "10.1039/d6ta01386d",
     "link": ""
@@ -46,7 +46,7 @@
     "title": "Electrochemical Stabilization of Polytetrafluoroethylene (PTFE) via Electronic Band Engineering Enables Long-Life, High-Energy-Density Li-Ion Batteries",
     "authors": "M. Kim, J. Kim, B. Choi, C.W. Cho, D. Lee*, T. Song*, U. Paik*",
     "venue": "Advanced Energy Materials",
-    "volume": "e70845",
+    "volume": "16(19), e70845",
     "citations": 0,
     "doi": "10.1002/aenm.70845",
     "link": ""
@@ -59,7 +59,7 @@
     "title": "Interfacially Reinforced Crosslinked Binder with Structural Integrity for Stable Micro-sized Silicon Anodes in All-Solid-State Batteries",
     "authors": "C. Lee, Y. Nam, I. Jeong, M. Yoon, J. Lim, S. Sun, J. Choi*, C.H. Park*, D. Lee*",
     "venue": "Advanced Science",
-    "volume": "e00022",
+    "volume": "13(26), e00022",
     "citations": 3,
     "doi": "10.1002/advs.202600022",
     "link": ""
@@ -111,7 +111,7 @@
     "title": "Abuse-Tolerant Separator Enabled by Surface Charge Modulation and Structural Reinforcement for High-Safety Lithium-Ion Batteries",
     "authors": "S. Woo, J. Lee, W. Choi, S. Kwak, M. Kim, S. Lee, Y. Lee, S. Park, D. Lee*, J. Choi*, P.J. Kim*",
     "venue": "Advanced Functional Materials",
-    "volume": "e29000",
+    "volume": "36(34), e29000",
     "citations": 1,
     "doi": "10.1002/adfm.202529000",
     "link": ""
@@ -124,7 +124,7 @@
     "title": "Beyond the Limits of Lithium Iron Phosphate: Cutting-Edge Innovations Toward High Performance and Sustainability for Next-Generation Batteries",
     "authors": "A.K. Kakarla, Z. Akhtar, J. Kim, M. Yoon*, D. Lee*, J. Choi*",
     "venue": "Interdisciplinary Materials",
-    "volume": "4(6), 812",
+    "volume": "4(6), 812-849",
     "citations": 8,
     "doi": "10.1002/idm2.70024",
     "link": ""
@@ -177,7 +177,7 @@
     "authors": "S. Yang, S. Lee, M.S. Kang, K.C. Roh, J. Seo, D. Lee, K. Kim, S. Lee, S.B. Cho*, P.J. Kim*, J. Choi*",
     "venue": "Carbon Energy",
     "volume": "7(11), e70053",
-    "citations": 14,
+    "citations": 13,
     "doi": "10.1002/cey2.70053",
     "link": ""
   },
@@ -202,7 +202,7 @@
     "title": "Tailored Electrolyte Additive Design for Suppressing Irreversibility in Dry Processed Anodes and Enhancing Electrochemical Stability in Full-Cells",
     "authors": "S. Han, W. Jeong, D. Lee, M. Kim, M. Jeong, H.W. Lee, Y.J. An, H.J. Ji, M. Yoon, P.J. Kim, S. Sun, T. Song, D. Lee*, W.J. Kwak*, J. Choi*",
     "venue": "EES Batteries",
-    "volume": "1, 1267-1278",
+    "volume": "1(5), 1267-1278",
     "citations": 6,
     "doi": "10.1039/d5eb00100e",
     "link": ""
@@ -228,7 +228,7 @@
     "title": "Mechanochemically Boosting Additive for Robust Si/C Anodes in High-Energy-Density Li-Ion Batteries",
     "authors": "D. Lee, W. Jeong, J. Lee, H.E. Yoo, S. Sun, D. Lee, Y. Kim, M. Yoon, P.J. Kim, U. Paik, J.W. Lee, T. Song*, J. Choi*",
     "venue": "International Journal of Energy Research",
-    "volume": "1, 1198001",
+    "volume": "2025(1), 1198001",
     "citations": 4,
     "doi": "10.1155/er/1198001",
     "link": ""
@@ -255,7 +255,7 @@
     "authors": "J. Choi, S. Moon, D. Lee, S. Han, S. Yang, D.S. Jung, J. Joo, P.J. Kim",
     "venue": "Chemical Engineering Journal",
     "volume": "519, 165044",
-    "citations": 18,
+    "citations": 17,
     "doi": "10.1016/j.cej.2025.165044",
     "link": ""
   },
@@ -267,7 +267,7 @@
     "title": "Upcycling Spent Medium-Ni Cathodes via Novel Liquified Salts Sourcing",
     "authors": "M. Yoon, J. Park, W. Chen, Y. Huang, T. Dai, Y. Lee, J. Shin, S. Lee, Y. Kim, D. Lee, D. Shin, J. Cho, Y. Dong, J. Li",
     "venue": "Energy & Environmental Science",
-    "volume": "18, 5902",
+    "volume": "18(12), 5902-5912",
     "citations": 8,
     "doi": "10.1039/d5ee01086a",
     "link": ""
@@ -333,7 +333,7 @@
     "authors": "A.K. Kakarla, D. Lee, S. Sun, P.J. Kim*, J. Choi*",
     "venue": "ChemElectroChem",
     "volume": "12(3), e202400612",
-    "citations": 30,
+    "citations": 29,
     "doi": "10.1002/celc.202400612",
     "link": ""
   },
@@ -371,8 +371,8 @@
     "title": "Recent Advances in Anode-Free Solid-State Batteries: A Review",
     "authors": "S. Sun, L. Su, S. Kim, D. Lee",
     "venue": "Journal of Electrochemical Science and Technology",
-    "volume": "16(1), 1",
-    "citations": 12,
+    "volume": "16(1), 1-14",
+    "citations": 11,
     "doi": "10.33961/jecst.2024.00759",
     "link": ""
   },
@@ -384,7 +384,7 @@
     "title": "Mixed Ionic-Electronic Conductivity of High-Nickel, Single-Crystal Cathodes Influencing the Cycling Stability of All-Solid-State Lithium-Ion Batteries",
     "authors": "D. Lee, A. Manthiram*",
     "venue": "Journal of Materials Chemistry A",
-    "volume": "12(38), 26244",
+    "volume": "12(38), 26244-26252",
     "citations": 10,
     "doi": "10.1039/d4ta03727h",
     "link": ""
@@ -449,7 +449,7 @@
     "title": "Boosting Electrochemical Performance with Functionalized Dry Electrodes for Practical All-Solid-State Batteries",
     "authors": "D. Lee, A. Manthiram*",
     "venue": "Journal of Materials Chemistry A",
-    "volume": "12(6), 3323",
+    "volume": "12(6), 3323-3330",
     "citations": 25,
     "doi": "10.1039/d3ta05631g",
     "link": ""
@@ -475,7 +475,7 @@
     "title": "Mitigation of Binder Migration Behavior during the Drying Process by Applying an Electric Field for Fast-Charging in Lithium-Ion Batteries",
     "authors": "K. Park, M. Ryu, Y. Jung, H.E. Yoo, S. Myeong, D. Lee, S.C. Kim, C. Kim, J. Kim, J. Kwon, K. Lee, C.W. Cho, U. Paik*, T. Song*",
     "venue": "Batteries & Supercaps",
-    "volume": "e202300170",
+    "volume": "6(9), e202300170",
     "citations": 15,
     "doi": "10.1002/batt.202300170",
     "link": ""
