@@ -236,5 +236,18 @@
     "interests_ko": "",
     "interests_en": "",
     "photo_pos": "48% 0%"
+  },
+  {
+    "id": "m-1780719397378",
+    "role": "undergraduate",
+    "name_ko": "조수빈",
+    "name_en": "Cho Subin ",
+    "title_ko": "학부연구원",
+    "title_en": "",
+    "email": "chosb0216@gachon.ac.kr",
+    "photo": "assets/images/members/210737e94bbef71b.jpg",
+    "photo_pos": "60% 15%",
+    "interests_ko": "",
+    "interests_en": ""
   }
 ]
