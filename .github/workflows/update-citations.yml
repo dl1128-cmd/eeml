@@ -1,4 +1,4 @@
-name: Update citations from Google Scholar
+name: Update citations + journal metadata
 
 on:
   schedule:
@@ -30,12 +30,16 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Fetch Scholar and update JSON
-        id: update
+      - name: Fetch Scholar and update citations
+        id: cites
         run: python scripts/update-citations.py
 
+      - name: Fetch CrossRef and update volume/issue/page
+        id: meta
+        run: python scripts/update-metadata.py
+
       - name: Commit & push if changed
-        if: steps.update.outputs.changed == 'true'
+        if: steps.cites.outputs.changed == 'true' || steps.meta.outputs.changed == 'true'
         run: |
           git config --global user.name  "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -43,6 +47,16 @@ jobs:
           if git diff --cached --quiet; then
             echo "No actual diff — skipping commit."
           else
-            git commit -m "chore: auto-update citation counts from Google Scholar"
+            # Pick the message that matches what actually changed.
+            CITES="${{ steps.cites.outputs.changed }}"
+            META="${{ steps.meta.outputs.changed }}"
+            if [ "$CITES" = "true" ] && [ "$META" = "true" ]; then
+              MSG="chore: auto-update citations (Scholar) + journal metadata (CrossRef)"
+            elif [ "$META" = "true" ]; then
+              MSG="chore: auto-update journal metadata (volume/issue/page) from CrossRef"
+            else
+              MSG="chore: auto-update citation counts from Google Scholar"
+            fi
+            git commit -m "$MSG"
             git push
           fi
