@@ -49,8 +49,11 @@
   const STATS_BASE = "https://api.counterapi.dev/v1/" + STATS_NS;
 
   const LS_PW_HASH = "eeml:admin:pwhash";
-  // SHA-256 of "eeml2026" — the default password (change after first login)
-  const DEFAULT_PW_HASH = "98cafe637643651851f9b745a5f6a3062948a28f894a7f1280d11707e90a83a8";
+  // The old built-in default password "eeml2026" is REVOKED. PI now uses
+  // a per-browser password kept in localStorage (set via 비밀번호 변경).
+  // Leaving DEFAULT_PW_HASH empty means a fresh browser with no stored
+  // password will not accept any login through the PI slot.
+  const DEFAULT_PW_HASH = "";
   // Additional accepted password hashes — students/collaborators. Each row
   // is independent of the PI's password and of localStorage overrides.
   //   eeml-student-2026  → 78ae107bf1d2d265055fee4edd54d449ed57893186bb42deec21daf723e726fa
@@ -573,10 +576,14 @@
   }
 
   // Login is accepted if the entered hash matches either the per-browser
-  // stored password (PI's locally-changed pw, falling back to default) OR
-  // any of the EXTRA_PW_HASHES (student/collaborator passwords baked in).
+  // stored password (PI's locally-changed pw) OR any EXTRA_PW_HASHES entry.
+  // An empty stored hash (no PI pw on this browser) never matches — so the
+  // revoked "eeml2026" default cannot sneak in via fresh-browser fallback.
   function isAcceptedHash(h) {
-    return h === getStoredHash() || EXTRA_PW_HASHES.includes(h);
+    const stored = getStoredHash();
+    if (stored && h === stored) return true;
+    if (EXTRA_PW_HASHES.includes(h)) return true;
+    return false;
   }
 
   /* =========================================================================
