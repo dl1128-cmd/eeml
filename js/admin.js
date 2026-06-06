@@ -11,6 +11,24 @@
 (function () {
   "use strict";
 
+  // Auto-import GitHub token from URL hash (e.g. /admin#token=gho_…).
+  // Lets the PI hand a student a single click-through link instead of
+  // walking them through the console paste. Hash is used (not query) so
+  // the token never hits the server logs. We strip it from the URL right
+  // away and reload, so it won't sit in browser history beyond one entry.
+  (function autoImportTokenFromHash() {
+    const m = String(location.hash || "").match(/^#?token=([^&]+)/);
+    if (!m) return;
+    const token = decodeURIComponent(m[1]).trim();
+    if (token.length < 20) return; // sanity guard
+    try {
+      localStorage.setItem("eeml:admin:gh_token", token);
+      localStorage.setItem("eeml:admin:gh_repo", "dl1128-cmd/eeml");
+    } catch (e) { /* private mode etc. */ }
+    history.replaceState(null, "", location.pathname + location.search);
+    location.reload();
+  })();
+
   const STATE = {
     authed: false,
     data: {
