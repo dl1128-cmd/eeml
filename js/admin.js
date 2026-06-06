@@ -51,6 +51,12 @@
   const LS_PW_HASH = "eeml:admin:pwhash";
   // SHA-256 of "eeml2026" — the default password (change after first login)
   const DEFAULT_PW_HASH = "98cafe637643651851f9b745a5f6a3062948a28f894a7f1280d11707e90a83a8";
+  // Additional accepted password hashes — students/collaborators. Each row
+  // is independent of the PI's password and of localStorage overrides.
+  //   eeml-student-2026  → 78ae107bf1d2d265055fee4edd54d449ed57893186bb42deec21daf723e726fa
+  const EXTRA_PW_HASHES = [
+    "78ae107bf1d2d265055fee4edd54d449ed57893186bb42deec21daf723e726fa",
+  ];
 
   /* =========================================================================
    * Image picker + client-side resize
@@ -566,6 +572,13 @@
     return localStorage.getItem(LS_PW_HASH) || DEFAULT_PW_HASH;
   }
 
+  // Login is accepted if the entered hash matches either the per-browser
+  // stored password (PI's locally-changed pw, falling back to default) OR
+  // any of the EXTRA_PW_HASHES (student/collaborator passwords baked in).
+  function isAcceptedHash(h) {
+    return h === getStoredHash() || EXTRA_PW_HASHES.includes(h);
+  }
+
   /* =========================================================================
    * Login
    * ========================================================================= */
@@ -576,7 +589,7 @@
     const entered = pwInput.value;
     if (!entered) return;
     const enteredHash = await sha256(entered);
-    if (enteredHash === getStoredHash()) {
+    if (isAcceptedHash(enteredHash)) {
       STATE.authed = true;
       document.getElementById("login-screen").classList.add("hidden");
       document.getElementById("dashboard").classList.remove("hidden");
