@@ -457,7 +457,7 @@
   {
     "id": "p2024-032",
     "type": "journal",
-    "top_pick": false,
+    "top_pick": true,
     "year": 2024,
     "title": "Interphase Stabilization of LiNi0.5Mn1.5O4 Cathode for 5 V-Class All-Solid-State Batteries",
     "authors": "D. Lee, Z. Cui, J.B. Goodenough, A. Manthiram*",
