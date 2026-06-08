@@ -234,5 +234,18 @@
     "photo_pos": "59% 15%",
     "interests_ko": "",
     "interests_en": ""
+  },
+  {
+    "id": "m-1780908825003",
+    "role": "undergraduate",
+    "name_ko": "심성민",
+    "name_en": "seongmin sim ",
+    "title_ko": "학부연구원",
+    "title_en": "",
+    "email": "simsm3081@gachon.ac.kr",
+    "photo": "assets/images/members/f0cc3afb68105940.jpg",
+    "photo_pos": "63% 0%",
+    "interests_ko": "",
+    "interests_en": ""
   }
 ]
