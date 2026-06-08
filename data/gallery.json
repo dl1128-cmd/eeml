@@ -1,5 +1,33 @@
 [
   {
+    "id": "g-1780906450764",
+    "date": "2026-06-08",
+    "title_ko": "2026년 전기 졸업 디펜스(Defense)",
+    "title_en": "",
+    "summary_ko": "학위 논문 공개발표회",
+    "summary_en": "",
+    "body_ko": "2026년 전기 학위논문 공개발표회가 진행되었습니다.\n\n그동안 연구에 매진해 온 선배 연구원들의 연구 성과를 공유하고, 학위논문 연구 결과를 발표하는 뜻깊은 시간이었습니다.\n\n발표를 성공적으로 마무리한 선배님들께 축하의 말씀을 전하며, 앞으로의 새로운 출발과 앞날을 응원합니다.",
+    "body_en": "",
+    "cover": "assets/images/gallery/0447df08731ed4ab.jpg",
+    "images": [
+      {
+        "src": "assets/images/gallery/0447df08731ed4ab.jpg",
+        "caption_ko": "",
+        "caption_en": ""
+      },
+      {
+        "src": "assets/images/gallery/698f47ee4d1ccdc6.jpg",
+        "caption_ko": "",
+        "caption_en": ""
+      },
+      {
+        "src": "assets/images/gallery/959f22d48f2f0e9f.jpg",
+        "caption_ko": "",
+        "caption_en": ""
+      }
+    ]
+  },
+  {
     "id": "g-1780904250414",
     "date": "2026-06-08",
     "title_ko": "한양대학교 세미나",
