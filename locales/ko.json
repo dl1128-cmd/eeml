@@ -8,7 +8,7 @@
     "board": "News",
     "gallery": "Gallery",
     "contact": "Contact",
-    "join": "지원 안내"
+    "join": "Join Us"
   },
   "gallery": {
     "title": "Gallery",
@@ -82,7 +82,7 @@
     "theme_toggle": "Toggle Theme"
   },
   "join": {
-    "title": "지원 안내",
+    "title": "Join Us",
     "process_eyebrow": "How to apply",
     "process_title": "지원 절차",
     "faq_title": "자주 묻는 질문",
