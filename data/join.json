@@ -7,7 +7,7 @@
     {
       "title_ko": "이메일 컨택",
       "title_en": "Email contact",
-      "desc_ko": "아래 컨택 가이드를 참고해 이동수 교수님께 이메일을 보냅니다. 간단한 자기소개와 CV(또는 성적표)면 충분합니다.",
+      "desc_ko": "아래 컨택 가이드를 참고해 이동수 교수에게 이메일을 보내주세요. 간단한 자기소개와 CV(또는 성적표) 첨부해주세요.",
       "desc_en": "Send an email to Prof. Dongsoo Lee following the contact guide below. A short self-introduction and your CV (or transcript) is enough."
     },
     {
@@ -31,7 +31,7 @@
   ],
   "guide_title_ko": "컨택 메일 가이드",
   "guide_title_en": "Contact email guide",
-  "guide_desc_ko": "메일에 다음을 포함해 주세요: ① 이름·소속·학년 ② 관심 연구 분야 ③ CV 또는 성적표 첨부 ④ 지원 동기 2~3줄. 형식보다 내용이 중요합니다 — 왜 배터리 연구인지, 왜 우리 연구실인지 본인의 언어로 적어주세요.",
+  "guide_desc_ko": "메일에 다음을 포함해 주세요: ① 이름·소속·학년 ② 관심 연구 분야 ③ CV 또는 성적표 첨부 ④ 지원 동기 2~3줄. 형식보다 내용이 중요합니다 — 왜 배터리 연구인지, 왜 우리 연구실인지 적어주세요.",
   "guide_desc_en": "Please include: 1) your name, affiliation, and year, 2) research interests, 3) CV or transcript attached, 4) 2-3 lines on why you want to join. Substance matters more than format — tell us in your own words why battery research, and why our lab.",
   "guide_email": "dslee9117@gachon.ac.kr",
   "faqs": [
@@ -44,7 +44,7 @@
     {
       "q_ko": "인건비·장학금은 어떻게 되나요?",
       "q_en": "What about stipends and scholarships?",
-      "a_ko": "대학원생 인건비는 연구실 내규와 참여 연구과제에 따라 지급됩니다. 구체적인 내용은 면담에서 투명하게 안내합니다.",
+      "a_ko": "대학원생 인건비는 연구실 내규와 참여 연구과제에 따라 지급됩니다. 구체적인 내용은 면담에서 안내합니다.",
       "a_en": "Graduate student stipends are provided according to lab policy and participating research projects. Details are explained transparently during the interview."
     },
     {
