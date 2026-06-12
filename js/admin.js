@@ -628,7 +628,7 @@
       return res.json();
     };
     try {
-      const [pubs, members, news, topics, config, pi, ann, gallery, covers, patents] = await Promise.all([
+      const [pubs, members, news, topics, config, pi, ann, gallery, covers, patents, join] = await Promise.all([
         fetchJSON("data/publications.json"),
         fetchJSON("data/members.json"),
         fetchJSON("data/news.json"),
@@ -638,7 +638,8 @@
         fetchJSON("data/announcement.json").catch(() => ({ id: "ann-default", enabled: false, title_ko: "", title_en: "", body_ko: "", body_en: "", button_text_ko: "", button_text_en: "", button_url: "", expires: "" })),
         fetchJSON("data/gallery.json").catch(() => []),
         fetchJSON("data/journal_covers.json").catch(() => []),
-        fetchJSON("data/patents.json").catch(() => [])
+        fetchJSON("data/patents.json").catch(() => []),
+        fetchJSON("data/join.json").catch(() => ({ lead_title_ko: "", lead_title_en: "", lead_desc_ko: "", lead_desc_en: "", steps: [], guide_title_ko: "", guide_title_en: "", guide_desc_ko: "", guide_desc_en: "", guide_email: "", faqs: [] }))
       ]);
       STATE.data.publications = pubs;
       STATE.data.members = members;
@@ -650,6 +651,7 @@
       STATE.data.gallery = gallery;
       STATE.data.covers = covers;
       STATE.data.patents = patents;
+      STATE.data.join = join;
     } catch (err) {
       toast("데이터를 불러오지 못했습니다: " + err.message, "error");
       console.error(err);
@@ -938,6 +940,7 @@
                     { id: "announcement", label: "📢 공지 팝업" }
                   ] },
     gallery:      { tabs: [{ id: "gallery",      label: "🖼 Gallery" }] },
+    join:         { tabs: [{ id: "join",         label: "📝 지원 안내" }] },
     system:       { tabs: [
                     { id: "config",       label: "⚙️ 기본설정" },
                     { id: "stats",        label: "📊 접속 통계" },
@@ -1008,7 +1011,8 @@
       pi: renderPI, news: renderNews, topics: renderTopics,
       gallery: renderGallery, covers: renderCovers,
       announcement: renderAnnouncement, stats: renderStats,
-      config: renderConfig, settings: renderSettings
+      config: renderConfig, settings: renderSettings,
+      join: renderJoin
     }[name];
     if (renderer) renderer();
   }
@@ -2511,6 +2515,166 @@
     };
     host.querySelector("#ann-preview").onclick = previewHandler;
     host.querySelector("#ann-preview-2").onclick = previewHandler;
+  }
+
+  /* =========================================================================
+   * Join Us (지원 안내) — data/join.json editor.
+   * Public page: join.html (js/join.js renders this JSON over the static
+   * fallback). Same single-object save pattern as the announcement editor.
+   * ========================================================================= */
+  function renderJoin() {
+    const host = document.getElementById("tab-join");
+    const j = STATE.data.join || {};
+    const steps = Array.isArray(j.steps) ? j.steps : [];
+    const faqs = Array.isArray(j.faqs) ? j.faqs : [];
+
+    const stepCard = (s, i) => `
+      <div class="admin-card js-step" data-i="${i}">
+        <h3>STEP ${i + 1} <button class="btn btn-ghost btn-sm js-step-del" data-i="${i}" style="float:right">🗑 삭제</button></h3>
+        <div class="admin-form">
+          <div class="admin-form-row"><label>제목 (한)</label><input class="s-title-ko" value="${escapeAttr(s.title_ko || "")}" /></div>
+          <div class="admin-form-row"><label>Title (EN)</label><input class="s-title-en" value="${escapeAttr(s.title_en || "")}" /></div>
+          <div class="admin-form-row full"><label>설명 (한)</label><textarea class="s-desc-ko" style="min-height:70px">${escapeHtml(s.desc_ko || "")}</textarea></div>
+          <div class="admin-form-row full"><label>Description (EN)</label><textarea class="s-desc-en" style="min-height:70px">${escapeHtml(s.desc_en || "")}</textarea></div>
+        </div>
+      </div>`;
+
+    const faqCard = (f, i) => `
+      <div class="admin-card js-faq" data-i="${i}">
+        <h3>Q${i + 1} <button class="btn btn-ghost btn-sm js-faq-del" data-i="${i}" style="float:right">🗑 삭제</button></h3>
+        <div class="admin-form">
+          <div class="admin-form-row full"><label>질문 (한)</label><input class="f-q-ko" value="${escapeAttr(f.q_ko || "")}" /></div>
+          <div class="admin-form-row full"><label>Question (EN)</label><input class="f-q-en" value="${escapeAttr(f.q_en || "")}" /></div>
+          <div class="admin-form-row full"><label>답변 (한)</label><textarea class="f-a-ko" style="min-height:70px">${escapeHtml(f.a_ko || "")}</textarea></div>
+          <div class="admin-form-row full"><label>Answer (EN)</label><textarea class="f-a-en" style="min-height:70px">${escapeHtml(f.a_en || "")}</textarea></div>
+        </div>
+      </div>`;
+
+    host.innerHTML = `
+      <div class="admin-section-head">
+        <h2>지원 안내 <span class="count">${steps.length} steps · ${faqs.length} FAQ</span></h2>
+        <div class="admin-section-actions">
+          <a class="btn btn-outline" href="join" target="_blank" rel="noopener">👁 페이지 보기</a>
+          <button class="btn btn-primary" id="join-save">💾 join.json 저장</button>
+        </div>
+      </div>
+
+      <div class="admin-card" style="background:#FFF7E6;border-color:#FFD699;color:#7A4E00;font-size:.875rem">
+        <b>📝 사용 안내</b><br/>
+        공개 사이트의 <b>지원 안내</b> 페이지(/join) 내용을 편집합니다. 저장하면 GitHub에 커밋되어 1~2분 후 반영됩니다.
+        한/영 모두 입력하세요 — 사이트 언어 전환 시 각각 표시됩니다.
+      </div>
+
+      <div class="admin-card">
+        <h3>인트로</h3>
+        <div class="admin-form">
+          <div class="admin-form-row"><label>제목 (한)</label><input id="j-lt-ko" value="${escapeAttr(j.lead_title_ko || "")}" /></div>
+          <div class="admin-form-row"><label>Title (EN)</label><input id="j-lt-en" value="${escapeAttr(j.lead_title_en || "")}" /></div>
+          <div class="admin-form-row full"><label>소개문 (한)</label><textarea id="j-ld-ko" style="min-height:90px">${escapeHtml(j.lead_desc_ko || "")}</textarea></div>
+          <div class="admin-form-row full"><label>Intro (EN)</label><textarea id="j-ld-en" style="min-height:90px">${escapeHtml(j.lead_desc_en || "")}</textarea></div>
+        </div>
+      </div>
+
+      <h3 style="margin:var(--space-6) 0 var(--space-3)">지원 절차</h3>
+      <div id="join-steps-list">${steps.map(stepCard).join("")}</div>
+      <button class="btn btn-outline" id="join-step-add">＋ 단계 추가</button>
+
+      <div class="admin-card" style="margin-top:var(--space-6)">
+        <h3>컨택 메일 가이드</h3>
+        <div class="admin-form">
+          <div class="admin-form-row"><label>제목 (한)</label><input id="j-gt-ko" value="${escapeAttr(j.guide_title_ko || "")}" /></div>
+          <div class="admin-form-row"><label>Title (EN)</label><input id="j-gt-en" value="${escapeAttr(j.guide_title_en || "")}" /></div>
+          <div class="admin-form-row full"><label>안내문 (한)</label><textarea id="j-gd-ko" style="min-height:90px">${escapeHtml(j.guide_desc_ko || "")}</textarea></div>
+          <div class="admin-form-row full"><label>Guide (EN)</label><textarea id="j-gd-en" style="min-height:90px">${escapeHtml(j.guide_desc_en || "")}</textarea></div>
+          <div class="admin-form-row"><label>받는 이메일</label><input id="j-email" value="${escapeAttr(j.guide_email || "")}" placeholder="dslee9117@gachon.ac.kr" /></div>
+        </div>
+      </div>
+
+      <h3 style="margin:var(--space-6) 0 var(--space-3)">자주 묻는 질문</h3>
+      <div id="join-faq-list">${faqs.map(faqCard).join("")}</div>
+      <button class="btn btn-outline" id="join-faq-add">＋ 질문 추가</button>
+
+      <div class="admin-card" style="margin-top:var(--space-6);display:flex;gap:var(--space-3);align-items:center;justify-content:space-between;position:sticky;bottom:0;background:#fff;border:2px solid var(--color-primary);box-shadow:0 -4px 16px rgba(0,0,0,0.08);z-index:5">
+        <div style="font-size:var(--fs-sm);color:var(--color-text-muted)">
+          편집 완료 후 <b>저장</b> 버튼을 눌러야 GitHub에 반영됩니다.
+        </div>
+        <button class="btn btn-primary" id="join-save-2" style="min-width:160px;font-size:var(--fs-base)">💾 저장하기</button>
+      </div>
+    `;
+
+    function readJoin() {
+      const readSteps = [...host.querySelectorAll(".js-step")].map(card => ({
+        title_ko: card.querySelector(".s-title-ko").value.trim(),
+        title_en: card.querySelector(".s-title-en").value.trim(),
+        desc_ko: card.querySelector(".s-desc-ko").value.trim(),
+        desc_en: card.querySelector(".s-desc-en").value.trim()
+      }));
+      const readFaqs = [...host.querySelectorAll(".js-faq")].map(card => ({
+        q_ko: card.querySelector(".f-q-ko").value.trim(),
+        q_en: card.querySelector(".f-q-en").value.trim(),
+        a_ko: card.querySelector(".f-a-ko").value.trim(),
+        a_en: card.querySelector(".f-a-en").value.trim()
+      }));
+      return {
+        lead_title_ko: val("j-lt-ko"), lead_title_en: val("j-lt-en"),
+        lead_desc_ko: val("j-ld-ko"), lead_desc_en: val("j-ld-en"),
+        steps: readSteps,
+        guide_title_ko: val("j-gt-ko"), guide_title_en: val("j-gt-en"),
+        guide_desc_ko: val("j-gd-ko"), guide_desc_en: val("j-gd-en"),
+        guide_email: val("j-email"),
+        faqs: readFaqs
+      };
+    }
+
+    const saveHandler = () => {
+      STATE.data.join = readJoin();
+      saveJSON("join.json", STATE.data.join);
+    };
+    host.querySelector("#join-save").onclick = saveHandler;
+    host.querySelector("#join-save-2").onclick = saveHandler;
+
+    // add / delete — capture current edits first, then re-render
+    host.querySelector("#join-step-add").onclick = () => {
+      const cur = readJoin();
+      cur.steps.push({ title_ko: "", title_en: "", desc_ko: "", desc_en: "" });
+      STATE.data.join = cur; renderJoin();
+    };
+    host.querySelector("#join-faq-add").onclick = () => {
+      const cur = readJoin();
+      cur.faqs.push({ q_ko: "", q_en: "", a_ko: "", a_en: "" });
+      STATE.data.join = cur; renderJoin();
+    };
+    host.querySelectorAll(".js-step-del").forEach(b => b.onclick = () => {
+      const cur = readJoin();
+      cur.steps.splice(Number(b.dataset.i), 1);
+      STATE.data.join = cur; renderJoin();
+    });
+    host.querySelectorAll(".js-faq-del").forEach(b => b.onclick = () => {
+      const cur = readJoin();
+      cur.faqs.splice(Number(b.dataset.i), 1);
+      STATE.data.join = cur; renderJoin();
+    });
+
+    // dirty indicator (same pattern as announcement)
+    const saveBtns = [host.querySelector("#join-save"), host.querySelector("#join-save-2")];
+    const originalTexts = saveBtns.map(b => b.textContent);
+    const onField = () => {
+      STATE.data.join = readJoin();
+      saveBtns.forEach((b, i) => {
+        b.textContent = i === 0 ? "● 변경됨 — 저장" : "● 저장하기 (변경 있음)";
+        b.classList.add("btn-dirty");
+      });
+    };
+    saveBtns.forEach((b, i) => b.addEventListener("click", () => {
+      setTimeout(() => {
+        b.textContent = originalTexts[i];
+        b.classList.remove("btn-dirty");
+      }, 100);
+    }));
+    host.querySelectorAll("#tab-join input, #tab-join textarea").forEach(el => {
+      el.addEventListener("input", onField);
+      el.addEventListener("change", onField);
+    });
   }
 
   /* =========================================================================

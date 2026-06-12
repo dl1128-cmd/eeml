@@ -1,0 +1,63 @@
+{
+  "lead_title_ko": "함께할 학생을 찾습니다.",
+  "lead_title_en": "We're looking for students to join us.",
+  "lead_desc_ko": "가천대학교 EEML(에너지환경재료 연구실)은 전고체전지, 리튬금속음극, 이차전지 소재, 전기화학 디바이스에 관심 있는 대학원생(석사·박사)과 학부연구생을 상시 모집합니다. 전공 배경(화학·화공·재료·기계·물리 등)보다 배우려는 자세를 봅니다.",
+  "lead_desc_en": "EEML (Energy & Environmental Materials Lab) at Gachon University is always recruiting graduate students (MS/PhD) and undergraduate researchers interested in solid-state batteries, Li metal anodes, battery materials, and electrochemical devices. We value curiosity and willingness to learn over your specific background (chemistry, chemical engineering, materials, mechanical, physics, and more are all welcome).",
+  "steps": [
+    {
+      "title_ko": "이메일 컨택",
+      "title_en": "Email contact",
+      "desc_ko": "아래 컨택 가이드를 참고해 이동수 교수님께 이메일을 보냅니다. 간단한 자기소개와 CV(또는 성적표)면 충분합니다.",
+      "desc_en": "Send an email to Prof. Dongsoo Lee following the contact guide below. A short self-introduction and your CV (or transcript) is enough."
+    },
+    {
+      "title_ko": "면담",
+      "title_en": "Interview",
+      "desc_ko": "연구실에서 진행 중인 연구, 랩 생활, 지원자의 관심 분야를 서로 확인하는 자리입니다. 부담 없이 궁금한 것을 질문하세요.",
+      "desc_en": "A casual meeting to discuss ongoing research, lab life, and your interests. Feel free to ask anything."
+    },
+    {
+      "title_ko": "학부연구생 · 인턴 기간",
+      "title_en": "Undergraduate research / internship",
+      "desc_ko": "가능한 경우 학부연구생(인턴)으로 연구실을 먼저 경험해 보기를 권장합니다. 연구 주제와 랩 분위기가 본인과 맞는지 확인하는 가장 좋은 방법입니다. 기간과 활동은 면담에서 조율합니다.",
+      "desc_en": "If possible, we recommend experiencing the lab first as an undergraduate researcher (intern). It's the best way to check whether the research topics and lab culture fit you. Duration and activities are arranged during the interview."
+    },
+    {
+      "title_ko": "대학원 입학 지원",
+      "title_en": "Graduate school application",
+      "desc_ko": "상호 확인이 끝나면 가천대학교 일반대학원 입학 전형(전기·후기)에 지원합니다. 전형 일정과 절차는 면담에서 함께 안내합니다.",
+      "desc_en": "Once both sides are confident, you apply to the Gachon University graduate admissions (spring/fall). We'll guide you through the schedule and process."
+    }
+  ],
+  "guide_title_ko": "컨택 메일 가이드",
+  "guide_title_en": "Contact email guide",
+  "guide_desc_ko": "메일에 다음을 포함해 주세요: ① 이름·소속·학년 ② 관심 연구 분야 ③ CV 또는 성적표 첨부 ④ 지원 동기 2~3줄. 형식보다 내용이 중요합니다 — 왜 배터리 연구인지, 왜 우리 연구실인지 본인의 언어로 적어주세요.",
+  "guide_desc_en": "Please include: 1) your name, affiliation, and year, 2) research interests, 3) CV or transcript attached, 4) 2-3 lines on why you want to join. Substance matters more than format — tell us in your own words why battery research, and why our lab.",
+  "guide_email": "dslee9117@gachon.ac.kr",
+  "faqs": [
+    {
+      "q_ko": "학부연구생(인턴)으로 먼저 경험해볼 수 있나요?",
+      "q_en": "Can I try the lab first as an undergraduate researcher (intern)?",
+      "a_ko": "가능합니다. 학기 중·방학 모두 가능하며, 기간과 활동 내용은 면담에서 조율합니다. 대학원 진학을 고민 중이라면 인턴 기간을 먼저 가지는 것을 적극 권장합니다.",
+      "a_en": "Yes. Both semester and vacation periods are possible; duration and activities are arranged during the interview. If you're considering graduate school, we strongly recommend an internship period first."
+    },
+    {
+      "q_ko": "인건비·장학금은 어떻게 되나요?",
+      "q_en": "What about stipends and scholarships?",
+      "a_ko": "대학원생 인건비는 연구실 내규와 참여 연구과제에 따라 지급됩니다. 구체적인 내용은 면담에서 투명하게 안내합니다.",
+      "a_en": "Graduate student stipends are provided according to lab policy and participating research projects. Details are explained transparently during the interview."
+    },
+    {
+      "q_ko": "타대생·타전공도 지원할 수 있나요?",
+      "q_en": "Can students from other universities or majors apply?",
+      "a_ko": "물론입니다. 화학·화공·재료·기계·물리 등 관련 전공을 환영하며, 타대학 출신 지원도 가능합니다. 배터리 연구 경험이 없어도 괜찮습니다.",
+      "a_en": "Absolutely. We welcome related majors — chemistry, chemical engineering, materials, mechanical, physics, and more — and applicants from other universities. No prior battery research experience required."
+    },
+    {
+      "q_ko": "연구 주제는 어떻게 정해지나요?",
+      "q_en": "How are research topics decided?",
+      "a_ko": "면담과 인턴 기간 동안 지원자의 관심사와 연구실의 진행 과제를 함께 고려해 정합니다. 연구실 연구 분야는 Research 페이지에서 미리 살펴보세요.",
+      "a_en": "Through the interview and internship period, we consider both your interests and the lab's ongoing projects. Check the Research page to explore our research areas in advance."
+    }
+  ]
+}
