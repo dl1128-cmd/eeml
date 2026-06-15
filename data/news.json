@@ -1,5 +1,14 @@
 [
   {
+    "id": "n-1781493684752",
+    "date": "2026-04-17",
+    "category": "news",
+    "title_ko": "화공생명배터리공학부 이동수 교수팀, 건식 전극 공정 핵심 소재 안정화 기술 개발",
+    "title_en": "",
+    "body_ko": "<b><a href=\"https://www.gachon.ac.kr/kor/1049/subview.do?enc=Zm5jdDF8QEB8JTJGYmJzJTJGa29yJTJGMTc0JTJGMTE5NjU2JTJGYXJ0Y2xWaWV3LmRvJTNGcGFnZSUzRDElMjZzcmNoQ29sdW1uJTNEc2olMjZzcmNoV3JkJTNEJUVDJTlEJUI0JUVCJThGJTk5JUVDJTg4JTk4JTI2YmJzQ2xTZXElM0QlMjZiYnNPcGVuV3JkU2VxJTNEJTI2cmdzQmduZGVTdHIlM0QlMjZyZ3NFbmRkZVN0ciUzRCUyNmlzVmlld01pbmUlM0RmYWxzZSUyNnBhc3N3b3JkJTNEJTI2\" target=\"_blank\" rel=\"noopener\">기사 링크</a></b>\n\nPTFE 바인더 전자구조 제어로 배터리 성능·수명 동시 개선\n\n‘전자밴드 엔지니어링’ 적용, 고용량·장수명 성능 입증\n\n\n이동수교수_프로필\n화공생명배터리공학부 이동수 교수\n\n\n\n가천대학교 화공생명배터리공학부 이동수 교수 연구팀이 차세대 배터리 제조 기술로 주목받는 건식 전극 공정(dry coating process)의 핵심 한계를 개선하는 연구성과를 발표했다.\n\n\n\n이동수 교수는 한양대학교 송태섭·백운규 교수 연구팀, 삼성SDI와의 공동연구를 통해 전극 제조에 사용되는 PTFE(폴리테트라플루오로에틸렌, 테프론 계열) 바인더의 전기화학적 불안정성을 분자 수준에서 해결하는 전략을 제시했다. 이번 연구는 에너지 소재 분야 세계적 학술지 Advanced Energy Materials(IF 26, JCR 기준 상위 3%)에 지난달 17일 게재됐다.\n\n(논문명: Electrochemical Stabilization of Polytetrafluoroethylene (PTFE) via Electronic Band Engineering Enables Long-Life, High-Energy-Density Li-Ion Batteries)\n\n\n\n건식 전극 공정은 용매를 사용하지 않아 친환경적이며, 고면적·고용량 전극 제조에 유리한 차세대 기술로 평가된다. 이 공정에서 사용되는 PTFE 바인더는 전단 응력에 의해 섬유화(fibrillization)되면서 전극 입자를 효과적으로 결합하는 장점이 있다. 그러나 음극 환경에서는 전기화학적 환원 분해가 발생해 초기 쿨롱 효율(ICE) 저하와 전극 미세구조 붕괴를 유발하는 문제가 있었다.\n\n\n\n연구팀은 밀도범함수이론(DFT) 계산을 통해 이러한 문제의 원인이 PTFE의 낮은 LUMO(최저비점유분자궤도) 에너지 준위에 있음을 규명했다. 이후 O₂ 플라즈마 처리와 기상 질화(gas-phase nitridation)를 결합한 2단계 표면 기능화 공정을 개발해 PTFE 표면의 불소 원자를 수산기(-OH)와 아민기(-NH₂)로 치환했다. 이를 통해 LUMO 에너지를 상승시키고 전자 이동을 열역학적으로 억제함으로써, 쉽게 말해 소재의 ‘전자 구조’를 조정해 배터리 내부에서의 분해를 근본적으로 줄였다.\n\n\n\n이렇게 개발된 표면 기능화 PTFE(SF-PTFE)를 적용한 건식 음극은 초기 쿨롱 효율이 기존 87.8%에서 92.8%로 약 5%p 향상돼 습식 공정 수준(93~94%)에 근접했다. 또한 NCA 양극과 조합한 건식 풀셀에서 7 mAh cm⁻² 면적용량 기준 600사이클 이상의 장기 수명 안정성을 확보했으며, 10 mAh cm⁻² 고면적용량 조건에서도 기존 습식 공정 풀셀(5 mAh cm⁻²) 대비 우수한 사이클 성능을 입증했다. 이는 더 큰 용량의 배터리에서도 안정적으로 작동할 수 있음을 보여주는 결과다.\n\n\n\n이번 연구는 기존의 계면 코팅이나 전해질 첨가제 방식과 달리, PTFE 바인더 자체의 전자 에너지 준위를 제어하는 ‘전자밴드 엔지니어링(electronic band engineering)’ 전략을 적용했다는 점에서 의의가 있다. 소재 자체의 특성을 근본적으로 개선한 접근으로, 건식 전극 공정의 상용화를 앞당길 핵심 기술로 평가된다.\n\n\n\n□ 이동수 교수 연구실(EEML) 홈페이지: http://eeml.co.kr\n\n□ 연구성과(URL): https://doi.org/10.1002/aenm.70845",
+    "body_en": ""
+  },
+  {
     "id": "n-1779170715382",
     "date": "2026-05-01",
     "category": "news",
