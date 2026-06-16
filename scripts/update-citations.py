@@ -8,7 +8,10 @@ Designed to run in GitHub Actions (server-side, no CORS proxy needed).
 - Parses each publication row: title + citation count.
 - Matches against publications.json by normalized title.
 - Writes updated JSON only if something changed.
-- Exits 0 on success (even if no update); 1 on parse/network error.
+- Exits 0 on success (even if no update) and when Scholar is unreachable
+  (a transient 403 block is not a real failure); 1 only on genuine errors
+  (missing config, or a successful fetch that parses to zero papers — i.e.
+  Scholar changed its HTML format).
 """
 from __future__ import annotations
 
@@ -243,8 +246,16 @@ def main() -> int:
     try:
         html = fetch_scholar(scholar_id)
     except Exception as exc:
-        print(f"ERROR: {exc}", file=sys.stderr)
-        return 1
+        # Scholar blocks datacenter IPs (GitHub Actions) with HTTP 403 on and
+        # off. That's transient and outside our control — failing the job here
+        # would email a failure every blocked day AND skip the downstream
+        # CrossRef metadata step. Treat it as "no citation update this run";
+        # the next scheduled run catches up.
+        print(
+            f"WARNING: Scholar unavailable, skipping citation update this run: {exc}",
+            file=sys.stderr,
+        )
+        return 0
 
     papers = parse_papers(html)
     print(f"Parsed {len(papers)} Scholar papers")

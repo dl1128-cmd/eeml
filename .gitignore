@@ -3,3 +3,4 @@
 
 # Server-generated stats (regenerated every 5 minutes by parse-stats.py)
 data/stats.json
+.gstack/
