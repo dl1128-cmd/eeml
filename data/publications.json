@@ -34,7 +34,7 @@
     "authors": "M. Kim† , J. Lee† , C, Lee, J. Kim, W. Jo, D. Lee*, J. Choi*",
     "venue": "Frontiers in Batteries and Electrochemistry",
     "volume": "5, 1848415",
-    "citations": 0,
+    "citations": 1,
     "doi": "doi.org/10.3389/fbael.2026.1848415",
     "link": "https://www.frontiersin.org/journals/batteries-and-electrochemistry/articles/10.3389/fbael.2026.1848415/full"
   },
@@ -73,7 +73,7 @@
     "authors": "C. Lee, Y. Nam, I. Jeong, M. Yoon, J. Lim, S. Sun, J. Choi*, C.H. Park*, D. Lee*",
     "venue": "Advanced Science",
     "volume": "13(26), e00022",
-    "citations": 5,
+    "citations": 6,
     "doi": "10.1002/advs.202600022",
     "link": ""
   },
@@ -138,7 +138,7 @@
     "authors": "A.K. Kakarla, Z. Akhtar, J. Kim, M. Yoon*, D. Lee*, J. Choi*",
     "venue": "Interdisciplinary Materials",
     "volume": "4(6), 812-849",
-    "citations": 8,
+    "citations": 11,
     "doi": "10.1002/idm2.70024",
     "link": ""
   },
@@ -190,7 +190,7 @@
     "authors": "S. Yang, S. Lee, M.S. Kang, K.C. Roh, J. Seo, D. Lee, K. Kim, S. Lee, S.B. Cho*, P.J. Kim*, J. Choi*",
     "venue": "Carbon Energy",
     "volume": "7(11), e70053",
-    "citations": 14,
+    "citations": 15,
     "doi": "10.1002/cey2.70053",
     "link": ""
   },
@@ -320,7 +320,7 @@
     "authors": "J. Kim, J. Jung, J. Park, S. Lee, H. Lee, D. Lee*, U. Paik*, T. Song*",
     "venue": "Energy Storage Materials",
     "volume": "76, 104108",
-    "citations": 21,
+    "citations": 23,
     "doi": "10.1016/j.ensm.2025.104108",
     "link": ""
   },
@@ -346,7 +346,7 @@
     "authors": "A.K. Kakarla, D. Lee, S. Sun, P.J. Kim*, J. Choi*",
     "venue": "ChemElectroChem",
     "volume": "12(3), e202400612",
-    "citations": 32,
+    "citations": 34,
     "doi": "10.1002/celc.202400612",
     "link": ""
   },
@@ -359,7 +359,7 @@
     "authors": "Y. Tan, M. Beltran, J. Ke, J. Zhang, J. Choi, Y. Zhou, K. Cho, D. Lee",
     "venue": "Advanced Energy Materials",
     "volume": "15(13), 2403986",
-    "citations": 45,
+    "citations": 46,
     "doi": "10.1002/aenm.202403986",
     "link": ""
   },
@@ -385,7 +385,7 @@
     "authors": "S. Sun, L. Su, S. Kim, D. Lee",
     "venue": "Journal of Electrochemical Science and Technology",
     "volume": "16(1), 1-14",
-    "citations": 13,
+    "citations": 16,
     "doi": "10.33961/jecst.2024.00759",
     "link": ""
   },
@@ -606,7 +606,7 @@
     "authors": "D. Lee, H. Lee, T. Song*, U. Paik*",
     "venue": "Advanced Energy Materials",
     "volume": "12(27), 2200948",
-    "citations": 87,
+    "citations": 88,
     "doi": "10.1002/aenm.202200948",
     "link": ""
   },
@@ -762,7 +762,7 @@
     "authors": "C. Kim, J. Kim, J. Park, J. Kim, S. Lee, S. Sun, S. Myung, D. Lee, K. Park, I. Jang, S. Kim, H. Lee, H. Jung, U. Paik*, T. Song*",
     "venue": "Advanced Energy Materials",
     "volume": "11(40), 2102045",
-    "citations": 49,
+    "citations": 50,
     "doi": "10.1002/aenm.202102045",
     "link": ""
   },
@@ -788,7 +788,7 @@
     "authors": "S. Sun, S. Myung, G. Kim, D. Lee, H. Son, M. Jang, E. Park, B. Son, Y.G. Jung, U. Paik*, T. Song*",
     "venue": "Journal of Materials Chemistry A",
     "volume": "8(33), 17229-17237",
-    "citations": 104,
+    "citations": 105,
     "doi": "10.1039/d0ta05372d",
     "link": ""
   },
