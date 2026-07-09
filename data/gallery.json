@@ -1,5 +1,28 @@
 [
   {
+    "id": "g-1783579189238",
+    "date": "2026-07-07",
+    "title_ko": "소 한 마리 먹은 날",
+    "title_en": "",
+    "summary_ko": "텍사스 로드하우스 회식",
+    "summary_en": "",
+    "body_ko": "스테이크 맛있게 잘 먹었습니다~!",
+    "body_en": "",
+    "cover": "assets/images/gallery/288a4887426f2037.jpg",
+    "images": [
+      {
+        "src": "assets/images/gallery/701d1315854311f6.jpg",
+        "caption_ko": "",
+        "caption_en": ""
+      },
+      {
+        "src": "assets/images/gallery/288a4887426f2037.jpg",
+        "caption_ko": "",
+        "caption_en": ""
+      }
+    ]
+  },
+  {
     "id": "g-1782972402165",
     "date": "2026-06-29",
     "title_ko": "2026 한국전기전자재료학회 하계학술대회 및 고분자 전고체 배터리 개발 과제 Kick-off Meeting 참가",
