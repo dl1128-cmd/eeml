@@ -364,11 +364,13 @@
     return `https://scholar.google.com/scholar?q=${encodeURIComponent(p.title)}`;
   }
 
-  // Delegate to shared AuthorsAPI (js/authors.js). Keeps the rendering
-  // rules identical to home.js Recent publications cards.
+  // Delegate to shared AuthorsAPI (js/authors.js). Bold ONLY our lab
+  // members (PI + members.json) — NOT first-author or *corresponding when
+  // they are outside the group. Matches the home page "where is our group?"
+  // emphasis so external collaborators (e.g. MIT co-authors) aren't bolded.
   function formatAuthors(raw) {
-    return (window.AuthorsAPI && window.AuthorsAPI.formatAuthors)
-      ? AuthorsAPI.formatAuthors(raw)
+    return (window.AuthorsAPI && window.AuthorsAPI.formatAuthorsOwnerOnly)
+      ? AuthorsAPI.formatAuthorsOwnerOnly(raw)
       : escapeHtml(String(raw || ""));
   }
 
