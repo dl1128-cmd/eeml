@@ -1,5 +1,18 @@
 [
   {
+    "id": "p-1783559181495",
+    "type": "journal",
+    "top_pick": false,
+    "year": 2026,
+    "title": "Hierarchical Conducting Bridging Network for Accelerated Charge Transport and Structural Stabilization of Li-Mn-Rich Cathodes",
+    "authors": "S. Namkung, D. Jeong, C. Lee, S. Yang, M. Kim, J. Lee, K.C. Roh, S. Sun, Y. Kang, S. Moon, H. Ryu, I. Jang, C. Kim, P.J. Kim, D. Lee*, J. Choi*",
+    "venue": "Battery Energy",
+    "volume": "5(4), e70135",
+    "citations": 0,
+    "doi": "10.1002/bte2.70135",
+    "link": "https://onlinelibrary.wiley.com/doi/10.1002/bte2.70135"
+  },
+  {
     "id": "p-1781216887821",
     "type": "journal",
     "top_pick": false,
@@ -128,6 +141,32 @@
     "citations": 2,
     "doi": "10.1002/adfm.202529000",
     "link": ""
+  },
+  {
+    "id": "p-1783559181493",
+    "type": "journal",
+    "top_pick": false,
+    "year": 2025,
+    "title": "Upcycling spent medium-Ni cathodes via novel liquified salt sourcing",
+    "authors": "M. Yoon, J.-S. Park, W. Chen, Y. Huang, T. Dai, Y. Lee, J. Shin, S. Lee, Y. Kim, D. Lee, D. Shin, J. Cho, Y. Dong, J. Li*",
+    "venue": "Energy & Environmental Science",
+    "volume": "18(12), 5902-5912",
+    "citations": 9,
+    "doi": "10.1039/D5EE01086A",
+    "link": "https://pubs.rsc.org/en/content/articlelanding/2025/ee/d5ee01086a"
+  },
+  {
+    "id": "p-1783559181494",
+    "type": "journal",
+    "top_pick": false,
+    "year": 2025,
+    "title": "Multiscale insights enable rational design of solvent-free dry electrode processing for advanced battery electrode fabrication",
+    "authors": "J.H. Kang, W. Jeong, M.S. Kang, H.W. Kim, D.W. Jeon, H.U. Lee, J.H. Hong, S. Han, M. Kim, S. Yang, D. Lee, P.J. Kim, T. Song, M. Yoon, L. Su, J. Choi, S.B. Cho",
+    "venue": "Communications Materials",
+    "volume": "7(1), 34",
+    "citations": 5,
+    "doi": "10.1038/s43246-025-01046-0",
+    "link": "https://www.nature.com/articles/s43246-025-01046-0"
   },
   {
     "id": "p2025-058",
@@ -882,44 +921,5 @@
     "citations": 28,
     "doi": "10.1021/acs.iecr.8b00851",
     "link": ""
-  },
-  {
-    "id": "p-1783559181493",
-    "type": "journal",
-    "top_pick": false,
-    "year": 2025,
-    "title": "Upcycling spent medium-Ni cathodes via novel liquified salt sourcing",
-    "authors": "M. Yoon, J.-S. Park, W. Chen, Y. Huang, T. Dai, Y. Lee, J. Shin, S. Lee, Y. Kim, D. Lee, D. Shin, J. Cho, Y. Dong, J. Li*",
-    "venue": "Energy & Environmental Science",
-    "volume": "18(12), 5902-5912",
-    "citations": 9,
-    "doi": "10.1039/D5EE01086A",
-    "link": "https://pubs.rsc.org/en/content/articlelanding/2025/ee/d5ee01086a"
-  },
-  {
-    "id": "p-1783559181494",
-    "type": "journal",
-    "top_pick": false,
-    "year": 2025,
-    "title": "Multiscale insights enable rational design of solvent-free dry electrode processing for advanced battery electrode fabrication",
-    "authors": "J.H. Kang, W. Jeong, M.S. Kang, H.W. Kim, D.W. Jeon, H.U. Lee, J.H. Hong, S. Han, M. Kim, S. Yang, D. Lee, P.J. Kim, T. Song, M. Yoon, L. Su, J. Choi, S.B. Cho",
-    "venue": "Communications Materials",
-    "volume": "7(1), 34",
-    "citations": 5,
-    "doi": "10.1038/s43246-025-01046-0",
-    "link": "https://www.nature.com/articles/s43246-025-01046-0"
-  },
-  {
-    "id": "p-1783559181495",
-    "type": "journal",
-    "top_pick": false,
-    "year": 2026,
-    "title": "Hierarchical Conducting Bridging Network for Accelerated Charge Transport and Structural Stabilization of Li-Mn-Rich Cathodes",
-    "authors": "S. Namkung, D. Jeong, C. Lee, S. Yang, M. Kim, J. Lee, K.C. Roh, S. Sun, Y. Kang, S. Moon, H. Ryu, I. Jang, C. Kim, P.J. Kim, D. Lee*, J. Choi*",
-    "venue": "Battery Energy",
-    "volume": "5(4), e70135",
-    "citations": 0,
-    "doi": "10.1002/bte2.70135",
-    "link": "https://onlinelibrary.wiley.com/doi/10.1002/bte2.70135"
   }
 ]
