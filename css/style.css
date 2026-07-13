@@ -2362,3 +2362,98 @@ body.jc-modal-open { overflow: hidden; }
   .hero-visual img { transition: none !important; }
   .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
 }
+
+/* =====================================================================
+   SITE-WIDE PAGE BANNER POLISH — 2026-07-13
+   Upgrades the shared .page-header banner (PI/Member/Research/Publications/
+   News/Gallery/Join/Contact) and the PI hero, consistently with the home
+   hero. Additive, brand-locked, reduced-motion safe.
+   ===================================================================== */
+
+/* ---- .page-header banner: aurora + grid + staggered load-in ------- */
+.page-header {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+.page-header::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 160%;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(40% 70% at 15% 0%, color-mix(in srgb, var(--c-accent) 16%, transparent), transparent 70%),
+    radial-gradient(34% 60% at 88% 8%, color-mix(in srgb, var(--c-highlight) 12%, transparent), transparent 72%);
+  filter: blur(14px);
+  opacity: 0.9;
+}
+:root:not([data-theme="light"]) .page-header::before { opacity: 1; }
+.page-header::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right, color-mix(in srgb, var(--c-border) 50%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--c-border) 50%, transparent) 1px, transparent 1px);
+  background-size: 56px 56px;
+  -webkit-mask-image: radial-gradient(80% 90% at 25% 0%, #000 0%, transparent 72%);
+          mask-image: radial-gradient(80% 90% at 25% 0%, #000 0%, transparent 72%);
+  opacity: 0.45;
+}
+/* accent flourish under the eyebrow */
+.page-header .eyebrow { position: relative; display: inline-block; }
+.page-header .eyebrow::after {
+  content: "";
+  display: block;
+  width: 40px;
+  height: 2px;
+  margin-top: var(--space-2);
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--c-accent), transparent);
+}
+/* staggered load-in */
+.page-header .eyebrow,
+.page-header h1,
+.page-header p {
+  opacity: 0;
+  transform: translateY(16px);
+  animation: heroIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.page-header .eyebrow { animation-delay: 0.04s; }
+.page-header h1       { animation-delay: 0.14s; }
+.page-header p        { animation-delay: 0.24s; }
+
+/* ---- PI hero photo: accent glow frame + hover zoom --------------- */
+.pi-photo {
+  border: 1px solid color-mix(in srgb, var(--c-border-strong) 70%, transparent);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, #fff 28%, transparent),
+    0 22px 55px -22px color-mix(in srgb, var(--c-accent) 30%, transparent),
+    0 28px 56px -26px color-mix(in srgb, var(--c-navy-deep) 50%, transparent);
+  transition: box-shadow var(--transition);
+}
+.pi-photo img { transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1); }
+.pi-photo:hover img { transform: scale(1.03); }
+
+/* ---- Member cards: consistent accent hover ----------------------- */
+.member-card { position: relative; transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition); }
+.member-card:hover {
+  transform: translateY(-4px);
+  border-color: color-mix(in srgb, var(--c-accent) 40%, var(--c-border));
+  box-shadow: 0 20px 40px -22px color-mix(in srgb, var(--c-accent) 38%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-header .eyebrow,
+  .page-header h1,
+  .page-header p {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+  .pi-photo img, .member-card { transition: none !important; }
+}
