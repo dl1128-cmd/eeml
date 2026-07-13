@@ -19,8 +19,27 @@
       renderGallery(gallery);
       renderCitationsChart(SiteUtils.getConfig().citations_history || []);
       setRecentPapersMetric(pubs);
+      revealHomeCards();
     } catch (err) { console.error(err); }
   });
+
+  // Opt dynamically-rendered homepage cards into the existing scroll-reveal
+  // observer (defined in main.js). Guarded: if the observer/API is absent
+  // (e.g. no IntersectionObserver), cards simply stay fully visible.
+  function revealHomeCards() {
+    if (!(window.SiteUtils && SiteUtils.observeReveal)) return;
+    const groups = [
+      "#home-topics .topic-card",
+      "#home-news li",
+      "#home-gallery .gallery-quick-item"
+    ];
+    groups.forEach(sel => {
+      document.querySelectorAll(sel).forEach((el, i) => {
+        el.style.transitionDelay = Math.min(i, 5) * 70 + "ms";
+        SiteUtils.observeReveal(el);
+      });
+    });
+  }
 
   // Hero stats: recent papers = publications from the last 3 calendar years
   // (this year + previous two). Updates the #metric-pubs span on the home page.
