@@ -2457,3 +2457,142 @@ body.jc-modal-open { overflow: hidden; }
   }
   .pi-photo img, .member-card { transition: none !important; }
 }
+
+/* =====================================================================
+   MICRO-REFINEMENTS — 2026-07-13
+   Nav hover/scroll feedback, keyboard focus rings, footer + gallery.
+   CSS-only, additive, brand-locked, reduced-motion safe.
+   ===================================================================== */
+
+/* ---- Nav: animated underline + active state --------------------- */
+.site-header .nav-links a {
+  position: relative;
+  padding-bottom: 3px;
+  transition: color var(--transition), opacity var(--transition);
+}
+.site-header .nav-links a::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: 0;
+  width: 100%;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--c-highlight), color-mix(in srgb, var(--c-highlight) 40%, transparent));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--transition);
+}
+.site-header .nav-links a:hover::after,
+.site-header .nav-links a.active::after { transform: scaleX(1); }
+.site-header .nav-links a:hover { opacity: 0.92; }
+
+/* ---- Nav: premium scrolled state (compact + shadow) ------------- */
+.nav { transition: padding var(--transition); }
+.site-header { transition: border-color var(--transition), box-shadow var(--transition), background var(--transition); }
+.site-header.scrolled {
+  box-shadow: 0 8px 30px -12px rgba(0, 0, 0, 0.5);
+  background: color-mix(in srgb, #0b1e3a 88%, transparent);
+  -webkit-backdrop-filter: blur(10px);
+          backdrop-filter: blur(10px);
+}
+.site-header.scrolled .nav { padding-top: var(--space-3); padding-bottom: var(--space-3); }
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .site-header.scrolled { background: #0b1e3a; }
+}
+
+/* ---- Keyboard focus rings (accessibility polish) ---------------- */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+.site-header .nav-links a:focus-visible,
+.site-header .icon-btn:focus-visible,
+.site-header .lang-toggle:focus-visible { outline-color: #fff; }
+/* don't double up when a mouse user clicks */
+:focus:not(:focus-visible) { outline: none; }
+
+/* ---- Footer: subtle accent seam + link motion ------------------- */
+.site-footer { position: relative; }
+.site-footer::before {
+  content: "";
+  position: absolute;
+  top: -1px; left: 0;
+  width: min(180px, 40%);
+  height: 2px;
+  background: linear-gradient(90deg, var(--c-accent), transparent);
+}
+.footer-grid li a {
+  display: inline-block;
+  transition: color var(--transition), transform var(--transition);
+}
+.footer-grid li a:hover { transform: translateX(3px); color: var(--c-accent); }
+
+/* ---- Gallery thumbnails: hover zoom ----------------------------- */
+.gallery-quick-thumb img { transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1); }
+.gallery-quick-item:hover .gallery-quick-thumb img { transform: scale(1.06); }
+
+@media (prefers-reduced-motion: reduce) {
+  .site-header .nav-links a::after,
+  .nav,
+  .site-header,
+  .footer-grid li a,
+  .gallery-quick-thumb img { transition: none !important; }
+  .gallery-quick-item:hover .gallery-quick-thumb img,
+  .footer-grid li a:hover { transform: none !important; }
+}
+
+/* =====================================================================
+   MICRO-REFINEMENTS II — 2026-07-13
+   Brand scrollbar, keyword-pill hover, inline content links.
+   ===================================================================== */
+
+/* ---- Brand-tinted slim scrollbar -------------------------------- */
+* { scrollbar-color: color-mix(in srgb, var(--c-accent) 55%, var(--c-border)) transparent; }
+::-webkit-scrollbar { width: 11px; height: 11px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--c-accent) 45%, var(--c-border));
+  border: 3px solid var(--c-bg);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--c-accent); }
+
+/* ---- Keyword pills: interactive accent hover -------------------- */
+.kw { transition: color var(--transition), border-color var(--transition), background var(--transition); }
+.topic-card:hover .kw {
+  border-color: color-mix(in srgb, var(--c-accent) 30%, var(--c-border));
+}
+.kw:hover {
+  color: var(--c-accent);
+  border-color: var(--c-accent);
+  background: var(--c-accent-soft);
+}
+
+/* ---- Inline content links: animated underline ------------------- */
+.pi-info .bio a,
+.ann-body a,
+#news-detail-root .container p a {
+  color: var(--c-accent);
+  text-decoration: none;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1.5px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size var(--transition);
+}
+.pi-info .bio a:hover,
+.ann-body a:hover,
+#news-detail-root .container p a:hover { background-size: 100% 1.5px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .kw,
+  .pi-info .bio a,
+  .ann-body a,
+  #news-detail-root .container p a { transition: none !important; }
+}
