@@ -61,6 +61,16 @@
       .map((n) => renderItem(n, lang))
       .join("")}</ul>`;
     if (window.ViewsAPI) ViewsAPI.populate(host, "news");
+    revealCards(host, ".news-item");
+  }
+
+  // Opt rendered items into the shared scroll-reveal observer (main.js).
+  function revealCards(root, sel) {
+    if (!root || !(window.SiteUtils && SiteUtils.observeReveal)) return;
+    root.querySelectorAll(sel).forEach((el, i) => {
+      el.style.transitionDelay = Math.min(i, 6) * 60 + "ms";
+      SiteUtils.observeReveal(el);
+    });
   }
 
   function daysSince(dateStr) {

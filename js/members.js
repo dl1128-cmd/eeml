@@ -76,6 +76,17 @@
     root.querySelectorAll(".member-tab").forEach(btn => {
       btn.onclick = () => { curTab = btn.dataset.tab; render(root); };
     });
+
+    revealCards(root, ".member-card");
+  }
+
+  // Opt rendered cards into the shared scroll-reveal observer (main.js).
+  function revealCards(root, sel) {
+    if (!root || !(window.SiteUtils && SiteUtils.observeReveal)) return;
+    root.querySelectorAll(sel).forEach((el, i) => {
+      el.style.transitionDelay = Math.min(i, 6) * 60 + "ms";
+      SiteUtils.observeReveal(el);
+    });
   }
 
   function renderCard(m, lang, role) {

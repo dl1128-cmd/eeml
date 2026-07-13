@@ -7,8 +7,19 @@
     try {
       const topics = await SiteUtils.loadJSON("data/research_topics.json");
       render(root, topics);
+      revealCards(root, ".topic-card");
     } catch (err) { console.error(err); }
   });
+
+  // Opt rendered cards into the shared scroll-reveal observer (main.js).
+  // Guarded: absent observer (no IntersectionObserver) → cards stay visible.
+  function revealCards(root, sel) {
+    if (!root || !(window.SiteUtils && SiteUtils.observeReveal)) return;
+    root.querySelectorAll(sel).forEach((el, i) => {
+      el.style.transitionDelay = Math.min(i, 6) * 60 + "ms";
+      SiteUtils.observeReveal(el);
+    });
+  }
 
   function render(root, topics) {
     const lang = SiteUtils.getLang();

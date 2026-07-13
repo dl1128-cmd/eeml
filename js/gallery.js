@@ -47,6 +47,16 @@
       ${totalPages > 1 ? paginationHtml(page, totalPages, i18n) : ""}
     `;
     if (window.ViewsAPI) ViewsAPI.populate(root, "gallery");
+    revealCards(root, ".gallery-card");
+  }
+
+  // Opt rendered cards into the shared scroll-reveal observer (main.js).
+  function revealCards(root, sel) {
+    if (!root || !(window.SiteUtils && SiteUtils.observeReveal)) return;
+    root.querySelectorAll(sel).forEach((el, i) => {
+      el.style.transitionDelay = Math.min(i, 6) * 60 + "ms";
+      SiteUtils.observeReveal(el);
+    });
   }
 
   function cardHtml(g, lang, i18n) {

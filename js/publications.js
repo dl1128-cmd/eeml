@@ -317,6 +317,7 @@
     if (resetBtn) resetBtn.onclick = () => { curType = "all"; curYear = "all"; renderAll(root); };
 
     if (window.ViewsAPI) ViewsAPI.populate(host, "publications");
+    revealCards(host, ".pub-year-group");
 
     host.addEventListener("click", e => {
       const a = e.target.closest("a[data-pub-id]");
@@ -324,6 +325,15 @@
       const pid = a.getAttribute("data-pub-id");
       if (pid) ViewsAPI.bumpAndGet("publications", pid);
     }, { once: false });
+  }
+
+  // Opt rendered groups into the shared scroll-reveal observer (main.js).
+  function revealCards(root, sel) {
+    if (!root || !(window.SiteUtils && SiteUtils.observeReveal)) return;
+    root.querySelectorAll(sel).forEach((el, i) => {
+      el.style.transitionDelay = Math.min(i, 6) * 60 + "ms";
+      SiteUtils.observeReveal(el);
+    });
   }
 
   function itemHTML(p, n) {
