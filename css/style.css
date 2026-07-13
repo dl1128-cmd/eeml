@@ -2596,3 +2596,152 @@ select:focus-visible,
   .ann-body a,
   #news-detail-root .container p a { transition: none !important; }
 }
+
+/* =====================================================================
+   VIVID BENTO THEME — 2026-07-13
+   Bold redesign (user-approved "Vivid Modern"): sky→indigo gradient
+   accent system, softer rounding, gradient buttons, bento hero.
+   Token overrides cascade to all earlier accent-based polish, so the
+   whole site shifts cohesively. Content/SEO/i18n/dark-toggle preserved.
+   ===================================================================== */
+
+:root {
+  --c-accent: #0EA5E9;
+  --c-accent-hover: #0284C7;
+  --c-accent-soft: #E0F2FE;
+  --c-highlight: #6366F1;
+  --c-accent-2: #6366F1;
+  --c-em: #10B981;
+  --grad: linear-gradient(120deg, #0EA5E9, #6366F1);
+  --grad-em: linear-gradient(135deg, #10B981, #059669);
+  --grad-soft: linear-gradient(135deg, #E0F2FE, #EEF0FF);
+  --radius-sm: 8px;
+  --radius: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 26px;
+}
+:root:not([data-theme="light"]) {
+  --c-accent: #38BDF8;
+  --c-accent-hover: #7DD3FC;
+  --c-accent-soft: #0C2A3D;
+  --c-highlight: #818CF8;
+  --c-accent-2: #818CF8;
+  --c-em: #34D399;
+  --grad: linear-gradient(120deg, #38BDF8, #818CF8);
+  --grad-em: linear-gradient(135deg, #34D399, #10B981);
+  --grad-soft: linear-gradient(135deg, #0C2A3D, #171633);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --c-accent: #38BDF8; --c-accent-hover: #7DD3FC; --c-highlight: #818CF8;
+    --c-accent-2: #818CF8; --c-em: #34D399;
+    --grad: linear-gradient(120deg, #38BDF8, #818CF8);
+  }
+}
+
+/* ---- Gradient buttons ------------------------------------------- */
+.btn { border-radius: var(--radius); font-weight: 700; }
+.btn-primary {
+  background: var(--grad);
+  color: #fff;
+  border: 0;
+  box-shadow: 0 10px 26px -8px color-mix(in srgb, var(--c-accent-2) 55%, transparent);
+}
+.btn-primary:hover {
+  background: var(--grad);
+  color: #fff;
+  filter: brightness(1.06);
+  transform: translateY(-2px);
+  box-shadow: 0 16px 34px -8px color-mix(in srgb, var(--c-accent-2) 65%, transparent);
+}
+.btn-outline { background: var(--c-surface); border: 1px solid var(--c-border-strong); border-radius: var(--radius); }
+.btn-outline:hover { border-color: var(--c-accent); color: var(--c-accent); background: var(--c-surface); }
+.join-card .btn-primary { background: #fff; color: var(--c-accent-2); }
+.join-card .btn-primary:hover { background: #fff; filter: brightness(1); box-shadow: 0 16px 34px -8px rgba(0,0,0,.3); }
+
+/* ---- Headline gradient accent ----------------------------------- */
+.hero h1 .accent {
+  background: var(--grad);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
+}
+
+/* ---- Eyebrow as a soft pill ------------------------------------- */
+.hero .hero-eyebrow {
+  display: inline-flex;
+  background: var(--c-accent-soft);
+  color: var(--c-accent);
+  padding: 8px 16px;
+  border-radius: 100px;
+  font-size: var(--fs-xs);
+  letter-spacing: 0.06em;
+  text-transform: none;
+}
+.hero .hero-eyebrow::after { display: none; }
+
+/* ---- HERO BENTO -------------------------------------------------- */
+@media (min-width: 960px) {
+  .hero-inner { grid-template-columns: minmax(0, 1.02fr) minmax(0, 0.98fr); align-items: center; }
+}
+.hero-bento {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-auto-rows: minmax(0, auto);
+  gap: 14px;
+}
+.hero-bento .bento-photo {
+  grid-column: 1 / -1;
+  aspect-ratio: 16 / 10;
+  border-radius: var(--radius-xl);
+}
+/* keep the hero load fade-in; the earlier float animation must not apply
+   here (it would override heroIn's opacity end-state and hide the photo) */
+.hero-animate .hero-bento .bento-photo { animation: heroIn 0.85s cubic-bezier(0.16,1,0.3,1) 0.32s forwards; }
+.hero-bento .bento-photo img { width: 100%; height: 100%; object-fit: cover; }
+.bento-tile {
+  border-radius: var(--radius-lg);
+  padding: 20px 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 108px;
+  text-decoration: none;
+  transition: transform var(--transition), box-shadow var(--transition), filter var(--transition);
+  overflow: hidden;
+  position: relative;
+}
+.bento-tile .bt-n { font-family: var(--font-mono); font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; line-height: 1; }
+.bento-tile .bt-l { font-size: var(--fs-xs); letter-spacing: 0.06em; margin-top: 8px; opacity: 0.85; }
+.bento-tile:hover { transform: translateY(-4px); filter: brightness(1.04); }
+.tile-grad { background: var(--grad); color: #fff; box-shadow: 0 14px 30px -12px color-mix(in srgb, var(--c-accent-2) 60%, transparent); }
+.tile-grad:hover { box-shadow: 0 20px 40px -12px color-mix(in srgb, var(--c-accent-2) 70%, transparent); }
+.tile-em { background: var(--grad-em); color: #fff; box-shadow: 0 14px 30px -12px color-mix(in srgb, var(--c-em) 55%, transparent); }
+.tile-ink { background: var(--c-navy-deep); color: #fff; }
+.tile-ink .bt-n { color: var(--c-accent); }
+.tile-plain { background: var(--c-surface); border: 1px solid var(--c-border); color: var(--c-text); }
+.tile-plain .bt-n { color: var(--c-accent-2); }
+@media (max-width: 560px) { .hero-bento .bento-photo { aspect-ratio: 16 / 11; } }
+
+/* ---- Cards: softer, gradient-tinted ----------------------------- */
+.topic-card, .featured-card, .gallery-card, .member-card, .gallery-quick-item {
+  border-radius: var(--radius-lg);
+}
+.topic-card::before, .featured-card::before {
+  height: 4px;
+  background: var(--grad);
+}
+.join-card { background: var(--grad); border-radius: var(--radius-xl); }
+[data-theme="dark"] .join-card { background: var(--grad); }
+
+/* ---- Section eyebrow → gradient tag ----------------------------- */
+.section-title .eyebrow, .page-header .eyebrow {
+  color: var(--c-accent);
+}
+.page-header .eyebrow::after { background: var(--grad); width: 48px; height: 3px; }
+
+/* ---- Keyword pills → vivid on hover ----------------------------- */
+.kw:hover { background: var(--grad-soft); border-color: var(--c-accent); color: var(--c-accent-2); }
+
+@media (prefers-reduced-motion: reduce) {
+  .bento-tile, .btn-primary:hover, .bento-tile:hover { transform: none !important; }
+}
