@@ -22,6 +22,72 @@
     "status_text": "Publication of US20210273217A1"
   },
   {
+    "id": "p-dom-18",
+    "type": "domestic",
+    "number": 18,
+    "title": "리튬금속전지용 전해액",
+    "inventors": ["이동수", "최정현", "선세호", "조우섭"],
+    "year": 2026,
+    "application_no": "10-2026-0132832",
+    "registration_no": "",
+    "status_text": ""
+  },
+  {
+    "id": "p-dom-17",
+    "type": "domestic",
+    "number": 17,
+    "title": "다기능 도전재 코팅 복합체의 제조 방법과 이를 포함하는 고성능 전극 및 그 리튬이차전지",
+    "inventors": ["이동수", "최정현", "김진형", "박해인", "강민지"],
+    "year": 2026,
+    "application_no": "10-2026-0122328",
+    "registration_no": "",
+    "status_text": ""
+  },
+  {
+    "id": "p-dom-16",
+    "type": "domestic",
+    "number": 16,
+    "title": "고전압 안정성을 향상시킨 할라이드계 고체전해질 및 이의 제조 방법과 그 전고체 전지",
+    "inventors": ["이동수", "최정현", "김진형", "조우섭"],
+    "year": 2026,
+    "application_no": "10-2026-0122329",
+    "registration_no": "",
+    "status_text": ""
+  },
+  {
+    "id": "p-dom-15",
+    "type": "domestic",
+    "number": 15,
+    "title": "복합 바인더를 포함하는 건식 음극 전극 및 이의 제조방법",
+    "inventors": ["이동수", "최정현", "강려원"],
+    "year": 2026,
+    "application_no": "10-2026-0122219",
+    "registration_no": "",
+    "status_text": ""
+  },
+  {
+    "id": "p-dom-14",
+    "type": "domestic",
+    "number": 14,
+    "title": "계면 안정화 첨가제를 적용한 고안정성 전극 및 이의 제조 방법과 그 리튬이온전지",
+    "inventors": ["이동수", "최정현", "김진형", "유승은", "박해인"],
+    "year": 2026,
+    "application_no": "10-2026-0122330",
+    "registration_no": "",
+    "status_text": ""
+  },
+  {
+    "id": "p-dom-13",
+    "type": "domestic",
+    "number": 13,
+    "title": "계면 안정성 및 기계적 안정성을 향상시킨 전극 및 이의 제조 방법과 그 리튬전지",
+    "inventors": ["이동수", "최정현", "이찬호", "이서은"],
+    "year": 2026,
+    "application_no": "10-2026-0122331",
+    "registration_no": "",
+    "status_text": ""
+  },
+  {
     "id": "p-dom-12",
     "type": "domestic",
     "number": 12,
