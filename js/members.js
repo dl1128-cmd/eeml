@@ -19,6 +19,14 @@
     undergraduate: "학부연구원",
     alumni: "졸업생"
   };
+  // Alumni tab is sub-grouped by the degree earned in the lab.
+  const ALUMNI_DEGREE_ORDER = ["postdoc", "phd", "ms", "undergraduate", "other"];
+  const ALUMNI_DEGREE_LABELS_KO = {
+    postdoc: "박사후연구원", phd: "박사", ms: "석사", undergraduate: "학부", other: "기타"
+  };
+  const ALUMNI_DEGREE_LABELS_EN = {
+    postdoc: "Postdoctoral Researchers", phd: "Ph.D.", ms: "M.S.", undergraduate: "Undergraduate", other: "Others"
+  };
 
   let allMembers = [];
   let curTab = "current";
@@ -48,20 +56,31 @@
       </div>
     `;
 
-    const activeRoles = curTab === "current" ? CURRENT_ROLES : ALUMNI_ROLES;
-    const filtered = allMembers.filter(m => activeRoles.includes(m.role));
-    const grouped = {};
-    filtered.forEach(m => { (grouped[m.role] ||= []).push(m); });
+    const filtered = allMembers.filter(m =>
+      curTab === "current" ? CURRENT_ROLES.includes(m.role) : ALUMNI_ROLES.includes(m.role));
 
-    const sections = activeRoles.filter(r => grouped[r]?.length).map(role => {
-      const labels = lang === "ko" ? ROLE_LABELS_KO : ROLE_LABELS_EN;
-      const cards = grouped[role].map(m => renderCard(m, lang, role)).join("");
-      const openCard = curTab === "current" && ["phd", "ms", "undergraduate"].includes(role) ? renderOpenCard(role, lang) : "";
+    // Current tab groups by role; Alumni tab groups by degree earned.
+    let groupKeys, labels, keyOf;
+    if (curTab === "current") {
+      groupKeys = CURRENT_ROLES;
+      labels = lang === "ko" ? ROLE_LABELS_KO : ROLE_LABELS_EN;
+      keyOf = m => m.role;
+    } else {
+      groupKeys = ALUMNI_DEGREE_ORDER;
+      labels = lang === "ko" ? ALUMNI_DEGREE_LABELS_KO : ALUMNI_DEGREE_LABELS_EN;
+      keyOf = m => ALUMNI_DEGREE_ORDER.includes(m.alumni_degree) ? m.alumni_degree : "other";
+    }
+    const grouped = {};
+    filtered.forEach(m => { (grouped[keyOf(m)] ||= []).push(m); });
+
+    const sections = groupKeys.filter(k => grouped[k]?.length).map(key => {
+      const cards = grouped[key].map(m => renderCard(m, lang)).join("");
+      const openCard = curTab === "current" && ["phd", "ms", "undergraduate"].includes(key) ? renderOpenCard(key, lang) : "";
       return `
         <section class="member-group">
           <div class="group-head">
-            <h3>${labels[role]}</h3>
-            <span class="count">${String(grouped[role].length).padStart(2, "0")}</span>
+            <h3>${labels[key]}</h3>
+            <span class="count">${String(grouped[key].length).padStart(2, "0")}</span>
           </div>
           <div class="member-grid">${cards}${openCard}</div>
         </section>`;
@@ -89,7 +108,8 @@
     });
   }
 
-  function renderCard(m, lang, role) {
+  function renderCard(m, lang) {
+    const role = m.role;
     const nameKo = m.name_ko || "";
     const nameEn = m.name_en || "";
     const title = lang === "ko" ? m.title_ko : m.title_en;

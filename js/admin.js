@@ -1326,6 +1326,7 @@
    * Members editor
    * ========================================================================= */
   const ROLE_LABELS = { professor: "교수", postdoc: "박사후", phd: "박사과정", ms: "석사과정", undergraduate: "학부연구원", alumni: "졸업생" };
+  const ALUMNI_DEGREES = { postdoc: "박사후연구원", phd: "박사", ms: "석사", undergraduate: "학부", other: "기타" };
   const CURRENT_ROLES = ["professor", "postdoc", "phd", "ms", "undergraduate"];
 
   function renderMembers(group) {
@@ -1366,9 +1367,9 @@
                 return `
                   <tr>
                     <td><div class="td-title">${escapeHtml(m.name_ko || "")}</div><div class="td-dim">${escapeHtml(m.name_en || "")}</div></td>
-                    <td><span class="admin-badge">${ROLE_LABELS[m.role] || m.role}</span></td>
+                    <td><span class="admin-badge">${isAlumni ? (ALUMNI_DEGREES[m.alumni_degree] || "학위미정") : (ROLE_LABELS[m.role] || m.role)}</span></td>
                     <td class="td-dim">${escapeHtml(m.title_ko || m.title_en || "")}</td>
-                    ${isAlumni ? `<td class="td-dim">${escapeHtml(m.current_position || "")}</td>` : ""}
+                    ${isAlumni ? `<td class="td-dim">${escapeHtml(m.current_position_ko || m.current_position || m.current_position_en || "")}</td>` : ""}
                     <td class="td-dim">${escapeHtml(m.email || "")}</td>
                     <td class="row-actions">
                       <button class="btn btn-ghost btn-sm" data-action="edit-mem" data-idx="${realIdx}">편집</button>
@@ -1424,6 +1425,14 @@
           <div class="admin-form-row full" style="border-top:1px dashed var(--color-border);padding-top:1rem;margin-top:.5rem">
             <label style="color:var(--color-primary);font-weight:600">🎓 Alumni 정보</label>
           </div>
+          <div class="admin-form-row"><label>학위 구분<span class="req">*</span></label>
+            <select id="f-alumni-degree">
+              ${Object.entries(ALUMNI_DEGREES).map(([k, v]) => `<option value="${k}" ${(m.alumni_degree || 'ms') === k ? 'selected' : ''}>${v}</option>`).join("")}
+            </select>
+            <div class="hint" style="color:var(--color-text-light);font-size:.8em;margin-top:.25rem">
+              💡 졸업생 목록에서 <b>박사후연구원 / 박사 / 석사</b>로 나뉘어 표시됩니다.
+            </div>
+          </div>
           <div class="admin-form-row"><label>한글 현재 직장/직위</label><input id="f-cur-ko" value="${escapeAttr(m.current_position_ko || m.current_position || '')}" placeholder="예: 삼성SDI 책임연구원" /></div>
           <div class="admin-form-row"><label>영문 현재 직장/직위</label><input id="f-cur-en" value="${escapeAttr(m.current_position_en || '')}" placeholder="e.g., Senior Engineer, Samsung SDI" /></div>
           <div class="admin-form-row full"><label>한글 대표 업적 <span class="td-dim" style="font-weight:400">(한 줄에 하나)</span></label><textarea id="f-ach-ko" rows="4" placeholder="예시:&#10;Nature Energy 2024 1저자&#10;삼성휴먼테크 동상 (2023)&#10;한국전기화학회 우수학생논문상">${escapeHtml((Array.isArray(m.achievements_ko) ? m.achievements_ko.join('\n') : (m.achievements_ko || '')))}</textarea></div>
@@ -1445,6 +1454,7 @@
       };
       // Alumni-only fields
       if (newRole === "alumni") {
+        updated.alumni_degree = val("f-alumni-degree") || "ms";
         const curKo = val("f-cur-ko");
         const curEn = val("f-cur-en");
         const achKoRaw = val("f-ach-ko");
