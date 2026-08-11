@@ -564,7 +564,7 @@ p { margin: 0 0 var(--space-4); color: var(--c-text-muted); }
   border-radius: var(--radius-md);
   overflow: hidden;
   background: var(--c-surface-2);
-  margin-bottom: var(--space-7);
+  margin-bottom: var(--space-6);
   border: 1px solid var(--c-border);
 }
 .topic-cover img {
