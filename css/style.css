@@ -19,7 +19,7 @@
   --c-highlight: #1B5BD9;
   --c-navy-deep: #0A1929;
 
-  --font-display: "Source Serif 4", "Noto Serif KR", Georgia, serif;
+  --font-display: "Inter", "Noto Sans KR", -apple-system, BlinkMacSystemFont, sans-serif;
   --font-sans: "Inter", "Noto Sans KR", -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 
@@ -132,7 +132,7 @@ h1, h2, h3, h4 {
   color: var(--c-text);
   margin: 0 0 var(--space-4);
 }
-h1 { font-size: clamp(2.5rem, 6vw, var(--fs-5xl)); font-weight: 400; }
+h1 { font-size: clamp(2.5rem, 6vw, var(--fs-5xl)); font-weight: 500; }
 h2 { font-size: var(--fs-3xl); font-weight: 500; }
 h3 { font-size: var(--fs-xl); font-weight: 500; }
 p { margin: 0 0 var(--space-4); color: var(--c-text-muted); }
@@ -564,7 +564,7 @@ p { margin: 0 0 var(--space-4); color: var(--c-text-muted); }
   border-radius: var(--radius-md);
   overflow: hidden;
   background: var(--c-surface-2);
-  margin-bottom: var(--space-5);
+  margin-bottom: var(--space-7);
   border: 1px solid var(--c-border);
 }
 .topic-cover img {
