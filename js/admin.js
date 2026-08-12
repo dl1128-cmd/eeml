@@ -2205,14 +2205,15 @@
         </div>
       </div>
       <div class="admin-card" style="color:var(--color-text-muted);font-size:var(--fs-sm)">
-        💡 SVG 도해는 코드 직접 수정이 필요합니다. 여기서는 제목/설명/키워드/사진/대표논문만 편집 가능합니다.
+        💡 SVG 도해는 코드 직접 수정이 필요합니다. 제목/설명/키워드/사진/대표논문 편집 가능.<br/>
+        <b>↕ 카드를 드래그해서 순서를 바꿀 수 있습니다</b> (놓으면 자동 저장 · 공개 사이트 순서에 반영).
       </div>
       ${items.length === 0
         ? `<p style="color:var(--color-text-light);padding:2rem 0;text-align:center">등록된 연구 주제가 없습니다. <b>+ 연구 주제 추가</b> 버튼을 누르세요.</p>`
         : items.map((t, i) => `
-            <div class="admin-card">
+            <div class="admin-card topic-drag-item" draggable="true" data-idx="${i}">
               <div class="admin-section-head">
-                <h3>${escapeHtml(t.title_ko || "(제목 없음)")} <span class="td-dim">— ${escapeHtml(t.title_en || "")}</span></h3>
+                <h3><span class="drag-handle" title="드래그해서 순서 변경" style="cursor:grab;color:var(--color-text-light);margin-right:.4rem">⠿</span>${escapeHtml(t.title_ko || "(제목 없음)")} <span class="td-dim">— ${escapeHtml(t.title_en || "")}</span></h3>
                 <div class="admin-section-actions">
                   <button class="btn btn-ghost btn-sm" data-action="edit-topic" data-idx="${i}">편집</button>
                   <button class="btn btn-ghost btn-sm" data-action="del-topic" data-idx="${i}" style="color:#dc2626">삭제</button>
@@ -2233,6 +2234,40 @@
       STATE.data.topics.splice(idx, 1);
       renderTopics();
       saveJSON("research_topics.json", STATE.data.topics);
+    });
+
+    // Drag-to-reorder: reorder STATE.data.topics, reassign `order`, save.
+    let dragSrc = null;
+    host.querySelectorAll(".topic-drag-item").forEach(el => {
+      el.addEventListener("dragstart", e => {
+        dragSrc = +el.dataset.idx;
+        el.style.opacity = "0.4";
+        e.dataTransfer.effectAllowed = "move";
+      });
+      el.addEventListener("dragend", () => {
+        el.style.opacity = "";
+        host.querySelectorAll(".topic-drag-item").forEach(x => (x.style.outline = ""));
+      });
+      el.addEventListener("dragover", e => {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = "move";
+        el.style.outline = "2px dashed #4a86e8";
+      });
+      el.addEventListener("dragleave", () => { el.style.outline = ""; });
+      el.addEventListener("drop", e => {
+        e.preventDefault();
+        el.style.outline = "";
+        const tgt = +el.dataset.idx;
+        if (dragSrc === null || dragSrc === tgt) return;
+        const arr = STATE.data.topics;
+        const [moved] = arr.splice(dragSrc, 1);
+        arr.splice(tgt, 0, moved);
+        arr.forEach((x, k) => (x.order = k + 1));
+        dragSrc = null;
+        renderTopics();
+        saveJSON("research_topics.json", STATE.data.topics);
+        toast("순서 변경됨 · 저장 중…", "success");
+      });
     });
   }
 
