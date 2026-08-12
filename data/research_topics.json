@@ -77,8 +77,8 @@
   {
     "id": "salinity-gradient-power",
     "order": 4,
-    "title_en": "Salinity Gradient Power",
-    "title_ko": "염분차 발전",
+    "title_en": "Salinity Gradient Power & capacitive deionization",
+    "title_ko": "염분차 발전 & 전기화학 수처리",
     "summary_en": "Salinity-gradient power generation and electrochemical water treatment via flow-electrode systems",
     "summary_ko": "유동전극 축전식 혼합(F-CapMix) 기반 염분차 발전과 전기화학 수처리",
     "keywords": [
