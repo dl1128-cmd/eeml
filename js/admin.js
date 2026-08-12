@@ -2247,6 +2247,7 @@
           subheading_ko: "", subheading_en: "",
           detail_body_ko: "", detail_body_en: "",
           keywords: [],
+          cover: "",
           images: [],
           representative_papers: [],
           order: ((STATE.data.topics || []).reduce((m, x) => Math.max(m, Number(x.order) || 0), 0)) + 1
@@ -2272,11 +2273,15 @@
         <div class="admin-form-row full"><label>상세 본문 (EN)</label><textarea id="f-detail-en" style="min-height:200px">${escapeHtml(t.detail_body_en || "")}</textarea></div>
         <div class="admin-form-row"><label>키워드</label><input id="f-keys" value="${escapeAttr((t.keywords || []).join(', '))}" placeholder="쉼표로 구분" /></div>
         <div class="admin-form-row full">
-          <label>히어로 사진 <span class="td-dim" style="font-weight:400">(첫 번째가 Research 카드 썸네일로 사용됨)</span></label>
+          <label>카드 배너 이미지 <span class="td-dim" style="font-weight:400">(홈·Research 목록 카드에 표시 · 16:10 권장, 1600×1000)</span></label>
+          <div id="t-cover-picker"></div>
+        </div>
+        <div class="admin-form-row full">
+          <label>상세페이지 이미지 <span class="td-dim" style="font-weight:400">(카드 클릭 후 상세페이지에 표시 · 여러 장 가능 · 가로 1600px 권장)</span></label>
           <div class="admin-card" style="padding:var(--space-3);background:var(--color-surface);border:1px dashed var(--color-border);display:flex;flex-wrap:wrap;gap:var(--space-2);align-items:center;justify-content:space-between">
             <div style="font-size:var(--fs-sm);color:var(--color-text-muted)">
               📁 여러 장 동시 업로드 가능 (Ctrl/Cmd+클릭)<br/>
-              🖼 첫 번째 사진이 Research 목록·홈 카드 커버로 사용됩니다.
+              🖼 비워두면 카드 배너 이미지가 상세페이지에 대신 표시됩니다.
             </div>
             <label class="btn btn-primary btn-sm" style="cursor:pointer;margin:0">
               📁 사진 선택
@@ -2289,7 +2294,9 @@
         <div class="admin-form-row full"><label>대표 논문</label><textarea id="f-papers" class="code" style="min-height:120px">${escapeHtml(papersText)}</textarea><div class="hint" style="margin-top:.25rem">한 줄에 한 편씩. 형식: <code>제목 | 저널 | 연도</code> (| 로 구분)</div></div>
       </div>
     `;
+    let coverPicker;
     openModal("연구 주제 편집", body, () => {
+      t.cover = (coverPicker && coverPicker.getValue()) || "";
       t.title_ko = val("f-title-ko");
       t.title_en = val("f-title-en");
       t.summary_ko = val("f-sum-ko");
@@ -2320,6 +2327,13 @@
       saveJSON("research_topics.json", STATE.data.topics);
     });
 
+    coverPicker = mountImagePicker(
+      document.getElementById("t-cover-picker"),
+      t.cover || "",
+      { maxW: 1600, maxH: 1000, enableFocus: false },
+      () => {}
+    );
+
     const listHost = document.getElementById("t-images-list");
     const progressHost = document.getElementById("t-upload-progress");
 
@@ -2330,16 +2344,14 @@
       }
       listHost.innerHTML = `<div class="gallery-edit-grid">${
         t.images.map((src, i) => `
-          <div class="gallery-edit-item ${i === 0 ? "is-banner" : ""}" data-i="${i}">
+          <div class="gallery-edit-item" data-i="${i}">
             <div class="gallery-edit-thumb">
               <img src="${escapeAttr(src)}" alt="" />
-              ${i === 0 ? `<div class="gallery-edit-banner-badge">🖼 커버</div>` : ""}
             </div>
             <div class="gallery-edit-body">
               <div class="gallery-edit-row">
                 <strong style="font-size:var(--fs-sm)">사진 ${i + 1}</strong>
                 <div class="gallery-edit-actions">
-                  <button type="button" class="btn btn-${i === 0 ? "primary" : "outline"} btn-sm" data-cover="${i}" title="첫 번째 위치로 이동 (커버로 지정)">${i === 0 ? "🖼 커버" : "🖼 커버로"}</button>
                   <button type="button" class="btn btn-ghost btn-sm" data-up="${i}" ${i === 0 ? "disabled" : ""}>↑</button>
                   <button type="button" class="btn btn-ghost btn-sm" data-dn="${i}" ${i === t.images.length - 1 ? "disabled" : ""}>↓</button>
                   <button type="button" class="btn btn-ghost btn-sm" data-del="${i}" style="color:#cc0033">✕</button>
@@ -2349,13 +2361,6 @@
           </div>`).join("")
       }</div>`;
 
-      listHost.querySelectorAll("[data-cover]").forEach(b => b.onclick = () => {
-        const i = +b.dataset.cover;
-        if (i === 0) return;
-        const [img] = t.images.splice(i, 1);
-        t.images.unshift(img);
-        renderImages();
-      });
       listHost.querySelectorAll("[data-del]").forEach(b => b.onclick = () => {
         t.images.splice(+b.dataset.del, 1);
         renderImages();

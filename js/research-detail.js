@@ -35,7 +35,11 @@
     const heading = lang === "ko" ? (topic.heading_ko || topic.heading_en || "") : (topic.heading_en || topic.heading_ko || "");
     const subheading = lang === "ko" ? (topic.subheading_ko || topic.subheading_en || "") : (topic.subheading_en || topic.subheading_ko || "");
     const detail = lang === "ko" ? (topic.detail_body_ko || "") : (topic.detail_body_en || "");
-    const images = Array.isArray(topic.images) ? topic.images : [];
+    let images = Array.isArray(topic.images) ? topic.images.slice() : [];
+    // Detail images are managed separately from the card banner (topic.cover).
+    // If no dedicated detail images were uploaded, fall back to the banner so
+    // the detail page still shows a visual.
+    if (!images.length && topic.cover) images = [topic.cover];
     const repPapers = topic.representative_papers || [];
 
     // Auto-set document title

@@ -27,7 +27,7 @@
       topics.sort((a, b) => a.order - b.order).map(t => {
         const name = lang === "ko" ? t.title_ko : t.title_en;
         const desc = lang === "ko" ? t.summary_ko : t.summary_en;
-        const cover = (t.images && t.images[0]) || "";
+        const cover = t.cover || (t.images && t.images[0]) || "";
         return `
           <a class="topic-card" id="${t.id}" href="research-detail?id=${t.id}">
             ${cover ? `<div class="topic-cover"><img src="${escapeAttr(cover)}" alt="${escapeAttr(name)}" loading="lazy" /></div>` : `<div class="topic-svg">${t.svg || ""}</div>`}
