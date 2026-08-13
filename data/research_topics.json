@@ -31,7 +31,7 @@
     "title_en": "Next-Generation Anodes",
     "title_ko": "차세대 음극",
     "summary_en": "Ultra-high-capacity next-generation anodes — lithium metal and silicon — enabled by interface engineering",
-    "summary_ko": "리튬 금속·실리콘 등 초고용량 차세대 음극과 이를 안정화하는 계면 엔지니어링",
+    "summary_ko": "리튬 금속·실리콘 등 고에너지밀도 차세대 음극 및 계면 엔지니어링",
     "keywords": [
       "Li Metal",
       "Silicon",
@@ -40,8 +40,8 @@
       "Prelithiation"
     ],
     "svg": "<svg viewBox=\"0 0 96 96\" xmlns=\"http://www.w3.org/2000/svg\"><defs><linearGradient id=\"g\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\"><stop offset=\"0\" stop-color=\"#065f46\"/><stop offset=\"1\" stop-color=\"#10b981\"/></linearGradient></defs><rect width=\"96\" height=\"96\" rx=\"20\" fill=\"url(#g)\"/><text x=\"48\" y=\"58\" text-anchor=\"middle\" font-family=\"Inter,sans-serif\" font-size=\"28\" font-weight=\"800\" fill=\"white\">NP</text></svg>",
-    "heading_en": "Ultra-High-Capacity Anodes & Interface Engineering",
-    "heading_ko": "초고용량 차세대 음극과 계면 엔지니어링",
+    "heading_en": "High-Capacity Anodes & Interface Engineering",
+    "heading_ko": "고용량 차세대 음극 & 계면 엔지니어링",
     "subheading_en": "(Li metal, silicon, dendrite-free, artificial SEI)",
     "subheading_ko": "(리튬 금속, 실리콘, 무덴드라이트, 인공 SEI)",
     "images": [
