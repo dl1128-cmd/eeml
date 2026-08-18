@@ -20,8 +20,8 @@
     "scholar": "https://scholar.google.com/citations?user=d8lQYgwAAAAJ"
   },
   "metrics": {
-    "citations_total": 1914,
-    "citations_recent5y": 1857,
+    "citations_total": 1926,
+    "citations_recent5y": 1870,
     "h_index": 25,
     "i10_index": 50,
     "as_of": "2026-08"
@@ -47,7 +47,40 @@
     "message_en": "I'm looking for highly motivated graduate students and undergraduates passionate about battery science.",
     "message_ko": "배터리 소재 연구에 열정이 있는 대학원생과 학부연구원을 상시 모집합니다."
   },
-  "citations_history": [],
+  "citations_history": [
+    {
+      "year": 2019,
+      "n": 14
+    },
+    {
+      "year": 2020,
+      "n": 39
+    },
+    {
+      "year": 2021,
+      "n": 108
+    },
+    {
+      "year": 2022,
+      "n": 186
+    },
+    {
+      "year": 2023,
+      "n": 232
+    },
+    {
+      "year": 2024,
+      "n": 291
+    },
+    {
+      "year": 2025,
+      "n": 460
+    },
+    {
+      "year": 2026,
+      "n": 591
+    }
+  ],
   "analytics": {
     "ga4_id": "G-VBSGZF6L3M"
   }
