@@ -46,10 +46,10 @@
     "title": "Prussian blue analogue-assisted asymmetric flow-electrode capacitive mixing (F-CapMix) with high positive net power density",
     "authors": "I. Hwang, S. Myeong, Y.G. Jung, D. Lee*, S.C. Yang*, U. Paik*, T. Song*",
     "venue": "Desalination",
-    "volume": "",
+    "volume": "637, 120416",
     "citations": 0,
-    "doi": "",
-    "link": "https://www.sciencedirect.com/science/article/pii/S0011916426005722?lid=rcjae1x11dvv&utm_source=braze&utm_medium=email&utm_campaign=STMJ_220042_AUTH_SERV_PPUB&utm_content=07bab9e4-c31e-408b-afa5-1c9ca0f269ca&utm_term=07bab9e4-c31e-408b-afa5-1c9ca0f269ca&DGCID=STMJ_220042_AUTH_SERV_PPUB"
+    "doi": "10.1016/j.desal.2026.120416",
+    "link": ""
   },
   {
     "id": "p-1779924925825",
@@ -59,10 +59,10 @@
     "title": "Solid-State Batteries: A New Frontier for Robotics",
     "authors": "D. Lee*",
     "venue": "Frontiers in Batteries and Electrochemistry",
-    "volume": "",
+    "volume": "5",
     "citations": 0,
-    "doi": "",
-    "link": "https://www.frontiersin.org/journals/batteries-and-electrochemistry/articles/10.3389/fbael.2026.1873385/abstract"
+    "doi": "10.3389/fbael.2026.1873385",
+    "link": ""
   },
   {
     "id": "p-1779924794681",
@@ -178,7 +178,7 @@
     "venue": "Energy & Environmental Science",
     "volume": "18(12), 5902-5912",
     "citations": 14,
-    "doi": "10.1039/D5EE01086A",
+    "doi": "10.1039/d5ee01086a",
     "link": "https://pubs.rsc.org/en/content/articlelanding/2025/ee/d5ee01086a"
   },
   {
