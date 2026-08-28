@@ -1,5 +1,43 @@
 [
   {
+    "id": "g-1787880740504",
+    "date": "2026-08-20",
+    "title_ko": "2026년 후기 학위 수여를 축하드립니다 🎓",
+    "title_en": "",
+    "summary_ko": "2026 후기 학위 수여식",
+    "summary_en": "",
+    "body_ko": "2026년 8월 20일, EEML 석사 과정 선배님들이 드디어 석사 학위를 취득했습니다! 🎓\n긴 연구와 실험, 수많은 수정과 마감 끝에 얻은 값진 졸업을 진심으로 축하드립니다.\n\n",
+    "body_en": "",
+    "cover": "assets/images/gallery/1894468c316f3bf3.jpg",
+    "images": [
+      {
+        "src": "assets/images/gallery/1894468c316f3bf3.jpg",
+        "caption_ko": "",
+        "caption_en": ""
+      },
+      {
+        "src": "assets/images/gallery/809d4bbb4ada2b53.jpg",
+        "caption_ko": "",
+        "caption_en": ""
+      },
+      {
+        "src": "assets/images/gallery/ad8415bb928bd658.jpg",
+        "caption_ko": "",
+        "caption_en": ""
+      },
+      {
+        "src": "assets/images/gallery/053989039227779e.jpg",
+        "caption_ko": "",
+        "caption_en": ""
+      },
+      {
+        "src": "assets/images/gallery/ad9884b0e3906f36.jpg",
+        "caption_ko": "",
+        "caption_en": ""
+      }
+    ]
+  },
+  {
     "id": "g-1787125654892",
     "date": "2026-08-07",
     "title_ko": "돼지 한 마리 먹은 날",
