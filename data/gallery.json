@@ -1,5 +1,33 @@
 [
   {
+    "id": "g-1788758573997",
+    "date": "2026-09-07",
+    "title_ko": "Special Talk from Prof. Manthiram (UT Austin)",
+    "title_en": "Special Talk from Prof. Manthiram (UT Austin)",
+    "summary_ko": "",
+    "summary_en": "",
+    "body_ko": "",
+    "body_en": "",
+    "cover": "assets/images/gallery/84720a34fbfed47d.jpg",
+    "images": [
+      {
+        "src": "assets/images/gallery/21a8f97fb975f1a5.jpg",
+        "caption_ko": "",
+        "caption_en": ""
+      },
+      {
+        "src": "assets/images/gallery/2efdb8749dc9e392.jpg",
+        "caption_ko": "",
+        "caption_en": ""
+      },
+      {
+        "src": "assets/images/gallery/84720a34fbfed47d.jpg",
+        "caption_ko": "",
+        "caption_en": ""
+      }
+    ]
+  },
+  {
     "id": "g-1787880740504",
     "date": "2026-08-20",
     "title_ko": "2026년 후기 학위 수여를 축하드립니다 🎓",
