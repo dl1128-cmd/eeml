@@ -1504,6 +1504,7 @@
           <button class="btn btn-outline" id="pi-add-exp">+ 경력</button>
           <button class="btn btn-outline" id="pi-add-award">+ 수상</button>
           <button class="btn btn-outline" id="pi-add-grant">+ 연구 과제</button>
+          <button class="btn btn-outline" id="pi-add-service">+ 학술활동</button>
           <button class="btn btn-primary" id="pi-save">💾 pi.json 저장</button>
         </div>
       </div>
@@ -1560,6 +1561,12 @@
       </div>
 
       <div class="admin-card">
+        <h3>학술 활동 (Professional Service) <span style="font-weight:400;color:var(--color-text-light);font-size:.9em">${(p.professional_service || []).length}개</span></h3>
+        <div style="color:var(--color-text-light);font-size:.85em;margin-bottom:var(--space-2)">편집위원·자문보드·학회 임원 등. 예: 기간 "2026 – 현재" / 직함 "Early Career Advisory Board 위원" / 기관 "EES Batteries (RSC)"</div>
+        <div id="pi-service-list">${renderExpList(p.professional_service || [])}</div>
+      </div>
+
+      <div class="admin-card">
         <h3>외부 링크</h3>
         <div id="pi-links-list">${renderLinksList(p.links || [])}</div>
         <button class="btn btn-outline btn-sm" style="margin-top:var(--space-3)" id="pi-add-link">+ 링크 추가</button>
@@ -1598,6 +1605,7 @@
         experience: collectExpList(),
         awards: collectAwardList(),
         grants: collectGrantList(),
+        professional_service: collectServiceList(),
         links: collectLinksList()
       };
       STATE.data.pi = updated;
@@ -1614,6 +1622,12 @@
       const list = collectExpList();
       list.push({ period_ko: "", period_en: "", role_ko: "", role_en: "", org_ko: "", org_en: "" });
       document.getElementById("pi-exp-list").innerHTML = renderExpList(list);
+      bindPIEditors();
+    };
+    host.querySelector("#pi-add-service").onclick = () => {
+      const list = collectServiceList();
+      list.push({ period_ko: "", period_en: "", role_ko: "", role_en: "", org_ko: "", org_en: "" });
+      document.getElementById("pi-service-list").innerHTML = renderExpList(list);
       bindPIEditors();
     };
     host.querySelector("#pi-add-award").onclick = () => {
@@ -1715,6 +1729,7 @@
   const collectExpList = () => collectListRows("pi-exp-list");
   const collectAwardList = () => collectListRows("pi-award-list");
   const collectGrantList = () => collectListRows("pi-grant-list");
+  const collectServiceList = () => collectListRows("pi-service-list");
   const collectLinksList = () => collectListRows("pi-links-list");
 
   function bindPIEditors() {
