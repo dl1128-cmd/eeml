@@ -137,5 +137,15 @@
     "i10_index": 46,
     "as_of": "2026-04"
   },
-  "photo_pos": "76% 11%"
+  "photo_pos": "76% 11%",
+  "professional_service": [
+    {
+      "period_ko": "2026 – 현재",
+      "period_en": "2026 – Present",
+      "role_ko": "Early Career Board 위원",
+      "role_en": "Early Career Board Member",
+      "org_ko": "EES Batteries (영국왕립화학회, RSC)",
+      "org_en": "EES Batteries (Royal Society of Chemistry)"
+    }
+  ]
 }

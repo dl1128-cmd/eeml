@@ -55,6 +55,7 @@
           ${renderTimeline(pi.experience, lang === "ko" ? "경력" : "Experience", e => ({ p: lang === "ko" ? e.period_ko : e.period_en, t: lang === "ko" ? e.role_ko : e.role_en, o: lang === "ko" ? e.org_ko : e.org_en }))}
           ${renderTimeline(pi.grants, lang === "ko" ? "수행 연구 과제" : "Research Grants", g => ({ p: lang === "ko" ? g.period_ko : g.period_en, t: `${lang==='ko'?g.title_ko:g.title_en}${g.role_ko||g.role_en?' · '+(lang==='ko'?g.role_ko:g.role_en):''}`, o: lang === "ko" ? g.agency_ko : g.agency_en }))}
           ${renderTimeline(pi.awards, lang === "ko" ? "수상" : "Awards", a => ({ p: String(a.year), t: lang === "ko" ? a.title_ko : a.title_en, o: lang === "ko" ? (a.org_ko||"") : (a.org_en||"") }))}
+          ${renderTimeline(pi.professional_service, lang === "ko" ? "학술 활동" : "Professional Service", s => ({ p: lang === "ko" ? s.period_ko : s.period_en, t: lang === "ko" ? s.role_ko : s.role_en, o: lang === "ko" ? s.org_ko : s.org_en }))}
         </div>
       </div>`;
   }
