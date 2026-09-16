@@ -1415,6 +1415,9 @@
         <div class="admin-form-row"><label>영문 이름<span class="req">*</span></label><input id="f-name-en" value="${escapeAttr(m.name_en)}" /></div>
         <div class="admin-form-row"><label>한글 직함${isAlumni ? " (재학시)" : ""}</label><input id="f-title-ko" value="${escapeAttr(m.title_ko || '')}" placeholder="${isAlumni ? '석사 (2020.03–2022.02)' : '석사과정 (2026.03 – )'}" /></div>
         <div class="admin-form-row"><label>영문 직함${isAlumni ? " (during studies)" : ""}</label><input id="f-title-en" value="${escapeAttr(m.title_en || '')}" placeholder="${isAlumni ? 'M.S. (2020.03–2022.02)' : 'M.S. Student (2026.03 – )'}" /></div>
+        <div class="admin-form-row"><label>합류 시기 (since)</label><input id="f-joined" value="${escapeAttr(m.joined || '')}" placeholder="예: 2024.09" />
+          <div class="hint" style="color:var(--color-text-light);font-size:.8em;margin-top:.25rem">💡 공개 페이지에 "since 2024.09" 형태로 표시됩니다. 비워두면 표시 안 됨.</div>
+        </div>
         <div class="admin-form-row"><label>이메일</label><input id="f-email" type="email" value="${escapeAttr(m.email || '')}" /></div>
         <div class="admin-form-row"><label>사진</label><div id="f-photo-host"></div></div>
         <div class="admin-form-row"><label>한글 관심분야</label><input id="f-int-ko" value="${escapeAttr(m.interests_ko || '')}" /></div>
@@ -1447,6 +1450,7 @@
         id: m.id, role: newRole,
         name_ko: val("f-name-ko"), name_en: val("f-name-en"),
         title_ko: val("f-title-ko"), title_en: val("f-title-en"),
+        joined: val("f-joined"),
         email: val("f-email"),
         photo: photoPicker.getValue() || "",
         photo_pos: photoPicker.getPos() || "",
@@ -1475,11 +1479,20 @@
       saveJSON("members.json", STATE.data.members);
     });
 
-    // Toggle alumni-only fields when role select changes
+    // Toggle alumni-only fields when role select changes. When switching a
+    // current member (phd/ms/…) to alumni, pre-select the matching degree so a
+    // graduating PhD isn't accidentally recorded as an M.S. alumnus.
     const roleSel = document.getElementById("f-role");
     const alumniHost = document.getElementById("alumni-fields-host");
+    const degreeSel = document.getElementById("f-alumni-degree");
     roleSel.addEventListener("change", () => {
-      alumniHost.style.display = roleSel.value === "alumni" ? "contents" : "none";
+      const toAlumni = roleSel.value === "alumni";
+      alumniHost.style.display = toAlumni ? "contents" : "none";
+      if (toAlumni && degreeSel && !m.alumni_degree) {
+        // Map the member's previous role → alumni degree (phd→phd, ms→ms, etc.)
+        const map = { phd: "phd", ms: "ms", postdoc: "postdoc", undergraduate: "undergraduate" };
+        if (map[m.role]) degreeSel.value = map[m.role];
+      }
     });
 
     photoPicker = mountImagePicker(
