@@ -34,7 +34,7 @@
   },
   {
     "id": "ms-jinhyung-kim",
-    "role": "ms",
+    "role": "alumni",
     "name_en": "Jinhyung Kim",
     "name_ko": "김진형",
     "title_en": "M.S. Student",
@@ -45,7 +45,10 @@
     "summary_ko": "",
     "summary_en": "",
     "tags_en": [],
-    "tags_ko": []
+    "tags_ko": [],
+    "interests_ko": "",
+    "interests_en": "",
+    "alumni_degree": "ms"
   },
   {
     "id": "ms-chanho-lee",
