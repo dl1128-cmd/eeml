@@ -49,7 +49,7 @@
   },
   {
     "id": "ms-chanho-lee",
-    "role": "ms",
+    "role": "phd",
     "name_en": "Chanho Lee",
     "name_ko": "이찬호",
     "title_en": "M.S. Student",
@@ -60,7 +60,9 @@
     "summary_ko": "",
     "summary_en": "",
     "tags_en": [],
-    "tags_ko": []
+    "tags_ko": [],
+    "interests_ko": "",
+    "interests_en": ""
   },
   {
     "id": "ms-wooseop-jo",
