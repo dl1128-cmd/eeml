@@ -1,17 +1,5 @@
 [
   {
-    "id": "pi-dongsoo-lee",
-    "role": "professor",
-    "name_ko": "이동수",
-    "name_en": "Dongsoo Lee",
-    "title_ko": "책임연구자 · 조교수",
-    "title_en": "Principal Investigator · Assistant Professor",
-    "email": "dslee9117@gachon.ac.kr",
-    "photo": "assets/images/members/b622e56fbd7ae75d.jpg",
-    "interests_ko": "",
-    "interests_en": ""
-  },
-  {
     "id": "postdoc-ashok-kakarla",
     "role": "postdoc",
     "name_en": "Ashok Kumar Kakarla",
