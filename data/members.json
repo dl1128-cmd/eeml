@@ -255,5 +255,20 @@
     "photo_pos": "50% 0%",
     "interests_ko": "",
     "interests_en": ""
+  },
+  {
+    "id": "m-1789608242101",
+    "role": "alumni",
+    "name_ko": "이찬호",
+    "name_en": "Chanho Lee",
+    "title_ko": "석사 (2024.09~2026.08)",
+    "title_en": "",
+    "joined": "",
+    "email": "",
+    "photo": "",
+    "interests_ko": "",
+    "interests_en": "",
+    "alumni_degree": "ms",
+    "current_position_ko": "박사과정"
   }
 ]
