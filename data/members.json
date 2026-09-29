@@ -76,12 +76,15 @@
     "title_en": "M.S. Student",
     "title_ko": "석사과정",
     "joined": "2025.03",
-    "photo": "assets/images/members/bc356c594b.png",
+    "photo": "assets/images/members/eec561f88d68d2a5.jpg",
     "email": "woo11270@naver.com",
     "summary_ko": "",
     "summary_en": "",
     "tags_en": [],
-    "tags_ko": []
+    "tags_ko": [],
+    "photo_pos": "50% 33%",
+    "interests_ko": "",
+    "interests_en": ""
   },
   {
     "id": "ms-sangjin-lee",
