@@ -20,8 +20,8 @@
     "scholar": "https://scholar.google.com/citations?user=d8lQYgwAAAAJ"
   },
   "metrics": {
-    "citations_total": 2091,
-    "citations_recent5y": 2036,
+    "citations_total": 2100,
+    "citations_recent5y": 2045,
     "h_index": 27,
     "i10_index": 56,
     "as_of": "2026-10"
@@ -70,7 +70,7 @@
     },
     {
       "year": 2024,
-      "n": 292
+      "n": 293
     },
     {
       "year": 2025,
@@ -78,7 +78,7 @@
     },
     {
       "year": 2026,
-      "n": 746
+      "n": 753
     }
   ],
   "analytics": {
