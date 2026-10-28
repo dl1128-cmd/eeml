@@ -203,7 +203,7 @@
     "authors": "J.H. Kang, W. Jeong, M.S. Kang, H.W. Kim, D.W. Jeon, H.U. Lee, J.H. Hong, S. Han, M. Kim, S. Yang, D. Lee, P.J. Kim, T. Song, M. Yoon, L. Su, J. Choi, S.B. Cho",
     "venue": "Communications Materials",
     "volume": "7(1), 34",
-    "citations": 13,
+    "citations": 14,
     "doi": "10.1038/s43246-025-01046-0",
     "link": "https://www.nature.com/articles/s43246-025-01046-0"
   },
@@ -385,7 +385,7 @@
     "authors": "J. Kim, J. Jung, J. Park, S. Lee, H. Lee, D. Lee*, U. Paik*, T. Song*",
     "venue": "Energy Storage Materials",
     "volume": "76, 104108",
-    "citations": 37,
+    "citations": 38,
     "doi": "10.1016/j.ensm.2025.104108",
     "link": ""
   },
@@ -411,7 +411,7 @@
     "authors": "D. Lee, A.K. Kakarla, S. Sun, P.J. Kim*, J. Choi*",
     "venue": "ChemElectroChem",
     "volume": "12(3), e202400612",
-    "citations": 45,
+    "citations": 46,
     "doi": "10.1002/celc.202400612",
     "link": ""
   },
@@ -489,7 +489,7 @@
     "authors": "H. Choi, D. Kim, D.G. Kim, Y. Kim, J.G. Park, M.G. Kim, Y.G. Jung, J. Yoo, J. Baek, S. Kang, B. Kim, J.H. Bang, D. Lee, B.G. Kim*, S.C. Yang*",
     "venue": "Desalination",
     "volume": "581, 117591",
-    "citations": 24,
+    "citations": 25,
     "doi": "10.1016/j.desal.2024.117591",
     "link": ""
   },
@@ -840,7 +840,7 @@
     "authors": "H. Park, J. Kim, D. Lee, J. Park, S. Jo, J. Kim, T. Song*, U. Paik*",
     "venue": "Advanced Science",
     "volume": "8(11), 2004204",
-    "citations": 76,
+    "citations": 77,
     "doi": "10.1002/advs.202004204",
     "link": ""
   },
@@ -905,7 +905,7 @@
     "authors": "H. Park, D. Lee, T. Song*",
     "venue": "Journal of Power Sources",
     "volume": "414, 377-382",
-    "citations": 88,
+    "citations": 87,
     "doi": "10.1016/j.jpowsour.2019.01.015",
     "link": ""
   },
