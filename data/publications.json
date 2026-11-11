@@ -86,7 +86,7 @@
     "authors": "M. Kim†, J. Lee†, C. Lee, J. Kim, W. Jo, D. Lee*, J. Choi*",
     "venue": "Frontiers in Batteries and Electrochemistry",
     "volume": "5, 1848415",
-    "citations": 1,
+    "citations": 2,
     "doi": "doi.org/10.3389/fbael.2026.1848415",
     "link": "https://www.frontiersin.org/journals/batteries-and-electrochemistry/articles/10.3389/fbael.2026.1848415/full"
   },
@@ -99,7 +99,7 @@
     "authors": "J. Kim, S.E. Yu, H. Park, J. Yoon, C. Lee, R. Kang, K. Park, S. Moon, P.J. Kim, S. Sun, K.M. Roh, I. Jeong, D. Lee*, J. Choi*",
     "venue": "Journal of Materials Chemistry A",
     "volume": "14(28), 17831-17845",
-    "citations": 12,
+    "citations": 13,
     "doi": "10.1039/d6ta01386d",
     "link": ""
   },
@@ -112,7 +112,7 @@
     "authors": "M. Kim, J. Kim, B. Choi, C.W. Cho, D. Lee*, T. Song*, U. Paik*",
     "venue": "Advanced Energy Materials",
     "volume": "16(19), e70845",
-    "citations": 20,
+    "citations": 21,
     "doi": "10.1002/aenm.70845",
     "link": ""
   },
@@ -125,7 +125,7 @@
     "authors": "C. Lee, Y. Nam, I. Jeong, S.E. Lee, T. Kim, J. Kim, W. Jo, M. Yoon, J. Lim, S. Sun, J. Choi*, C.H. Park*, D. Lee*",
     "venue": "Advanced Science",
     "volume": "13(26), e00022",
-    "citations": 15,
+    "citations": 16,
     "doi": "10.1002/advs.202600022",
     "link": ""
   },
@@ -164,7 +164,7 @@
     "authors": "M. Beltran, B. Wang, Y. Tan, J. Choi, D. Lee, L. Su",
     "venue": "ACS Materials Letters",
     "volume": "8(2), 614-620",
-    "citations": 10,
+    "citations": 11,
     "doi": "10.1021/acsmaterialslett.5c01492",
     "link": ""
   },
@@ -177,7 +177,7 @@
     "authors": "S. Woo, J. Lee, W. Choi, S. Kwak, M. Kim, S. Lee, Y. Lee, S. Park, D. Lee*, J. Choi*, P.J. Kim*",
     "venue": "Advanced Functional Materials",
     "volume": "36(34), e29000",
-    "citations": 9,
+    "citations": 10,
     "doi": "10.1002/adfm.202529000",
     "link": ""
   },
@@ -190,7 +190,7 @@
     "authors": "M. Yoon, J.-S. Park, W. Chen, Y. Huang, T. Dai, Y. Lee, J. Shin, S. Lee, Y. Kim, D. Lee, D. Shin, J. Cho, Y. Dong, J. Li*",
     "venue": "Energy & Environmental Science",
     "volume": "18(12), 5902-5912",
-    "citations": 19,
+    "citations": 20,
     "doi": "10.1039/d5ee01086a",
     "link": "https://pubs.rsc.org/en/content/articlelanding/2025/ee/d5ee01086a"
   },
@@ -216,7 +216,7 @@
     "authors": "A.K. Kakarla, Z. Akhtar, J. Kim, M. Yoon*, D. Lee*, J. Choi*",
     "venue": "Interdisciplinary Materials",
     "volume": "4(6), 812-849",
-    "citations": 46,
+    "citations": 47,
     "doi": "10.1002/idm2.70024",
     "link": ""
   },
@@ -268,7 +268,7 @@
     "authors": "S. Yang, S. Lee, M.S. Kang, K.C. Roh, J. Seo, D. Lee, K. Kim, S. Lee, S.B. Cho*, P.J. Kim*, J. Choi*",
     "venue": "Carbon Energy",
     "volume": "7(11), e70053",
-    "citations": 24,
+    "citations": 25,
     "doi": "10.1002/cey2.70053",
     "link": ""
   },
@@ -450,7 +450,7 @@
     "authors": "S. Sun, L. Su, S. Kim, D. Lee, J. Choi",
     "venue": "Journal of Electrochemical Science and Technology",
     "volume": "16(1), 1-14",
-    "citations": 22,
+    "citations": 23,
     "doi": "10.33961/jecst.2024.00759",
     "link": ""
   },
@@ -671,7 +671,7 @@
     "authors": "D. Lee, H. Lee, T. Song*, U. Paik*",
     "venue": "Advanced Energy Materials",
     "volume": "12(27), 2200948",
-    "citations": 100,
+    "citations": 102,
     "doi": "10.1002/aenm.202200948",
     "link": ""
   },
@@ -853,7 +853,7 @@
     "authors": "S. Sun, S. Myung, G. Kim, D. Lee, H. Son, M. Jang, E. Park, B. Son, Y.G. Jung, U. Paik*, T. Song*",
     "venue": "Journal of Materials Chemistry A",
     "volume": "8(33), 17229-17237",
-    "citations": 109,
+    "citations": 110,
     "doi": "10.1039/d0ta05372d",
     "link": ""
   },
@@ -879,7 +879,7 @@
     "authors": "D. Lee, S. Sun, J. Kwon, H. Park, M. Jang, E. Park, B. Son, Y. Jung, T. Song*, U. Paik*",
     "venue": "Advanced Materials",
     "volume": "32(7), 1905573",
-    "citations": 188,
+    "citations": 189,
     "doi": "10.1002/adma.201905573",
     "link": ""
   },
