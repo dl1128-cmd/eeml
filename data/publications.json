@@ -1,5 +1,44 @@
 [
   {
+    "id": "p-1794880064010",
+    "type": "journal",
+    "top_pick": false,
+    "year": 2026,
+    "title": "Adsorption-regulated interfacial activator for Li-plating-tolerant high-energy-density silicon/graphite anodes",
+    "authors": "S.E. Yu, J. Kim, J. Shin, M. Kim, J. Lee, S. Yang, S. Lee, S. Moon, S. Sun, P.J. Kim, C. Kim, S.B. Cho, J. Choi, D. Lee",
+    "venue": "Chemical Engineering Journal",
+    "volume": "184201",
+    "citations": 0,
+    "doi": "10.1016/j.cej.2026.184201",
+    "link": ""
+  },
+  {
+    "id": "p-1794880064009",
+    "type": "journal",
+    "top_pick": false,
+    "year": 2026,
+    "title": "Coupling Fast Zn2+ Kinetics With V–O Framework Stabilization via Nitrogen-Rich Interfacial Engineering of Spinel ZnV2O4",
+    "authors": "A.K. Kakarla†, I. Jeong†, C. Lee, S.E. Yu, R. Kang, B. Kim, W. Jo, S. Moon, P.J. Kim, S. Sun, C. Kim, K.M. Roh*, J. Choi*, D. Lee*",
+    "venue": "Advanced Science",
+    "volume": "e78612",
+    "citations": 0,
+    "doi": "10.1002/advs.78612",
+    "link": ""
+  },
+  {
+    "id": "p-1794880064008",
+    "type": "journal",
+    "top_pick": false,
+    "year": 2026,
+    "title": "Decoding Multiscale Degradation of Layered Cathodes in All-Solid-State Lithium Batteries: An Advanced Diagnostics-Driven Framework",
+    "authors": "D. Gandla, I. Jang, A.K. Kakarla, S.H. Park, J. Choi, D. Lee",
+    "venue": "Advanced Energy Materials",
+    "volume": "16(38), e71528",
+    "citations": 0,
+    "doi": "10.1002/aenm.71528",
+    "link": ""
+  },
+  {
     "id": "p-1787103362319",
     "type": "journal",
     "top_pick": false,
