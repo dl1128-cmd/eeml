@@ -34,7 +34,7 @@
     "authors": "D. Gandla, I. Jang, A.K. Kakarla, S.H. Park, J. Choi, D. Lee",
     "venue": "Advanced Energy Materials",
     "volume": "16(38), e71528",
-    "citations": 0,
+    "citations": 1,
     "doi": "10.1002/aenm.71528",
     "link": ""
   },
@@ -125,7 +125,7 @@
     "authors": "M. Kim†, J. Lee†, C. Lee, J. Kim, W. Jo, D. Lee*, J. Choi*",
     "venue": "Frontiers in Batteries and Electrochemistry",
     "volume": "5, 1848415",
-    "citations": 2,
+    "citations": 3,
     "doi": "doi.org/10.3389/fbael.2026.1848415",
     "link": "https://www.frontiersin.org/journals/batteries-and-electrochemistry/articles/10.3389/fbael.2026.1848415/full"
   },
@@ -138,7 +138,7 @@
     "authors": "J. Kim, S.E. Yu, H. Park, J. Yoon, C. Lee, R. Kang, K. Park, S. Moon, P.J. Kim, S. Sun, K.M. Roh, I. Jeong, D. Lee*, J. Choi*",
     "venue": "Journal of Materials Chemistry A",
     "volume": "14(28), 17831-17845",
-    "citations": 12,
+    "citations": 14,
     "doi": "10.1039/d6ta01386d",
     "link": ""
   },
@@ -151,7 +151,7 @@
     "authors": "M. Kim, J. Kim, B. Choi, C.W. Cho, D. Lee*, T. Song*, U. Paik*",
     "venue": "Advanced Energy Materials",
     "volume": "16(19), e70845",
-    "citations": 21,
+    "citations": 22,
     "doi": "10.1002/aenm.70845",
     "link": ""
   },
@@ -164,7 +164,7 @@
     "authors": "C. Lee, Y. Nam, I. Jeong, S.E. Lee, T. Kim, J. Kim, W. Jo, M. Yoon, J. Lim, S. Sun, J. Choi*, C.H. Park*, D. Lee*",
     "venue": "Advanced Science",
     "volume": "13(26), e00022",
-    "citations": 16,
+    "citations": 17,
     "doi": "10.1002/advs.202600022",
     "link": ""
   },
@@ -177,7 +177,7 @@
     "authors": "A.K. Kakarla, W. Jo, H. Bandi, S. Moon, S. Sun, P.J. Kim*, D. Lee*, J. Choi*",
     "venue": "Chemical Engineering Journal",
     "volume": "532, 174281",
-    "citations": 8,
+    "citations": 9,
     "doi": "10.1016/j.cej.2026.174281",
     "link": ""
   },
@@ -242,7 +242,7 @@
     "authors": "J.H. Kang, W. Jeong, M.S. Kang, H.W. Kim, D.W. Jeon, H.U. Lee, J.H. Hong, S. Han, M. Kim, S. Yang, D. Lee, P.J. Kim, T. Song, M. Yoon, L. Su, J. Choi, S.B. Cho",
     "venue": "Communications Materials",
     "volume": "7(1), 34",
-    "citations": 16,
+    "citations": 17,
     "doi": "10.1038/s43246-025-01046-0",
     "link": "https://www.nature.com/articles/s43246-025-01046-0"
   },
@@ -255,7 +255,7 @@
     "authors": "A.K. Kakarla, Z. Akhtar, J. Kim, M. Yoon*, D. Lee*, J. Choi*",
     "venue": "Interdisciplinary Materials",
     "volume": "4(6), 812-849",
-    "citations": 48,
+    "citations": 49,
     "doi": "10.1002/idm2.70024",
     "link": ""
   },
@@ -333,7 +333,7 @@
     "authors": "S. Han, W. Jeong, R. Kang, M. Kim, M. Jeong, H.W. Lee, Y.J. An, H.J. Ji, M. Yoon, P.J. Kim, S. Sun, T. Song, D. Lee*, W.J. Kwak*, J. Choi*",
     "venue": "EES Batteries",
     "volume": "1(5), 1267-1278",
-    "citations": 14,
+    "citations": 15,
     "doi": "10.1039/d5eb00100e",
     "link": ""
   },
@@ -372,7 +372,7 @@
     "authors": "J. Kim, J. Kim, J. Park, S. Lee, D. Lee*, T. Song*, U. Paik*",
     "venue": "Small",
     "volume": "21(29), 2406842",
-    "citations": 4,
+    "citations": 5,
     "doi": "10.1002/smll.202406842",
     "link": ""
   },
@@ -385,7 +385,7 @@
     "authors": "J. Choi, S. Moon, D. Lee, S. Han, S. Yang, D.S. Jung, J. Joo, P.J. Kim",
     "venue": "Chemical Engineering Journal",
     "volume": "519, 165044",
-    "citations": 38,
+    "citations": 39,
     "doi": "10.1016/j.cej.2025.165044",
     "link": ""
   },
@@ -398,7 +398,7 @@
     "authors": "S. Han, H. Lee, S. Yang, J. Kim, J. Jeong, Y. Lee, J. Chun, K.C. Roh, P.J. Kim, D. Lee, S. Sun, W. Jeong, B. Choi, U. Paik, T. Song, J. Choi",
     "venue": "Small Structures",
     "volume": "6(7), 2500093",
-    "citations": 25,
+    "citations": 26,
     "doi": "10.1002/sstr.202500093",
     "link": ""
   },
@@ -450,7 +450,7 @@
     "authors": "D. Lee, A.K. Kakarla, S. Sun, P.J. Kim*, J. Choi*",
     "venue": "ChemElectroChem",
     "volume": "12(3), e202400612",
-    "citations": 45,
+    "citations": 46,
     "doi": "10.1002/celc.202400612",
     "link": ""
   },
@@ -463,7 +463,7 @@
     "authors": "Y. Tan, M. Beltran, J. Ke, J. Zhang, J. Choi, Y. Zhou, K. Cho, D. Lee, L. Su",
     "venue": "Advanced Energy Materials",
     "volume": "15(13), 2403986",
-    "citations": 67,
+    "citations": 69,
     "doi": "10.1002/aenm.202403986",
     "link": ""
   },
@@ -476,7 +476,7 @@
     "authors": "J. Lee, C.Y. Son, S. Han, S. Yang, P.J. Kim, D. Lee, J.W. Lee*, W.H. Ryu*, J. Choi*",
     "venue": "Chemical Engineering Journal",
     "volume": "503, 158271",
-    "citations": 39,
+    "citations": 40,
     "doi": "10.1016/j.cej.2024.158271",
     "link": ""
   },
@@ -515,7 +515,7 @@
     "authors": "D. Lee, S. Lee, D.S. Jung, K.C. Roh, J. Seo, J. Kim, K. Kim, P.J. Kim*, J. Choi*",
     "venue": "Applied Surface Science",
     "volume": "661, 160023",
-    "citations": 29,
+    "citations": 31,
     "doi": "10.1016/j.apsusc.2024.160023",
     "link": ""
   },
@@ -580,7 +580,7 @@
     "authors": "D. Lee, Z. Cui, J.B. Goodenough, A. Manthiram*",
     "venue": "Small",
     "volume": "20(2), 2306053",
-    "citations": 49,
+    "citations": 50,
     "doi": "10.1002/smll.202306053",
     "link": ""
   },
@@ -593,7 +593,7 @@
     "authors": "K. Park, M. Ryu, Y. Jung, H.E. Yoo, S. Myeong, D. Lee, S.C. Kim, C. Kim, J. Kim, J. Kwon, K. Lee, C.W. Cho, U. Paik*, T. Song*",
     "venue": "Batteries & Supercaps",
     "volume": "6(9), e202300170",
-    "citations": 23,
+    "citations": 24,
     "doi": "10.1002/batt.202300170",
     "link": ""
   },
@@ -723,7 +723,7 @@
     "authors": "K. Park, J. Kwon, S. Jo, S. Choi, E. Enkhtuvshin, C. Kim, D. Lee, J. Kim, S. Sun, H.S. Han*, T. Song*",
     "venue": "Chemical Engineering Journal",
     "volume": "439, 135720",
-    "citations": 79,
+    "citations": 80,
     "doi": "10.1016/j.cej.2022.135720",
     "link": ""
   },
@@ -944,7 +944,7 @@
     "authors": "H. Park, D. Lee, T. Song*",
     "venue": "Journal of Power Sources",
     "volume": "414, 377-382",
-    "citations": 88,
+    "citations": 89,
     "doi": "10.1016/j.jpowsour.2019.01.015",
     "link": ""
   },
